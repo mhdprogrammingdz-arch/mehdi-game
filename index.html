@@ -108,6 +108,139 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offse
 
 .leader-panel{border:1px solid #00d9ff55;border-radius:18px;padding:22px;background:linear-gradient(145deg,#0b192add,#07101ddd);box-shadow:0 18px 55px #0004}.leader-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}.leader-tab{border:1px solid #28445f;border-radius:9px;padding:9px 14px;background:#091729;color:#c9d9e9;font:700 13px Cairo;cursor:pointer}.leader-tab.active{border-color:var(--cyan);color:var(--cyan);background:#00d9ff12}.leader-status{color:#9eb4ca;font-size:12px;margin:8px 0 13px}.leader-table-wrap{overflow-x:auto}.leader-table{width:100%;border-collapse:collapse;min-width:440px;text-align:right}.leader-table th,.leader-table td{padding:12px;border-bottom:1px solid #24405a;color:#dcecff;font-size:13px}.leader-table th{color:var(--cyan)}.leader-table td:first-child{color:#f3c65a;font-weight:800}.global-dock{position:fixed;z-index:8;bottom:14px;left:14px;display:flex;gap:7px;padding:7px;border:1px solid #00d9ff55;border-radius:14px;background:#04101de8;backdrop-filter:blur(12px);box-shadow:0 8px 30px #0008}.global-dock button{border:1px solid #24506b;background:#0b2032;color:#e6f8ff;border-radius:9px;padding:8px 12px;font:700 12px Cairo;cursor:pointer}.global-dock button:hover{border-color:var(--cyan);color:var(--cyan)}@media(max-width:560px){.global-dock{left:50%;transform:translateX(-50%);bottom:8px;width:max-content}.global-dock button{padding:7px 10px;font-size:11px}body{padding-bottom:54px}}
 
+
+
+/* Mobile-first usability pass — MEHDI GAME */
+html{width:100%;overflow-x:hidden;scroll-padding-top:82px}
+body{width:100%;min-width:320px;overflow-x:hidden}
+.container{width:min(1240px,calc(100% - 40px));margin-inline:auto}
+section,.section,.brain-wrap,.leader-panel,.game-modal-card{min-width:0;max-width:100%}
+img,svg,video,canvas{max-width:100%;height:auto}
+button,input,select,textarea{font:inherit}
+button{touch-action:manipulation}
+header{gap:12px}
+.logo{flex-shrink:0}
+nav a,.header-actions button,.menu,.footer-controls button,.global-dock button{min-height:44px}
+.hero,.about-grid,.skills-grid,.work-grid,.contact,.brain-head,.game-toolbar{min-width:0}
+.copy,.visual,.card,.tile,.skill-card{min-width:0}
+p,h1,h2,h3,.intro,.bio{overflow-wrap:anywhere}
+.leader-panel{padding:clamp(14px,2.5vw,22px)}
+.leader-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.leader-tab{min-width:0;white-space:normal;line-height:1.5}
+.leader-table-wrap{max-width:100%;-webkit-overflow-scrolling:touch}
+.leader-table{min-width:440px}
+.player-register{width:100%;max-width:440px}
+.player-register-row{width:100%}
+.player-register input{width:100%;min-width:0}
+.brain-answer{min-height:48px;line-height:1.7;overflow-wrap:anywhere}
+.brain-next,.brain-start-btn,.btn,.btn-ghost{min-height:46px}
+.game-modal{padding:12px;align-items:start}
+.game-modal-card{margin:auto;padding:52px 16px 20px;border-radius:18px}
+.modal-x{top:9px;left:9px;width:44px;height:44px}
+.game-choice{min-width:0}
+.global-dock{max-width:calc(100vw - 20px)}
+.global-dock button{white-space:nowrap}
+footer{min-width:0}
+.footer-controls{justify-content:center}
+@media(max-width:820px){
+ .container{width:calc(100% - 32px)}
+ header{position:relative;z-index:20}
+ .header-actions{display:none}
+ .menu{display:inline-flex;align-items:center;justify-content:center;padding:8px 12px}
+ nav{right:0;left:0;top:calc(100% + 8px);width:100%;max-height:calc(100vh - 100px);overflow-y:auto}
+ .hero{grid-template-columns:1fr;min-height:0;padding:26px 0 12px}
+ .visual{min-height:440px}
+ .copy{width:100%;padding-bottom:20px}
+ .photo-shell{height:min(490px,112vw);width:min(310px,78vw)}
+ .photo-halo{width:min(370px,90vw);height:min(370px,90vw)}
+ .hero-actions{justify-content:center}
+ .section{padding:54px 0}
+ .game-choice-grid{grid-template-columns:1fr}
+ .game-choice{min-height:150px}
+ .leader-panel{padding:16px}
+}
+@media(max-width:560px){
+ body{font-size:14px;padding-bottom:76px}
+ .container{width:calc(100% - 26px)}
+ header{height:64px}
+ .logo{font-size:23px}
+ .menu{min-height:44px;padding:7px 10px;font-size:12px}
+ .hero{padding-top:14px}
+ .visual{min-height:390px}
+ .photo-shell{height:390px;width:min(260px,74vw)}
+ .photo-halo{width:min(310px,88vw);height:min(310px,88vw)}
+ .f1,.f2{max-width:42vw;font-size:11px}
+ h1{font-size:clamp(30px,9vw,43px);line-height:1.35}
+ h2{font-size:clamp(23px,7vw,31px);line-height:1.45}
+ .bio,.intro{font-size:13px;line-height:1.9}
+ .hero-actions{display:grid;grid-template-columns:1fr;gap:10px;width:100%}
+ .hero-actions .btn,.hero-actions .btn-ghost{width:100%;justify-content:center}
+ .section{padding:44px 0}
+ .brain-wrap{padding:14px;border-radius:16px;margin-top:18px}
+ .brain-head{align-items:flex-start;gap:10px}
+ .brain-head h3{font-size:18px;line-height:1.5}
+ .brain-head p{font-size:12px;line-height:1.7}
+ .brain-best{min-width:72px;padding:8px}
+ .brain-best strong{font-size:24px}
+ .brain-modes{grid-template-columns:1fr 1fr;gap:7px;margin:18px 0 12px}
+ .brain-mode{min-height:44px;padding:9px 5px;font-size:12px}
+ .brain-play{min-height:340px;padding:14px;border-radius:13px}
+ .brain-start,.brain-result{width:100%;max-width:100%}
+ .brain-start h3,.brain-result h3{font-size:20px}
+ .player-register{padding:12px;margin:14px auto}
+ .player-register-row{display:grid;grid-template-columns:1fr;gap:9px}
+ .player-register input,.player-register button{min-height:46px;width:100%}
+ .player-register-status{line-height:1.7}
+ .brain-question{font-size:17px;line-height:1.8}
+ .brain-answers{grid-template-columns:1fr;gap:8px}
+ .brain-answer{padding:12px;min-height:48px;font-size:13px}
+ .brain-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:10px}
+ .brain-feedback{font-size:12px;line-height:1.7}
+ .brain-next{width:100%;min-height:48px}
+ .brain-final-score{font-size:36px}
+ .game-toolbar{gap:8px}
+ .game-modal{padding:8px}
+ .game-modal-card{padding:54px 12px 16px;border-radius:16px}
+ .game-modal-card h2{font-size:25px}
+ .game-modal-card>p{font-size:12px;line-height:1.8}
+ .game-choice{min-height:132px;padding:15px 12px;gap:6px}
+ .game-choice .choice-icon{font-size:32px}
+ .game-choice strong{font-size:18px}
+ .game-choice small{font-size:11px}
+ .modal-actions{display:grid;grid-template-columns:1fr;gap:8px}
+ .modal-actions button{width:100%;min-height:44px}
+ .leader-panel{padding:12px;border-radius:14px}
+ .leader-tabs{grid-template-columns:1fr;gap:7px}
+ .leader-tab{min-height:44px;padding:9px;font-size:12px}
+ .leader-status{font-size:11px;line-height:1.7}
+ .leader-table{min-width:400px}
+ .leader-table th,.leader-table td{padding:10px 8px;font-size:11px}
+ .contact{gap:18px}
+ .contact .btn{width:100%;justify-content:center}
+ footer{padding-bottom:18px;text-align:center;font-size:10px}
+ .footer-controls{width:100%;gap:6px}
+ .footer-controls button{flex:1;padding:7px 5px;font-size:11px}
+ .global-dock{bottom:8px;left:50%;transform:translateX(-50%);width:max-content;max-width:calc(100vw - 16px);padding:5px;gap:4px}
+ .global-dock button{min-height:42px;padding:6px 9px;font-size:10px}
+}
+@media(max-width:360px){
+ .container{width:calc(100% - 20px)}
+ .brain-head{flex-direction:column}
+ .brain-best{display:flex;align-items:center;gap:8px;width:auto}
+ .brain-best small{display:inline}
+ .brain-best strong{font-size:20px}
+ .brain-modes{grid-template-columns:1fr}
+ .global-dock button{padding-inline:7px;font-size:9px}
+}
+@media(orientation:landscape) and (max-height:520px) and (max-width:900px){
+ .game-modal{align-items:start}
+ .game-modal-card{margin:8px auto}
+ .game-choice-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .game-choice{min-height:125px}
+ .visual{min-height:300px}
+ .photo-shell{height:300px}
+}
+
 </style></head>
 <body>
 <div class="intro-screen"><div class="intro-content"><div class="intro-title">MEHDI<span>.</span></div><div class="intro-caption">DEVELOPER · CREATOR · SECURITY ENTHUSIAST</div><div class="bar"></div></div></div>
