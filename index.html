@@ -432,25 +432,6 @@ window.addEventListener('resize', () => {
  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!modal.hidden)closeChooser()});
  window.mehdiBrainReady=restorePlayer();
 })();
- const label=document.getElementById("selected-game-label");
- const names={challenge:"تحدي العقل",riddle:"الألغاز الذكية",knowledge:"المعرفة العامة"};
- function openChooser(){modal.hidden=false;document.body.style.overflow="hidden"}
- function closeChooser(){modal.hidden=true;document.body.style.overflow=""}
- function chooseGame(pick){mode=pick;modes.forEach(x=>x.classList.toggle("active",x.dataset.mode===pick));label.textContent="اللعبة المختارة: "+names[pick];try{bestEl.textContent=localStorage.getItem("mehdiBrainBest_"+pick)||"0"}catch(e){};closeChooser();start.hidden=false;area.hidden=true;result.hidden=true;document.getElementById("brain-begin").textContent="ابدأ اللعب الآن ←";document.getElementById("brain-game").scrollIntoView({behavior:"smooth",block:"start"})}
- document.getElementById("open-game-chooser").addEventListener("click",openChooser);
- document.getElementById("header-play").addEventListener("click",openChooser);
- document.getElementById("change-game").addEventListener("click",openChooser);
- document.getElementById("close-game-modal").addEventListener("click",closeChooser);
- document.querySelectorAll("[data-pick]").forEach(b=>b.addEventListener("click",()=>chooseGame(b.dataset.pick)));
- document.getElementById("modal-home").addEventListener("click",()=>{closeChooser();document.getElementById("home").scrollIntoView({behavior:"smooth"})});
- document.getElementById("modal-exit").addEventListener("click",()=>{closeChooser();document.getElementById("home").scrollIntoView({behavior:"smooth"})});
- document.getElementById("header-home").addEventListener("click",()=>document.getElementById("home").scrollIntoView({behavior:"smooth"}));
- document.getElementById("footer-home").addEventListener("click",()=>document.getElementById("home").scrollIntoView({behavior:"smooth"}));
- document.getElementById("footer-back").addEventListener("click",()=>{if(!modal.hidden)closeChooser();else if(!area.hidden){stopTimer();area.hidden=true;start.hidden=false}else history.back()});
- document.getElementById("footer-exit").addEventListener("click",()=>{stopTimer();closeChooser();document.getElementById("home").scrollIntoView({behavior:"smooth"})});
- modal.addEventListener("click",e=>{if(e.target===modal)closeChooser()});
- document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!modal.hidden)closeChooser()});
-})();
 
 </script>
 <script>
