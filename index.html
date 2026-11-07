@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#050a12">
+<title>MEHDI | Developer & Ethical Hacker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#050a12;--panel:#0b1422;--cyan:#00d9ff;--blue:#1677ff;--white:#edf7ff;--muted:#9aacc1;--line:rgba(0,205,255,.2)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--white);font-family:Cairo,Arial,sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(ellipse at 72% 35%,#06345a 0,transparent 38%),radial-gradient(ellipse at 12% 70%,#071d39 0,transparent 38%),linear-gradient(130deg,#03070d,#07111f 55%,#03070d)}
+body:after{content:"";position:fixed;inset:0;z-index:-1;opacity:.13;pointer-events:none;background-image:linear-gradient(rgba(0,180,255,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(0,180,255,.14) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(to bottom,black,transparent 90%)}
+a{color:inherit;text-decoration:none}.container{width:min(1240px,calc(100% - 44px));margin:auto}
+header{height:78px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);background:#030812aa;backdrop-filter:blur(15px);position:relative;z-index:2}
+.logo{font:700 25px 'Space Grotesk';letter-spacing:3px}.logo b{color:var(--cyan)}nav{display:flex;gap:30px;color:#d1e2f4;font-size:14px}nav a{transition:.25s}nav a:hover{color:var(--cyan);text-shadow:0 0 12px var(--cyan)}
+.menu{display:none;background:transparent;color:var(--cyan);border:1px solid var(--line);padding:8px 12px;border-radius:9px}
+.hero{min-height:calc(100vh - 78px);display:grid;grid-template-columns:1.08fr .92fr;align-items:center;gap:38px;padding:48px 0 70px;position:relative}
+.copy{position:relative;z-index:1}.eyebrow{display:inline-flex;gap:10px;align-items:center;padding:9px 14px;border:1px solid #00d9ff55;background:#00d9ff0c;border-radius:50px;color:var(--cyan);font:600 11px 'Space Grotesk';letter-spacing:2px}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 13px var(--cyan);animation:pulse 1.5s infinite}
+.hello{font:600 clamp(25px,3vw,38px) 'Space Grotesk';direction:ltr;text-align:right;margin:28px 0 0;color:#d8eaff}
+h1{font:900 clamp(65px,9vw,116px)/.95 'Space Grotesk';direction:ltr;text-align:right;letter-spacing:1px;margin:0;color:#f4f9ff;text-shadow:0 5px 0 #71869b,0 0 35px #168fff55}
+h1 span{background:linear-gradient(180deg,#fff,#9fb9d4 65%,#4d769d);background-clip:text;color:transparent}
+.role{font:700 clamp(16px,2vw,23px) 'Space Grotesk';direction:ltr;text-align:right;color:var(--cyan);margin:22px 0 16px;text-shadow:0 0 18px #00bfff66}
+.slogan{font-size:16px;font-weight:700;color:#d9eaff;margin:0 0 17px}.slogan span{color:var(--cyan)}
+.bio{max-width:650px;color:#b4c5d8;line-height:2;font-size:15px;margin:0}
+.skills{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}.skill{min-width:86px;text-align:center;padding:12px 13px;border:1px solid var(--line);background:linear-gradient(145deg,#0c1c30dd,#07111ddd);border-radius:12px;color:#d8edff;font:600 12px 'Space Grotesk';transition:.3s}.skill i{display:block;font-style:normal;font-size:22px;color:var(--cyan);margin-bottom:5px}.skill:hover{transform:translateY(-6px);border-color:var(--cyan);box-shadow:0 0 22px #00cfff25}
+.visual{min-height:650px;display:flex;justify-content:center;align-items:center;position:relative}
+.photo-halo{position:absolute;width:490px;height:490px;border-radius:50%;border:1px solid #00d9ff35;box-shadow:0 0 80px #007bff18,inset 0 0 80px #007bff12;animation:rotate 28s linear infinite}
+.photo-halo:before,.photo-halo:after{content:"";position:absolute;width:9px;height:9px;border-radius:50%;background:var(--cyan);box-shadow:0 0 20px var(--cyan)}.photo-halo:before{top:13%;left:20%}.photo-halo:after{bottom:14%;right:15%;background:#458dff}
+.photo-shell{position:relative;width:min(365px,80vw);height:610px;padding:7px;clip-path:polygon(0 5%,8% 0,92% 0,100% 7%,100% 93%,92% 100%,8% 100%,0 94%);background:linear-gradient(145deg,#00eaff,#0865ff 45%,#00b5d8);filter:drop-shadow(0 0 28px #008cff66);opacity:0;transform:translateY(30px) scale(.97);animation:arrive 1.2s 1.6s forwards}
+.photo-inner{width:100%;height:100%;background:linear-gradient(180deg,#0b1c2d,#050b14);clip-path:polygon(0 5%,8% 0,92% 0,100% 7%,100% 93%,92% 100%,8% 100%,0 94%);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.photo-inner img{display:block;width:100%;height:100%;object-fit:contain;object-position:center center;max-width:100%;filter:contrast(1.03) saturate(.94)}
+.corner{position:absolute;width:48px;height:48px;border-color:var(--cyan);border-style:solid;filter:drop-shadow(0 0 7px var(--cyan));z-index:1}.tl{top:15px;left:15px;border-width:2px 0 0 2px}.br{bottom:15px;right:15px;border-width:0 2px 2px 0}
+.float{position:absolute;z-index:2;background:#071321eF;border:1px solid #00cfff55;box-shadow:0 10px 35px #0008,0 0 20px #00aaff18;padding:13px 16px;border-radius:11px;font:600 11px 'Space Grotesk';direction:ltr;animation:float 4s ease-in-out infinite}.float b{color:var(--cyan)}.f1{top:17%;right:-1%}.f2{bottom:17%;left:-1%;animation-delay:-2s}
+.section{padding:85px 0;border-top:1px solid var(--line)}.kicker{font:600 11px 'Space Grotesk';color:var(--cyan);letter-spacing:2px;direction:ltr}.section h2{font-size:clamp(30px,4vw,44px);margin:9px 0 12px}.intro{color:var(--muted);line-height:1.9;max-width:750px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:28px}.card{padding:27px;border:1px solid var(--line);border-radius:17px;background:linear-gradient(145deg,#0d1b2ddd,#08111ddd);box-shadow:0 18px 50px #0003}.card p{color:#b4c5d8;line-height:2;margin:0}.quote{font-size:22px!important;font-weight:800;color:#effaff!important}.quote span{color:var(--cyan)}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}.tile{padding:23px;border:1px solid var(--line);border-radius:15px;background:#0a1625d9;transition:.3s}.tile:hover{transform:translateY(-6px);border-color:#00d9ff88}.tile small{color:var(--cyan);font:600 11px 'Space Grotesk'}.tile h3{margin:12px 0 7px}.tile p{margin:0;color:var(--muted);font-size:14px;line-height:1.9}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}.chip{padding:8px 14px;border:1px solid #00d9ff44;border-radius:50px;background:#00d9ff0d;color:#b9efff;font:500 12px 'Space Grotesk'}
+.contact{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:30px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(100deg,#00cfff12,#176cff16)}.contact p{color:var(--muted);margin:0}.btn{display:inline-block;padding:12px 20px;border-radius:10px;background:linear-gradient(110deg,#00d9ff,#4c8cff);color:#03101a;font-weight:800;white-space:nowrap;transition:.25s}.btn:hover{transform:translateY(-3px);box-shadow:0 8px 25px #00cfff44}
+footer{padding:25px 0;color:#758ba4;font:11px 'Space Grotesk';direction:ltr;display:flex;justify-content:space-between;border-top:1px solid var(--line)}
+.intro-screen{position:fixed;inset:0;background:#030811;z-index:10;display:grid;place-items:center;animation:fadeAway .7s 1.5s forwards;pointer-events:none}.intro-content{text-align:center}.intro-title{font:700 clamp(38px,8vw,72px) 'Space Grotesk';letter-spacing:7px}.intro-title span{color:var(--cyan)}.intro-caption{font:11px 'Space Grotesk';letter-spacing:4px;color:#7891ad;margin-top:12px}.bar{width:190px;height:2px;background:#17314a;margin:25px auto;overflow:hidden}.bar:after{content:"";display:block;height:100%;background:var(--cyan);animation:load 1.1s forwards}
+.reveal{opacity:0;transform:translateY(25px);transition:.8s}.reveal.show{opacity:1;transform:none}
+@keyframes load{to{transform:translateX(0)}}.bar:after{transform:translateX(-100%)}@keyframes fadeAway{to{opacity:0;visibility:hidden}}@keyframes arrive{to{opacity:1;transform:none}}@keyframes pulse{50%{opacity:.3;transform:scale(.7)}}@keyframes rotate{to{transform:rotate(360deg)}}@keyframes float{50%{transform:translateY(-9px)}}
+@media(max-width:900px){.hero{grid-template-columns:1fr;text-align:center}.copy{order:2}.visual{order:1;min-height:600px}.hello,.role,h1{text-align:center}.bio{margin:auto}.skills{justify-content:center}.grid{grid-template-columns:1fr}.f1{right:3%}.f2{left:3%}}
+@media(max-width:620px){.container{width:calc(100% - 30px)}header{height:68px}nav{display:none}.menu{display:block}.hero{padding-top:20px;gap:5px}.visual{min-height:505px}.photo-shell{height:480px;width:min(300px,78vw)}.photo-halo{width:360px;height:360px}.f1{top:13%;right:0}.f2{bottom:12%;left:0}.tiles{grid-template-columns:1fr}.section{padding:65px 0}.contact{align-items:flex-start;flex-direction:column}footer{flex-direction:column;gap:10px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+/* Responsive refinements for phones, tablets, laptops and wide displays */
+img{max-width:100%}button,a{-webkit-tap-highlight-color:transparent}
+a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offset:4px}
+.container{width:min(1240px,calc(100% - clamp(28px,5vw,64px)))}
+.hero{gap:clamp(22px,4vw,54px)}.copy,.visual{min-width:0}
+.bio,.intro,.card p,.tile p{overflow-wrap:anywhere}
+.photo-shell{max-width:100%;height:clamp(430px,48vw,610px)}
+.photo-inner img{object-fit:contain;object-position:center}
+.photo-halo{max-width:90vw;max-height:90vw}
+.menu{min-height:44px;cursor:pointer}
+@media(min-width:1500px){.container{width:min(1320px,calc(100% - 100px))}.hero{min-height:820px}.photo-shell{height:660px;width:395px}}
+@media(max-width:1100px){.hero{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:20px}.visual{min-height:560px}.photo-shell{width:min(340px,88%);height:540px}.photo-halo{width:420px;height:420px}nav{gap:19px}}
+@media(max-width:820px){
+ header{height:72px}.menu{display:inline-flex;align-items:center;gap:8px}
+ nav{display:none;position:absolute;top:calc(100% + 8px);right:0;left:0;z-index:8;flex-direction:column;gap:0;padding:10px;background:rgba(5,12,22,.97);border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 40px #0009;backdrop-filter:blur(18px)}
+ nav.open{display:flex}nav a{padding:13px 15px;border-bottom:1px solid rgba(0,205,255,.1)}nav a:last-child{border-bottom:0}
+ .hero{grid-template-columns:1fr;padding-top:28px;gap:8px}.copy{order:2;text-align:center}.visual{order:1;min-height:520px}
+ .hello,.role,h1{text-align:center}.bio{margin-inline:auto}.skills{justify-content:center}
+ .photo-shell{height:490px;width:min(310px,78vw)}.photo-halo{width:370px;height:370px}
+ .f1{right:calc(50% - 205px);top:12%}.f2{left:calc(50% - 205px);bottom:10%}
+}
+@media(max-width:560px){
+ .container{width:calc(100% - 28px)}.hero{padding:18px 0 55px;gap:4px}
+ .visual{min-height:430px}.photo-shell{height:405px;width:min(265px,76vw)}.photo-halo{width:320px;height:320px}
+ .float{font-size:9px;padding:10px 11px}.f1{right:0;top:9%}.f2{left:0;bottom:8%}
+ .hello{font-size:25px;margin-top:20px}h1{font-size:clamp(54px,17vw,78px)}
+ .role{font-size:15px;line-height:1.6}.bio{font-size:14px;line-height:1.9}
+ .skills{gap:8px}.skill{min-width:calc(33.333% - 8px);padding:10px 6px;font-size:10px}.skill i{font-size:19px}
+ .section{padding:58px 0}.card{padding:21px}.contact{padding:22px}footer{font-size:10px;line-height:1.7}
+}
+@media(max-width:370px){
+ .visual{min-height:390px}.photo-shell{height:365px;width:245px}.photo-halo{width:285px;height:285px}
+ .f1{top:5%;right:-3px}.f2{bottom:5%;left:-3px}.skill{min-width:calc(50% - 8px)}.slogan{font-size:14px}
+}
+@media(orientation:landscape) and (max-height:560px) and (max-width:950px){
+ .hero{grid-template-columns:1fr 1fr;min-height:auto;padding:35px 0}.visual{min-height:360px;order:2}.copy{order:1}
+ .photo-shell{height:340px;width:210px}.photo-halo{width:300px;height:300px}
+ .f1{right:0;top:5%}.f2{left:0;bottom:5%}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.photo-halo,.float,.pulse{animation:none!important}}
+
+
+/* Arabic brain challenge game */
+.brain-wrap{margin-top:28px;padding:clamp(18px,3vw,34px);border:1px solid #00d9ff45;border-radius:22px;background:linear-gradient(145deg,#0c1b2ddd,#07111ddd);box-shadow:0 25px 70px #0005}
+.brain-head{display:flex;justify-content:space-between;align-items:center;gap:18px}.brain-tag{font:700 10px 'Space Grotesk';letter-spacing:2px;color:var(--cyan)}.brain-head h3{font-size:26px;margin:7px 0 0}.brain-head p{color:var(--muted);margin:2px 0 0}.brain-best{min-width:95px;text-align:center;padding:12px;border:1px solid #00d9ff44;border-radius:14px;background:#00d9ff0b}.brain-best small{display:block;color:var(--muted);font-size:11px}.brain-best strong{display:block;color:var(--cyan);font:700 30px 'Space Grotesk'}
+.brain-modes{display:flex;flex-wrap:wrap;gap:9px;margin:24px 0 17px}.brain-mode{border:1px solid #25415b;background:#0a1727;color:#c9d9e9;border-radius:10px;padding:10px 15px;font:700 13px Cairo;cursor:pointer;transition:.2s}.brain-mode:hover,.brain-mode.active{border-color:var(--cyan);color:var(--cyan);background:#00d9ff12;box-shadow:0 0 18px #00d9ff15}
+.brain-play{min-height:330px;border:1px solid #1b3851;border-radius:16px;background:radial-gradient(ellipse at 50% 0%,#0e3150aa,transparent 65%),#07111e;padding:clamp(18px,3vw,30px);display:grid;place-items:center;text-align:center}
+.brain-start,.brain-result{max-width:520px}.brain-orb{width:66px;height:66px;display:grid;place-items:center;margin:0 auto 12px;border-radius:20px;background:linear-gradient(145deg,#00d9ff2b,#176cff24);border:1px solid #00d9ff77;color:var(--cyan);font:800 36px 'Space Grotesk';box-shadow:0 0 30px #00bfff1c}
+.brain-start h3,.brain-result h3{font-size:24px;margin:5px 0}.brain-start p,.brain-result p{color:var(--muted);line-height:1.9;margin:5px 0 20px}.brain-start-btn{border:0;cursor:pointer;font-family:Cairo}.player-register{max-width:440px;margin:18px auto 16px;padding:16px;border:1px solid #00d9ff55;border-radius:14px;background:#061526}.player-register label{display:block;color:#dff7ff;font-weight:700;margin-bottom:8px}.player-register-row{display:flex;gap:8px}.player-register input{min-width:0;flex:1;border:1px solid #31516d;border-radius:9px;background:#07101d;color:#fff;padding:11px 13px;font:600 14px Cairo;outline:none}.player-register input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #00d9ff18}.player-register button{border:0;border-radius:9px;padding:9px 14px;background:linear-gradient(110deg,#00d9ff,#4c8cff);color:#03101a;font:800 13px Cairo;cursor:pointer}.player-register-status{min-height:22px;margin:8px 0 0;color:#9eb4ca;font-size:12px}.player-register-status.ok{color:#6ee7b7}.player-register-status.err{color:#ff9baa}.player-current{color:#65e7ff;font-weight:800;margin:8px 0}.brain-question-area{width:100%;text-align:right}.brain-stats{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:#9eb4ca;font-size:12px;font-weight:700}.brain-track{height:6px;background:#152b40;border-radius:10px;overflow:hidden;margin:12px 0 23px}.brain-track span{display:block;height:100%;width:0;background:linear-gradient(90deg,#087bff,#00e5ff);transition:width .3s}
+.brain-question{font-size:clamp(18px,2.5vw,23px);font-weight:800;line-height:1.8;margin:0 0 18px}.brain-answers{display:grid;grid-template-columns:1fr 1fr;gap:10px}.brain-answer{border:1px solid #29445d;border-radius:11px;background:#0b1b2c;color:#e4f1ff;padding:13px;text-align:right;font:600 14px Cairo;cursor:pointer;transition:.2s}.brain-answer:hover:not(:disabled){border-color:var(--cyan);background:#00d9ff10}.brain-answer:disabled{cursor:default;opacity:.9}.brain-answer.correct{border-color:#32d49a;background:#32d49a16;color:#8df0c8}.brain-answer.wrong{border-color:#ff647c;background:#ff647c16;color:#ff9baa}.brain-feedback{min-height:28px;color:var(--cyan);font-weight:700;margin:12px 0}.brain-next{border:0;cursor:pointer;font-family:Cairo}.brain-next:disabled{opacity:.4;cursor:not-allowed}.brain-final-score{font:800 42px 'Space Grotesk';color:var(--cyan);margin:12px}.brain-note{color:#8298af;font-size:11px;text-align:center;margin:15px 0 0}.brain-result{width:100%}
+@media(max-width:560px){.brain-head{align-items:flex-start}.brain-head h3{font-size:21px}.brain-modes{display:grid;grid-template-columns:1fr 1fr}.brain-mode{padding:10px 5px}.brain-answers{grid-template-columns:1fr}.brain-play{min-height:360px;padding:17px}.brain-stats{font-size:11px}}
+
+
+/* MEHDI game selection, navigation and responsive controls */
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.btn-ghost{background:transparent;color:var(--cyan);border:1px solid #00d9ff66}
+.header-actions{display:flex;gap:8px;align-items:center}.header-actions button,.footer-controls button{border:1px solid #00d9ff55;background:#071727;color:#dff8ff;border-radius:9px;padding:9px 13px;font:700 12px Cairo;cursor:pointer}.header-actions .header-play{background:linear-gradient(110deg,#00d9ff,#4c8cff);color:#03101a}.game-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:22px 0 12px;color:#9fc4df;font-size:13px}.brain-modes[hidden]{display:none!important}
+.game-modal{position:fixed;inset:0;z-index:50;background:#020611eF;backdrop-filter:blur(14px);display:grid;place-items:center;padding:20px;overflow-y:auto}.game-modal[hidden]{display:none}.game-modal-card{position:relative;width:min(980px,100%);padding:clamp(22px,4vw,42px);border:1px solid #8b48ff;border-radius:24px;background:radial-gradient(ellipse at 50% 0%,#35206b88,transparent 55%),linear-gradient(145deg,#0b1024,#050b18);box-shadow:0 0 60px #702cff44,0 25px 90px #000b;text-align:center}.game-modal-card h2{font-size:clamp(28px,5vw,44px);margin:8px 0;color:#fff;text-shadow:0 0 22px #9d48ff}.game-modal-card>p{color:#aebed3;margin:0 0 25px}.modal-x{position:absolute;top:14px;left:14px;width:42px;height:42px;border-radius:50%;border:1px solid #ff5d7c;background:#4b1225;color:#fff;font-size:28px;cursor:pointer}.game-choice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.game-choice{min-height:245px;border-radius:18px;padding:22px 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;color:#fff;background:#081426;cursor:pointer;transition:.25s;font-family:Cairo}.game-choice:hover{transform:translateY(-7px) scale(1.015);filter:brightness(1.15)}.game-choice .choice-icon{font-size:52px;filter:drop-shadow(0 0 15px currentColor)}.game-choice strong{font-size:22px}.game-choice small{color:#c5d2e3;font-size:13px}.game-choice b{padding:9px 18px;border-radius:30px;background:#ffffff18;font-size:13px}.game-choice.gold{border:1px solid #e9a92e;box-shadow:inset 0 0 35px #d58b1b18}.game-choice.violet{border:1px solid #b64cff;box-shadow:inset 0 0 35px #9c36ff22}.game-choice.green{border:1px solid #35d68a;box-shadow:inset 0 0 35px #1acb7920}.modal-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:24px}.brain-mode.danger{border-color:#ff627c;color:#ff9cac}.footer-controls{display:flex;gap:8px;direction:rtl}.footer-controls button{padding:7px 12px}
+@media(max-width:760px){.header-actions{display:none}.game-choice-grid{grid-template-columns:1fr}.game-choice{min-height:170px}.game-choice .choice-icon{font-size:38px}.game-toolbar{align-items:flex-start;flex-direction:column}.hero-actions{justify-content:center}.footer-controls{flex-wrap:wrap}}
+
+
+.leader-panel{border:1px solid #00d9ff55;border-radius:18px;padding:22px;background:linear-gradient(145deg,#0b192add,#07101ddd);box-shadow:0 18px 55px #0004}.leader-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}.leader-tab{border:1px solid #28445f;border-radius:9px;padding:9px 14px;background:#091729;color:#c9d9e9;font:700 13px Cairo;cursor:pointer}.leader-tab.active{border-color:var(--cyan);color:var(--cyan);background:#00d9ff12}.leader-status{color:#9eb4ca;font-size:12px;margin:8px 0 13px}.leader-table-wrap{overflow-x:auto}.leader-table{width:100%;border-collapse:collapse;min-width:440px;text-align:right}.leader-table th,.leader-table td{padding:12px;border-bottom:1px solid #24405a;color:#dcecff;font-size:13px}.leader-table th{color:var(--cyan)}.leader-table td:first-child{color:#f3c65a;font-weight:800}.global-dock{position:fixed;z-index:8;bottom:14px;left:14px;display:flex;gap:7px;padding:7px;border:1px solid #00d9ff55;border-radius:14px;background:#04101de8;backdrop-filter:blur(12px);box-shadow:0 8px 30px #0008}.global-dock button{border:1px solid #24506b;background:#0b2032;color:#e6f8ff;border-radius:9px;padding:8px 12px;font:700 12px Cairo;cursor:pointer}.global-dock button:hover{border-color:var(--cyan);color:var(--cyan)}@media(max-width:560px){.global-dock{left:50%;transform:translateX(-50%);bottom:8px;width:max-content}.global-dock button{padding:7px 10px;font-size:11px}body{padding-bottom:54px}}
+
+</style></head>
+<body>
+<div class="intro-screen"><div class="intro-content"><div class="intro-title">MEHDI<span>.</span></div><div class="intro-caption">DEVELOPER · CREATOR · SECURITY ENTHUSIAST</div><div class="bar"></div></div></div>
+<div class="container">
+<header><a class="logo" href="#">MEHDI<b>.</b></a><nav id="site-nav" aria-label="القائمة الرئيسية"><a href="#home">الرئيسية</a><a href="#about">من أنا</a><a href="#skills">المهارات</a><a href="#work">اهتماماتي</a><a href="#brain-game">اللعبة</a><a href="#leaderboard">لوحة الصدارة</a><a href="#contact">تواصل</a></nav><div class="header-actions"><button id="header-play" class="header-play" type="button">هل تريد اللعب؟</button><button id="header-home" class="header-home" type="button">الرئيسية</button></div><button class="menu" id="menu-toggle" type="button" aria-controls="site-nav" aria-expanded="false">☰ <span>القائمة</span></button></header>
+<main class="hero" id="home">
+<div class="copy">
+<div class="eyebrow"><i class="pulse"></i> PERSONAL PORTFOLIO · 2026</div>
+<div class="hello">Hello, I'm</div><h1><span>MEHDI</span></h1>
+<div class="role">DEVELOPER &amp; ETHICAL HACKING ENTHUSIAST</div>
+<p class="slogan">“Code the Future … <span>Build a Better Digital World.</span>”</p>
+<p class="bio">أنا مهدي، شغوف بعالم البرمجة وتطوير الويب والأمن السيبراني الأخلاقي. أستمتع ببناء واجهات رقمية حديثة، واستكشاف Linux وTermux، وفهم كيفية عمل الأنظمة واختبار حمايتها بمسؤولية. أؤمن أن كل فكرة يمكن أن تتحول إلى مشروع مميز بالتعلم والتجربة والإبداع.</p>
+<div class="hero-actions"><button class="btn" id="open-game-chooser" type="button">🎮 هل تريد اللعب؟</button><a class="btn btn-ghost" href="#about">اكتشف الموقع</a></div>
+<div class="skills"><div class="skill"><i>⌘</i>Web Dev</div><div class="skill"><i>⌁</i>Linux</div><div class="skill"><i>›_</i>Termux</div><div class="skill"><i>◇</i>Cybersecurity</div><div class="skill"><i>✧</i>Creative Code</div></div>
+</div>
+<div class="visual"><div class="photo-halo"></div><div class="photo-shell"><div class="photo-inner"><img src="assets/mehdi.jpg" alt="صورة مهدي الأصلية كاملة"></div><i class="corner tl"></i><i class="corner br"></i></div><div class="float f1"><b>01 /</b> WEB DEVELOPMENT</div><div class="float f2"><b>02 /</b> ETHICAL SECURITY</div></div>
+</main>
+<section class="section" id="about"><div class="reveal"><div class="kicker">01 — ABOUT ME</div><h2>من أنا؟</h2><p class="intro">أرى أن التكنولوجيا مساحة للإبداع وحل المشكلات، وليست مجرد كتابة أسطر من التعليمات البرمجية.</p></div><div class="grid"><div class="card reveal"><p class="quote">“أتعلم باستمرار،<br>وأحوّل الفضول إلى <span>مشاريع حقيقية.</span>”</p></div><div class="card reveal"><p>أنا مهدي، مهتم بتطوير الويب وبناء تجارب رقمية تجمع بين التصميم الجذاب وسهولة الاستخدام. أعمل على تطوير مهاراتي في HTML وCSS وJavaScript، وأتعلم أساسيات الأمن السيبراني والاختبار الأخلاقي لفهم الثغرات وطرق الوقاية منها، حصرياً ضمن بيئات مصرح بها.</p></div></div></section>
+<section class="section" id="skills"><div class="reveal"><div class="kicker">02 — SKILLS & INTERESTS</div><h2>مجالات أعمل على تطويرها</h2><p class="intro">أجمع بين التفكير البرمجي، الاهتمام بالتفاصيل البصرية، والتعلم المستمر في مجال أمن المعلومات.</p></div><div class="tiles"><article class="tile reveal"><small>01 / CREATE</small><h3>تطوير الويب</h3><p>بناء صفحات ومواقع متجاوبة، تصميم واجهات مستخدم حديثة، وتحسين تجربة التصفح.</p></article><article class="tile reveal"><small>02 / EXPLORE</small><h3>الأمن السيبراني الأخلاقي</h3><p>التعرف على مفاهيم حماية الأنظمة، أساسيات الاختبار الأمني، والتعلم القانوني المسؤول.</p></article><article class="tile reveal"><small>03 / BUILD</small><h3>Linux &amp; Termux</h3><p>استكشاف بيئة Linux وأدوات الطرفية واستخدامها في التعلم والتطوير.</p></article></div></section>
+<section class="section" id="work"><div class="reveal"><div class="kicker">03 — MY APPROACH</div><h2>من الفكرة إلى التنفيذ</h2><p class="intro">أفهم الهدف أولاً، أخطط للتجربة، أبني الواجهة، ثم أختبر التفاصيل وأحسّنها.</p></div><div class="card reveal"><p>أهتم بأن تكون مشاريعي جميلة وعملية في الوقت نفسه: واجهة واضحة، أداء جيد، توافق مع الهاتف والحاسوب، وتنظيم يسهل تطويره لاحقاً. وفي مجال الأمن، أضع التعلم المسؤول واحترام الخصوصية والتصريح المسبق أساساً لكل تجربة.</p><div class="chips"><span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">JavaScript</span><span class="chip">Linux</span><span class="chip">Termux</span><span class="chip">Responsive Design</span><span class="chip">Ethical Hacking</span></div></div></section>
+
+<section class="section" id="brain-game">
+ <div class="reveal">
+  <div class="kicker">04 — BRAIN CHALLENGE</div>
+  <h2>تحدّى ذكاءك! 🧠</h2>
+  <p class="intro">اختبر معلوماتك، حل الألغاز، واكتشف سرعتك في التفكير. اللعبة باللغة العربية بالكامل!</p>
+ </div>
+ <div class="brain-wrap reveal">
+  <div class="brain-head">
+   <div><span class="brain-tag">MEHDI GAME ZONE</span><h3>مستعد للتحدي؟</h3><p>اختر لعبة من الألعاب الثلاث وابدأ مغامرتك الذهنية.</p></div>
+   <div class="brain-best"><small>أفضل نتيجة</small><strong id="brain-best">0</strong><small>نقطة</small></div>
+  </div>
+  <div class="game-toolbar"><button class="brain-mode active" id="change-game" type="button">🎮 تغيير اللعبة</button><span id="selected-game-label">اللعبة المختارة: تحدي العقل</span></div>
+  <div class="brain-modes" role="group" aria-label="أنواع التحدي" hidden>
+   <button class="brain-mode active" data-mode="challenge" type="button">🎯 تحدي العقل</button>
+   <button class="brain-mode" data-mode="riddle" type="button">🧩 الألغاز الذكية</button>
+   <button class="brain-mode" data-mode="knowledge" type="button">🌍 المعرفة العامة</button>
+  </div>
+  <div class="brain-play" id="brain-play">
+   <div class="brain-start" id="brain-start">
+    <div class="brain-orb">?</div>
+    <h3>سجّل اسمك وابدأ التحدي</h3>
+    <p>اختر اسماً يظهر بجانب نتيجتك في لوحة الصدارة، ثم ابدأ اللعب.</p>
+    <form class="player-register" id="player-register-form">
+     <label for="player-nickname">اسم اللاعب</label>
+     <div class="player-register-row"><input id="player-nickname" name="nickname" type="text" maxlength="24" minlength="2" placeholder="مثال: Mehdi_Player" autocomplete="nickname" required><button type="submit" id="save-player-name">حفظ الاسم</button></div>
+     <p class="player-register-status" id="player-register-status" aria-live="polite">يُحفظ الاسم في قاعدة بيانات الموقع بعد الاتصال بالإنترنت.</p>
+     <p class="player-current" id="player-current" hidden></p>
+    </form>
+    <button class="btn brain-start-btn" id="brain-begin" type="button" disabled>احفظ اسمك أولاً</button>
+   </div>
+   <div class="brain-question-area" id="brain-question-area" hidden>
+    <div class="brain-stats"><span id="brain-progress">السؤال 1 من 10</span><span id="brain-score">النقاط: 0</span><span id="brain-clock" hidden>⏱ 15</span></div>
+    <div class="brain-track"><span id="brain-track-fill"></span></div>
+    <div class="brain-question" id="brain-question"></div>
+    <div class="brain-answers" id="brain-answers"></div>
+    <p class="brain-feedback" id="brain-feedback" aria-live="polite"></p>
+    <button class="btn brain-next" id="brain-next" type="button" disabled>السؤال التالي ←</button>
+   </div>
+   <div class="brain-result" id="brain-result" hidden>
+    <div class="brain-orb">🏆</div><h3 id="brain-result-title">أحسنت!</h3>
+    <p id="brain-result-text"></p>
+    <div class="brain-final-score" id="brain-final-score">0 / 10</div>
+    <button class="btn brain-start-btn" id="brain-restart" type="button">العب مرة أخرى ↻</button>
+   </div>
+  </div>
+  <p class="brain-note">تتغير الأسئلة بين الجولات ويمكن لعب جولات غير محدودة. اسم اللاعب يُحفظ سحابياً؛ رفع النقاط للوحة الصدارة سيُفعّل بعد إضافة التحقق الآمن من النتائج.</p>
+ </div>
+</section>
+
+<div class="game-modal" id="game-modal" hidden role="dialog" aria-modal="true" aria-labelledby="game-modal-title">
+ <div class="game-modal-card">
+  <button class="modal-x" id="close-game-modal" type="button" aria-label="إغلاق">×</button>
+  <span class="brain-tag">MEHDI GAME ZONE</span><h2 id="game-modal-title">هل تريد اللعب؟</h2>
+  <p>اختر واحدة من الألعاب الثلاث للبدء في التحدي.</p>
+  <div class="game-choice-grid">
+   <button class="game-choice gold" data-pick="challenge" type="button"><span class="choice-icon">🏆</span><strong>تحدي العقل</strong><small>أسئلة متنوعة تختبر قدراتك</small><b>اختر والعب ←</b></button>
+   <button class="game-choice violet" data-pick="riddle" type="button"><span class="choice-icon">🧩</span><strong>الألغاز الذكية</strong><small>فكر بذكاء واكتشف الحل</small><b>اختر والعب ←</b></button>
+   <button class="game-choice green" data-pick="knowledge" type="button"><span class="choice-icon">🌍</span><strong>المعرفة العامة</strong><small>اختبر معلوماتك في مجالات مختلفة</small><b>اختر والعب ←</b></button>
+  </div>
+  <div class="modal-actions"><button class="brain-mode" id="modal-home" type="button">⌂ العودة للرئيسية</button><button class="brain-mode danger" id="modal-exit" type="button">⏻ خروج</button></div>
+ </div>
+</div>
+
+<section class="section" id="leaderboard"><div class="reveal"><div class="kicker">05 — DAILY LEADERBOARD</div><h2>لوحة صدارة أفضل 100 لاعب 🏆</h2><p class="intro">تُعرض النتائج اليومية المشتركة المسجلة في قاعدة بيانات Supabase.</p></div><div class="leader-panel reveal"><div class="leader-tabs"><button class="leader-tab active" data-board="challenge">تحدي العقل</button><button class="leader-tab" data-board="riddle">الألغاز الذكية</button><button class="leader-tab" data-board="knowledge">المعرفة العامة</button></div><div class="leader-status" id="leader-status">جارٍ الاتصال بلوحة الصدارة…</div><div class="leader-table-wrap"><table class="leader-table"><thead><tr><th>الترتيب</th><th>اللاعب</th><th>اللعبة</th><th>النقاط</th></tr></thead><tbody id="leader-rows"><tr><td colspan="4">جارٍ تحميل النتائج…</td></tr></tbody></table></div></div></section>
+<section class="section" id="contact"><div class="contact reveal"><div><div class="kicker">05 — GET IN TOUCH</div><h2 style="margin:8px 0">لنبنِ شيئاً مميزاً.</h2><p>يسعدني التواصل مع المهتمين بالتقنية والبرمجة والأفكار الجديدة.</p></div><a class="btn" href="mailto:mhdprogrammingdz@gmail.com">تواصل معي ↗</a></div></section>
+<div class="global-dock" aria-label="أزرار التنقل"><button id="dock-back" type="button">↶ عودة</button><button id="dock-home" type="button">⌂ الرئيسية</button><button id="dock-exit" type="button">⏻ خروج</button></div>
+<footer><span>© 2026 MEHDI — PERSONAL PORTFOLIO</span><span class="footer-controls"><button id="footer-back" type="button">↶ عودة</button><button id="footer-home" type="button">⌂ الرئيسية</button><button id="footer-exit" type="button">⏻ خروج</button></span><span>DESIGNED WITH PURPOSE · BUILT WITH PASSION</span></footer>
+</div>
+<script>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+const menuButton = document.getElementById('menu-toggle');
+const siteNav = document.getElementById('site-nav');
+menuButton.addEventListener('click', () => {
+  const isOpen = siteNav.classList.toggle('open');
+  menuButton.setAttribute('aria-expanded', String(isOpen));
+  menuButton.innerHTML = isOpen ? '✕ <span>إغلاق</span>' : '☰ <span>القائمة</span>';
+});
+siteNav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+  siteNav.classList.remove('open');
+  menuButton.setAttribute('aria-expanded', 'false');
+  menuButton.innerHTML = '☰ <span>القائمة</span>';
+}));
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 820) {
+    siteNav.classList.remove('open');
+    menuButton.setAttribute('aria-expanded', 'false');
+    menuButton.innerHTML = '☰ <span>القائمة</span>';
+  }
+});
+
+// MEHDI Arabic brain challenge — runs locally in the browser
+(() => {
+ const bank = {
+  riddle: [
+   ["ما الشيء الذي كلما أخذت منه كبر؟",["الحفرة","البحر","الكتاب","الظل"],0,"لأنك كلما حفرت وأخذت من التراب اتسعت الحفرة."],
+   ["له أسنان ولا يعض، ما هو؟",["الأسد","المشط","المفتاح","المنشار"],1,"المشط له أسنان لترتيب الشعر."],
+   ["ما الشيء الذي يكتب ولا يقرأ؟",["القلم","الكتاب","الحاسوب","الدفتر"],0,"القلم يكتب به الإنسان لكنه لا يقرأ."],
+   ["ما الذي يمشي بلا قدمين ويبكي بلا عينين؟",["الطفل","السحاب","النهر","الساعة"],1,"السحاب يتحرك في السماء ويمطر."],
+   ["بيت بلا أبواب ولا نوافذ، ما هو؟",["بيت الشعر","خلية النحل","البيضة","الخيمة"],2,"البيضة بيت صغير بلا باب أو نافذة."],
+   ["ما الشيء الذي له رقبة وليس له رأس؟",["الزجاجة","الإنسان","الحصان","الشجرة"],0,"للزجاجة عنق أو رقبة."],
+   ["ما الشيء الذي يسمع بلا أذن ويتكلم بلا لسان؟",["الهاتف","المرآة","الكرسي","القلم"],0,"الهاتف ينقل الصوت ويصدره دون أذن أو لسان."],
+   ["ما الشيء الذي كلما زاد نقص؟",["العمر المتبقي","العلم","المال","الضوء"],0,"كلما زاد العمر الذي مضى قلّ العمر المتبقي."],
+   ["شيء تراه في الليل ثلاث مرات وفي النهار مرة واحدة؟",["القمر","حرف اللام","النجوم","الشمس"],1,"حرف اللام في كلمة الليل ثلاث مرات وفي النهار مرة."],
+   ["ما الشيء الذي يدخل الماء ولا يبتل؟",["السمك","الضوء","الورق","الملح"],1,"الضوء يمر في الماء ولا يبتل."],
+   ["ما الشيء الذي له عين واحدة ولا يرى؟",["الإبرة","العاصفة","الكاميرا","النافذة"],0,"عين الإبرة هي الفتحة التي يمر منها الخيط."],
+   ["شيء كلما مشى فقد جزءاً من ذيله، ما هو؟",["القلم الرصاص","القطار","الثعبان","الطائر"],0,"القلم يقصر كلما استُخدم في الكتابة."],
+   ["ما الشيء الذي يوجد في القرن مرة وفي الدقيقة مرتين؟",["حرف القاف","حرف الياء","حرف الدال","حرف الراء"],0,"حرف القاف يظهر مرة في القرن ومرتين في الدقيقة؟"],
+   ["ما الذي لا يمكن كسره؟",["الوعد","الزجاج","الحجر","الغصن"],0,"الوعد لا يُكسر مادياً، لكن يمكن إخلافه."],
+   ["له أوراق وليس نباتاً، وله جلد وليس حيواناً؟",["الكتاب","الحقيبة","الطاولة","القميص"],0,"الكتاب له أوراق وغلاف يسمى جلداً."],
+   ["ما الشيء الذي يملأ الغرفة ولا يشغل حيزاً؟",["الضوء","الأثاث","الماء","الهواء المضغوط"],0,"الضوء ينتشر في الغرفة دون أن يشغل حيزاً مادياً."],
+   ["ما الشيء الذي كلما جف ابتل؟",["المنشفة","الرمل","الملح","الخشب"],0,"المنشفة تبتل أثناء تجفيف الأشياء."],
+   ["ما الشيء الذي له مفاتيح ولا يفتح الأبواب؟",["البيانو","القفل","الخزانة","الباب"],0,"البيانو يحتوي على مفاتيح موسيقية."],
+   ["ما الشيء الذي تستطيع الإمساك به دون لمسه؟",["الوعد","الحجر","القلم","الكوب"],0,"يمكنك التمسك بوعد أو الالتزام به دون لمسه."]
+  ],
+  knowledge: [
+   ["ما عاصمة الجزائر؟",["وهران","قسنطينة","الجزائر العاصمة","تلمسان"],2,"الجزائر العاصمة هي عاصمة البلاد."],
+   ["كم عدد أضلاع المثلث؟",["ثلاثة","أربعة","خمسة","ستة"],0,"للمثلث ثلاثة أضلاع."],
+   ["ما الكوكب المعروف بالكوكب الأحمر؟",["الزهرة","المريخ","زحل","عطارد"],1,"يبدو المريخ أحمر بسبب أكاسيد الحديد على سطحه."],
+   ["ما أكبر محيط على الأرض؟",["الأطلسي","الهندي","المتجمد","الهادئ"],3,"المحيط الهادئ هو الأكبر مساحة."],
+   ["كم دقيقة في الساعة الواحدة؟",["30","50","60","100"],2,"الساعة تساوي 60 دقيقة."],
+   ["ما اللغة الأساسية لبناء هيكل صفحات الويب؟",["HTML","Python","SQL","C++"],0,"HTML تحدد بنية ومحتوى صفحة الويب."],
+   ["أي عضو يضخ الدم في جسم الإنسان؟",["الرئة","القلب","الكبد","المعدة"],1,"القلب يضخ الدم إلى أنحاء الجسم."],
+   ["ما عاصمة اليابان؟",["بكين","سيول","طوكيو","بانكوك"],2,"طوكيو هي عاصمة اليابان."],
+   ["كم عدد أيام السنة العادية؟",["360","364","365","366"],2,"السنة العادية تتكون من 365 يوماً."],
+   ["ما الغاز الذي تحتاجه النباتات في عملية البناء الضوئي؟",["الأكسجين","ثاني أكسيد الكربون","الهيليوم","النيتروجين"],1,"تمتص النباتات ثاني أكسيد الكربون وتستخدمه في البناء الضوئي."],
+   ["ما أكبر قارة من حيث المساحة؟",["أفريقيا","آسيا","أوروبا","أمريكا الجنوبية"],1,"قارة آسيا هي الأكبر مساحة."],
+   ["كم عدد ألوان قوس قزح التقليدية؟",["خمسة","ستة","سبعة","ثمانية"],2,"تُقسم ألوان قوس قزح تقليدياً إلى سبعة ألوان."],
+   ["ما الحيوان المعروف بسفينة الصحراء؟",["الحصان","الجمل","الفيل","الغزال"],1,"الجمل متكيف مع الحياة في الصحراء."],
+   ["ما عاصمة مصر؟",["الإسكندرية","القاهرة","الأقصر","أسوان"],1,"القاهرة هي عاصمة مصر."],
+   ["أي كوكب هو الأقرب إلى الشمس؟",["الأرض","الزهرة","عطارد","المريخ"],2,"عطارد هو أقرب كواكب المجموعة الشمسية إلى الشمس."],
+   ["ما العملة الرسمية في اليابان؟",["اليوان","الين","الوون","الدولار"],1,"الين هو العملة الرسمية في اليابان."],
+   ["ما العضو المسؤول أساساً عن التنفس؟",["القلب","الرئتان","الكبد","المعدة"],1,"الرئتان مسؤولتان عن تبادل الغازات أثناء التنفس."],
+   ["كم عدد حروف اللغة العربية؟",["26","28","29","30"],1,"تتكون الأبجدية العربية من 28 حرفاً."],
+   ["في أي قارة تقع الجزائر؟",["آسيا","أفريقيا","أوروبا","أمريكا"],1,"تقع الجزائر في شمال قارة أفريقيا."]
+  ],
+  tech: [
+   ["ما النظام الذي يُعد Linux جزءاً أساسياً من عائلته؟",["أنظمة يونكس الشبيهة","Windows فقط","iOS فقط","DOS فقط"],0,"Linux نظام شبيه بيونكس."],
+   ["ماذا تعني CPU؟",["وحدة معالجة مركزية","ذاكرة عشوائية","قرص صلب","بطاقة شبكة"],0,"CPU هي وحدة المعالجة المركزية."],
+   ["أي امتداد يُستخدم غالباً لملفات صفحات الويب؟",[".mp3",".html",".jpg",".zip"],1,"ملفات HTML تُستخدم لبناء صفحات الويب."],
+   ["ما وظيفة CSS؟",["تنسيق وتصميم الصفحات","إدارة قواعد البيانات","تشغيل الكهرباء","ضغط الملفات"],0,"CSS تتحكم في ألوان وتخطيط ومظهر صفحات الويب."],
+   ["أي أمر يعرض الملفات في طرفية Linux؟",["ls","cd","pwd","clear"],0,"الأمر ls يعرض محتويات المجلد."],
+   ["ماذا تعني RAM؟",["ذاكرة الوصول العشوائي","وحدة التخزين الدائمة","معالج الرسوميات","نظام التشغيل"],0,"RAM ذاكرة مؤقتة يستخدمها الجهاز أثناء التشغيل."],
+   ["أي لغة تُستخدم لإضافة التفاعل إلى صفحات الويب؟",["HTML","CSS","JavaScript","XML"],2,"JavaScript تضيف التفاعل والسلوك إلى صفحات الويب."],
+   ["ما وظيفة كلمة المرور القوية؟",["تسريع الإنترنت","حماية الحساب","زيادة مساحة التخزين","تحسين الشاشة"],1,"كلمة المرور القوية تصعّب الوصول غير المصرح به."],
+   ["ماذا يفعل الأمر pwd في Linux؟",["يحذف ملفاً","يعرض المسار الحالي","ينشئ مستخدماً","يطفئ الجهاز"],1,"pwd يعرض مسار المجلد الحالي."],
+   ["ما المقصود بالنسخة الاحتياطية؟",["نسخة إضافية من البيانات","حذف الملفات","تحديث الشاشة","إغلاق البرنامج"],0,"النسخة الاحتياطية تساعد على استعادة البيانات عند فقدان الأصل."]
+  ]
+ };
+ const modes=document.querySelectorAll(".brain-mode"), start=document.getElementById("brain-start"), area=document.getElementById("brain-question-area"), result=document.getElementById("brain-result");
+ const bestEl=document.getElementById("brain-best"), qEl=document.getElementById("brain-question"), answersEl=document.getElementById("brain-answers"), feedback=document.getElementById("brain-feedback"), next=document.getElementById("brain-next"), clock=document.getElementById("brain-clock");
+ let mode="challenge",questions=[],index=0,score=0,answered=false,seconds=15,timer=null;
+ const PLAYER_URL='https://mqibocnozcfagrvxkxbr.supabase.co';
+ const PLAYER_KEY='sb_publishable_rMU2RduEYH0IPon7s0Wj4w_uS_GmMNE';
+ const playerForm=document.getElementById('player-register-form'), playerInput=document.getElementById('player-nickname');
+ const playerStatus=document.getElementById('player-register-status'), playerCurrent=document.getElementById('player-current'), savePlayerBtn=document.getElementById('save-player-name'), beginBtn=document.getElementById('brain-begin');
+ let activePlayer=null;
+ try{const saved=JSON.parse(localStorage.getItem('mehdiBrainPlayer')||'null');if(saved&&saved.id&&saved.nickname){activePlayer=saved;playerInput.value=saved.nickname;playerCurrent.textContent=`اللاعب الحالي: ${saved.nickname}`;playerCurrent.hidden=false;playerStatus.textContent='تم استعادة اسم اللاعب على هذا الجهاز.';playerStatus.classList.add('ok');beginBtn.disabled=false;beginBtn.textContent='ابدأ اللعب الآن ←';}}catch(e){}
+ playerForm.addEventListener('submit',async e=>{
+  e.preventDefault();const nickname=playerInput.value.trim().replace(/\s+/g,' ');
+  if(nickname.length<2||nickname.length>24){playerStatus.textContent='اكتب اسماً من حرفين إلى 24 حرفاً.';playerStatus.className='player-register-status err';return;}
+  savePlayerBtn.disabled=true;savePlayerBtn.textContent='جارٍ الحفظ…';playerStatus.className='player-register-status';playerStatus.textContent='جارٍ حفظ اسم اللاعب في قاعدة البيانات…';
+  try{
+   const response=await fetch(`${PLAYER_URL}/rest/v1/game_players`,{method:'POST',headers:{apikey:PLAYER_KEY,Authorization:`Bearer ${PLAYER_KEY}`,'Content-Type':'application/json',Prefer:'return=representation'},body:JSON.stringify({nickname})});
+   if(!response.ok){const detail=await response.text();throw new Error(detail||`HTTP ${response.status}`)}
+   const data=await response.json();if(!data[0]?.id)throw new Error('لم يتم استلام معرّف اللاعب.');
+   activePlayer={id:data[0].id,nickname:data[0].nickname};localStorage.setItem('mehdiBrainPlayer',JSON.stringify(activePlayer));
+   playerCurrent.textContent=`اللاعب الحالي: ${activePlayer.nickname}`;playerCurrent.hidden=false;playerStatus.textContent='تم حفظ اسمك بنجاح! يمكنك بدء اللعب.';playerStatus.className='player-register-status ok';beginBtn.disabled=false;beginBtn.textContent='ابدأ اللعب الآن ←';
+  }catch(err){playerStatus.textContent='تعذر حفظ الاسم. تأكد من تنفيذ إعداد SQL الإضافي أدناه والاتصال بالإنترنت.';playerStatus.className='player-register-status err';}
+  finally{savePlayerBtn.disabled=false;savePlayerBtn.textContent='حفظ الاسم';}
+ });
+ try{bestEl.textContent=localStorage.getItem("mehdiBrainBest_challenge")||"0"}catch(e){}
+ modes.forEach(b=>b.addEventListener("click",()=>{if(!area.hidden&&index<questions.length)return;mode=b.dataset.mode;modes.forEach(x=>x.classList.toggle("active",x===b));}));
+ function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+ function dailyRoundQuestions(pool, gameMode){
+  const day=new Date().toISOString().slice(0,10), key=`mehdi-round-${day}-${gameMode}`;
+  let round=0;try{round=Number(localStorage.getItem(key)||0);localStorage.setItem(key,String(round+1))}catch(e){}
+  let seed=0;for(const ch of `${day}-${gameMode}-${round}`)seed=(seed*31+ch.charCodeAt(0))>>>0;
+  const copy=[...pool];for(let i=copy.length-1;i>0;i--){seed=(seed*1664525+1013904223)>>>0;const j=seed%(i+1);[copy[i],copy[j]]=[copy[j],copy[i]]}return copy.slice(0,10);
+ }
+ function stopTimer(){if(timer){clearInterval(timer);timer=null}}
+ function begin(){
+  if(!activePlayer){playerStatus.textContent='احفظ اسم اللاعب أولاً قبل بدء الجولة.';playerStatus.className='player-register-status err';return;}
+  stopTimer();let pool=mode==="riddle"?bank.riddle:mode==="knowledge"?bank.knowledge:[...bank.riddle,...bank.knowledge,...bank.tech];
+  questions=dailyRoundQuestions(pool,mode);index=0;score=0;start.hidden=true;result.hidden=true;area.hidden=false;clock.hidden=true;show();
+ }
+ function show(){
+  answered=false;seconds=15;next.disabled=true;feedback.textContent="";let q=questions[index];
+  document.getElementById("brain-progress").textContent=`السؤال ${index+1} من ${questions.length}`;
+  document.getElementById("brain-score").textContent=`النقاط: ${score}`;
+  document.getElementById("brain-track-fill").style.width=`${index/questions.length*100}%`;
+  qEl.textContent=q[0];answersEl.innerHTML="";
+  q[1].forEach((a,i)=>{let b=document.createElement("button");b.type="button";b.className="brain-answer";b.textContent=`${["أ","ب","ج","د"][i]} — ${a}`;b.addEventListener("click",()=>choose(i));answersEl.appendChild(b)});
+  
+ }
+ function choose(choice){
+  if(answered)return;answered=true;stopTimer();let q=questions[index],buttons=[...answersEl.children],correct=q[2];
+  buttons.forEach((b,i)=>{b.disabled=true;if(i===correct)b.classList.add("correct");else if(i===choice)b.classList.add("wrong")});
+  if(choice===correct){score+=1;feedback.textContent="إجابة صحيحة! أحسنت 🎉"}else{feedback.textContent=choice===-1?`انتهى الوقت! ${q[3]}`:`ليست الإجابة الصحيحة. ${q[3]}`}
+  document.getElementById("brain-score").textContent=`النقاط: ${score}`;next.disabled=false;next.textContent=index===questions.length-1?"عرض النتيجة 🏆":"السؤال التالي ←";
+ }
+ function finish(){
+  stopTimer();area.hidden=true;result.hidden=false;document.getElementById("brain-track-fill").style.width="100%";
+  let max=10;document.getElementById("brain-final-score").textContent=`${score} / ${max}`;
+  document.getElementById("brain-result-title").textContent=score>=max*.8?"ممتاز! عبقري التحديات 🏆":score>=max*.5?"أحسنت، أداء جميل! 👏":"لا تستسلم، حاول مرة أخرى 💪";
+  document.getElementById("brain-result-text").textContent=`أجبت عن ${score} من 10 إجابات صحيحة. كل إجابة صحيحة تساوي نقطة.`;
+  try{let key="mehdiBrainBest_"+mode;let old=Number(localStorage.getItem(key)||0);if(score>old){localStorage.setItem(key,score)}bestEl.textContent=localStorage.getItem(key)||"0"}catch(e){}
+ }
+ next.addEventListener("click",()=>{if(!answered)return;index++;if(index>=questions.length)finish();else show()});
+ document.getElementById("brain-begin").addEventListener("click",begin);
+ document.getElementById("brain-restart").addEventListener("click",()=>{start.hidden=false;result.hidden=true;area.hidden=true;document.getElementById("brain-begin").textContent="ابدأ جولة جديدة ←"});
+ const modal=document.getElementById("game-modal");
+ const label=document.getElementById("selected-game-label");
+ const names={challenge:"تحدي العقل",riddle:"الألغاز الذكية",knowledge:"المعرفة العامة"};
+ function openChooser(){modal.hidden=false;document.body.style.overflow="hidden"}
+ function closeChooser(){modal.hidden=true;document.body.style.overflow=""}
+ function chooseGame(pick){mode=pick;modes.forEach(x=>x.classList.toggle("active",x.dataset.mode===pick));label.textContent="اللعبة المختارة: "+names[pick];try{bestEl.textContent=localStorage.getItem("mehdiBrainBest_"+pick)||"0"}catch(e){};closeChooser();start.hidden=false;area.hidden=true;result.hidden=true;document.getElementById("brain-begin").textContent="ابدأ اللعب الآن ←";document.getElementById("brain-game").scrollIntoView({behavior:"smooth",block:"start"})}
+ document.getElementById("open-game-chooser").addEventListener("click",openChooser);
+ document.getElementById("header-play").addEventListener("click",openChooser);
+ document.getElementById("change-game").addEventListener("click",openChooser);
+ document.getElementById("close-game-modal").addEventListener("click",closeChooser);
+ document.querySelectorAll("[data-pick]").forEach(b=>b.addEventListener("click",()=>chooseGame(b.dataset.pick)));
+ document.getElementById("modal-home").addEventListener("click",()=>{closeChooser();document.getElementById("home").scrollIntoView({behavior:"smooth"})});
+ document.getElementById("modal-exit").addEventListener("click",()=>{closeChooser();document.getElementById("home").scrollIntoView({behavior:"smooth"})});
+ document.getElementById("header-home").addEventListener("click",()=>document.getElementById("home").scrollIntoView({behavior:"smooth"}));
+ document.getElementById("footer-home").addEventListener("click",()=>document.getElementById("home").scrollIntoView({behavior:"smooth"}));
+ document.getElementById("footer-back").addEventListener("click",()=>{if(!modal.hidden)closeChooser();else if(!area.hidden){stopTimer();area.hidden=true;start.hidden=false}else history.back()});
+ document.getElementById("footer-exit").addEventListener("click",()=>{stopTimer();closeChooser();document.getElementById("home").scrollIntoView({behavior:"smooth"})});
+ modal.addEventListener("click",e=>{if(e.target===modal)closeChooser()});
+ document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!modal.hidden)closeChooser()});
+})();
+
+</script>
+<script>
+// Shared daily leaderboard: public read-only access using Supabase Publishable key.
+(() => {
+ const SUPABASE_URL = 'https://mqibocnozcfagrvxkxbr.supabase.co';
+ const SUPABASE_KEY = 'sb_publishable_rMU2RduEYH0IPon7s0Wj4w_uS_GmMNE';
+ const modes = {challenge:'تحدي العقل',riddles:'الألغاز الذكية',general:'المعرفة العامة'};
+ const dbMode = {challenge:'challenge',riddle:'riddles',knowledge:'general'};
+ let selected='challenge';
+ const status=document.getElementById('leader-status'), rows=document.getElementById('leader-rows');
+ const today=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
+ async function loadBoard(){
+  status.textContent='جارٍ تحميل أفضل 100 لاعب لهذا اليوم…';
+  rows.innerHTML='<tr><td colspan="4">جارٍ التحميل…</td></tr>';
+  const url=`${SUPABASE_URL}/rest/v1/daily_leaderboard?select=nickname,game_mode,played_on,score&game_mode=eq.${dbMode[selected]}&played_on=eq.${today()}&order=score.desc&limit=100`;
+  try{
+   const response=await fetch(url,{headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`}});
+   if(!response.ok) throw new Error(`HTTP ${response.status}`);
+   const data=await response.json();
+   if(!data.length){rows.innerHTML='<tr><td colspan="4">لا توجد نتائج مسجلة لهذه اللعبة اليوم بعد. كن أول المتصدرين!</td></tr>';status.textContent='متصل بقاعدة البيانات — لا توجد نتائج اليوم بعد.';return;}
+   rows.innerHTML='';data.forEach((item,i)=>{const tr=document.createElement('tr');[String(i+1),item.nickname,modes[item.game_mode]||item.game_mode,String(item.score)].forEach(value=>{const td=document.createElement('td');td.textContent=value;tr.appendChild(td)});rows.appendChild(tr)});
+   status.textContent=`تم تحميل ${data.length} نتيجة من لوحة الصدارة اليومية.`;
+  }catch(err){rows.innerHTML='<tr><td colspan="4">تعذر تحميل لوحة الصدارة. تحقق من اتصال الإنترنت وإعدادات Supabase.</td></tr>';status.textContent='الاتصال غير متاح حالياً؛ يمكنك لعب الجولات محلياً.';}
+ }
+ document.querySelectorAll('.leader-tab').forEach(btn=>btn.addEventListener('click',()=>{selected=btn.dataset.board;document.querySelectorAll('.leader-tab').forEach(x=>x.classList.toggle('active',x===btn));loadBoard()}));
+ loadBoard();
+ const home=()=>document.getElementById('home').scrollIntoView({behavior:'smooth'});
+ const back=()=>{const modal=document.getElementById('game-modal');if(!modal.hidden){modal.hidden=true;document.body.style.overflow='';return}if(!document.getElementById('brain-question-area').hidden){document.getElementById('brain-question-area').hidden=true;document.getElementById('brain-start').hidden=false;return}if(history.length>1)history.back();else home()};
+ document.getElementById('dock-home').addEventListener('click',home);
+ document.getElementById('dock-back').addEventListener('click',back);
+ document.getElementById('dock-exit').addEventListener('click',()=>{home();const modal=document.getElementById('game-modal');modal.hidden=true;document.body.style.overflow='';});
+})();
+</script>
+
+</body></html>
