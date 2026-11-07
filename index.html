@@ -228,127 +228,210 @@ window.addEventListener('resize', () => {
   }
 });
 
-// MEHDI Arabic brain challenge — runs locally in the browser
-(() => {
- const bank = {
-  riddle: [
-   ["ما الشيء الذي كلما أخذت منه كبر؟",["الحفرة","البحر","الكتاب","الظل"],0,"لأنك كلما حفرت وأخذت من التراب اتسعت الحفرة."],
-   ["له أسنان ولا يعض، ما هو؟",["الأسد","المشط","المفتاح","المنشار"],1,"المشط له أسنان لترتيب الشعر."],
-   ["ما الشيء الذي يكتب ولا يقرأ؟",["القلم","الكتاب","الحاسوب","الدفتر"],0,"القلم يكتب به الإنسان لكنه لا يقرأ."],
-   ["ما الذي يمشي بلا قدمين ويبكي بلا عينين؟",["الطفل","السحاب","النهر","الساعة"],1,"السحاب يتحرك في السماء ويمطر."],
-   ["بيت بلا أبواب ولا نوافذ، ما هو؟",["بيت الشعر","خلية النحل","البيضة","الخيمة"],2,"البيضة بيت صغير بلا باب أو نافذة."],
-   ["ما الشيء الذي له رقبة وليس له رأس؟",["الزجاجة","الإنسان","الحصان","الشجرة"],0,"للزجاجة عنق أو رقبة."],
-   ["ما الشيء الذي يسمع بلا أذن ويتكلم بلا لسان؟",["الهاتف","المرآة","الكرسي","القلم"],0,"الهاتف ينقل الصوت ويصدره دون أذن أو لسان."],
-   ["ما الشيء الذي كلما زاد نقص؟",["العمر المتبقي","العلم","المال","الضوء"],0,"كلما زاد العمر الذي مضى قلّ العمر المتبقي."],
-   ["شيء تراه في الليل ثلاث مرات وفي النهار مرة واحدة؟",["القمر","حرف اللام","النجوم","الشمس"],1,"حرف اللام في كلمة الليل ثلاث مرات وفي النهار مرة."],
-   ["ما الشيء الذي يدخل الماء ولا يبتل؟",["السمك","الضوء","الورق","الملح"],1,"الضوء يمر في الماء ولا يبتل."],
-   ["ما الشيء الذي له عين واحدة ولا يرى؟",["الإبرة","العاصفة","الكاميرا","النافذة"],0,"عين الإبرة هي الفتحة التي يمر منها الخيط."],
-   ["شيء كلما مشى فقد جزءاً من ذيله، ما هو؟",["القلم الرصاص","القطار","الثعبان","الطائر"],0,"القلم يقصر كلما استُخدم في الكتابة."],
-   ["ما الشيء الذي يوجد في القرن مرة وفي الدقيقة مرتين؟",["حرف القاف","حرف الياء","حرف الدال","حرف الراء"],0,"حرف القاف يظهر مرة في القرن ومرتين في الدقيقة؟"],
-   ["ما الذي لا يمكن كسره؟",["الوعد","الزجاج","الحجر","الغصن"],0,"الوعد لا يُكسر مادياً، لكن يمكن إخلافه."],
-   ["له أوراق وليس نباتاً، وله جلد وليس حيواناً؟",["الكتاب","الحقيبة","الطاولة","القميص"],0,"الكتاب له أوراق وغلاف يسمى جلداً."],
-   ["ما الشيء الذي يملأ الغرفة ولا يشغل حيزاً؟",["الضوء","الأثاث","الماء","الهواء المضغوط"],0,"الضوء ينتشر في الغرفة دون أن يشغل حيزاً مادياً."],
-   ["ما الشيء الذي كلما جف ابتل؟",["المنشفة","الرمل","الملح","الخشب"],0,"المنشفة تبتل أثناء تجفيف الأشياء."],
-   ["ما الشيء الذي له مفاتيح ولا يفتح الأبواب؟",["البيانو","القفل","الخزانة","الباب"],0,"البيانو يحتوي على مفاتيح موسيقية."],
-   ["ما الشيء الذي تستطيع الإمساك به دون لمسه؟",["الوعد","الحجر","القلم","الكوب"],0,"يمكنك التمسك بوعد أو الالتزام به دون لمسه."]
-  ],
-  knowledge: [
-   ["ما عاصمة الجزائر؟",["وهران","قسنطينة","الجزائر العاصمة","تلمسان"],2,"الجزائر العاصمة هي عاصمة البلاد."],
-   ["كم عدد أضلاع المثلث؟",["ثلاثة","أربعة","خمسة","ستة"],0,"للمثلث ثلاثة أضلاع."],
-   ["ما الكوكب المعروف بالكوكب الأحمر؟",["الزهرة","المريخ","زحل","عطارد"],1,"يبدو المريخ أحمر بسبب أكاسيد الحديد على سطحه."],
-   ["ما أكبر محيط على الأرض؟",["الأطلسي","الهندي","المتجمد","الهادئ"],3,"المحيط الهادئ هو الأكبر مساحة."],
-   ["كم دقيقة في الساعة الواحدة؟",["30","50","60","100"],2,"الساعة تساوي 60 دقيقة."],
-   ["ما اللغة الأساسية لبناء هيكل صفحات الويب؟",["HTML","Python","SQL","C++"],0,"HTML تحدد بنية ومحتوى صفحة الويب."],
-   ["أي عضو يضخ الدم في جسم الإنسان؟",["الرئة","القلب","الكبد","المعدة"],1,"القلب يضخ الدم إلى أنحاء الجسم."],
-   ["ما عاصمة اليابان؟",["بكين","سيول","طوكيو","بانكوك"],2,"طوكيو هي عاصمة اليابان."],
-   ["كم عدد أيام السنة العادية؟",["360","364","365","366"],2,"السنة العادية تتكون من 365 يوماً."],
-   ["ما الغاز الذي تحتاجه النباتات في عملية البناء الضوئي؟",["الأكسجين","ثاني أكسيد الكربون","الهيليوم","النيتروجين"],1,"تمتص النباتات ثاني أكسيد الكربون وتستخدمه في البناء الضوئي."],
-   ["ما أكبر قارة من حيث المساحة؟",["أفريقيا","آسيا","أوروبا","أمريكا الجنوبية"],1,"قارة آسيا هي الأكبر مساحة."],
-   ["كم عدد ألوان قوس قزح التقليدية؟",["خمسة","ستة","سبعة","ثمانية"],2,"تُقسم ألوان قوس قزح تقليدياً إلى سبعة ألوان."],
-   ["ما الحيوان المعروف بسفينة الصحراء؟",["الحصان","الجمل","الفيل","الغزال"],1,"الجمل متكيف مع الحياة في الصحراء."],
-   ["ما عاصمة مصر؟",["الإسكندرية","القاهرة","الأقصر","أسوان"],1,"القاهرة هي عاصمة مصر."],
-   ["أي كوكب هو الأقرب إلى الشمس؟",["الأرض","الزهرة","عطارد","المريخ"],2,"عطارد هو أقرب كواكب المجموعة الشمسية إلى الشمس."],
-   ["ما العملة الرسمية في اليابان؟",["اليوان","الين","الوون","الدولار"],1,"الين هو العملة الرسمية في اليابان."],
-   ["ما العضو المسؤول أساساً عن التنفس؟",["القلب","الرئتان","الكبد","المعدة"],1,"الرئتان مسؤولتان عن تبادل الغازات أثناء التنفس."],
-   ["كم عدد حروف اللغة العربية؟",["26","28","29","30"],1,"تتكون الأبجدية العربية من 28 حرفاً."],
-   ["في أي قارة تقع الجزائر؟",["آسيا","أفريقيا","أوروبا","أمريكا"],1,"تقع الجزائر في شمال قارة أفريقيا."]
-  ],
-  tech: [
-   ["ما النظام الذي يُعد Linux جزءاً أساسياً من عائلته؟",["أنظمة يونكس الشبيهة","Windows فقط","iOS فقط","DOS فقط"],0,"Linux نظام شبيه بيونكس."],
-   ["ماذا تعني CPU؟",["وحدة معالجة مركزية","ذاكرة عشوائية","قرص صلب","بطاقة شبكة"],0,"CPU هي وحدة المعالجة المركزية."],
-   ["أي امتداد يُستخدم غالباً لملفات صفحات الويب؟",[".mp3",".html",".jpg",".zip"],1,"ملفات HTML تُستخدم لبناء صفحات الويب."],
-   ["ما وظيفة CSS؟",["تنسيق وتصميم الصفحات","إدارة قواعد البيانات","تشغيل الكهرباء","ضغط الملفات"],0,"CSS تتحكم في ألوان وتخطيط ومظهر صفحات الويب."],
-   ["أي أمر يعرض الملفات في طرفية Linux؟",["ls","cd","pwd","clear"],0,"الأمر ls يعرض محتويات المجلد."],
-   ["ماذا تعني RAM؟",["ذاكرة الوصول العشوائي","وحدة التخزين الدائمة","معالج الرسوميات","نظام التشغيل"],0,"RAM ذاكرة مؤقتة يستخدمها الجهاز أثناء التشغيل."],
-   ["أي لغة تُستخدم لإضافة التفاعل إلى صفحات الويب؟",["HTML","CSS","JavaScript","XML"],2,"JavaScript تضيف التفاعل والسلوك إلى صفحات الويب."],
-   ["ما وظيفة كلمة المرور القوية؟",["تسريع الإنترنت","حماية الحساب","زيادة مساحة التخزين","تحسين الشاشة"],1,"كلمة المرور القوية تصعّب الوصول غير المصرح به."],
-   ["ماذا يفعل الأمر pwd في Linux؟",["يحذف ملفاً","يعرض المسار الحالي","ينشئ مستخدماً","يطفئ الجهاز"],1,"pwd يعرض مسار المجلد الحالي."],
-   ["ما المقصود بالنسخة الاحتياطية؟",["نسخة إضافية من البيانات","حذف الملفات","تحديث الشاشة","إغلاق البرنامج"],0,"النسخة الاحتياطية تساعد على استعادة البيانات عند فقدان الأصل."]
-  ]
- };
- const modes=document.querySelectorAll(".brain-mode"), start=document.getElementById("brain-start"), area=document.getElementById("brain-question-area"), result=document.getElementById("brain-result");
- const bestEl=document.getElementById("brain-best"), qEl=document.getElementById("brain-question"), answersEl=document.getElementById("brain-answers"), feedback=document.getElementById("brain-feedback"), next=document.getElementById("brain-next"), clock=document.getElementById("brain-clock");
- let mode="challenge",questions=[],index=0,score=0,answered=false,seconds=15,timer=null;
+// MEHDI brain games — questions and scoring are verified by Supabase
+(async () => {
  const PLAYER_URL='https://mqibocnozcfagrvxkxbr.supabase.co';
  const PLAYER_KEY='sb_publishable_rMU2RduEYH0IPon7s0Wj4w_uS_GmMNE';
+ const FUNCTION_URL=PLAYER_URL+'/functions/v1/brain-game';
+ const modes=document.querySelectorAll(".brain-mode");
+ const start=document.getElementById("brain-start"), area=document.getElementById("brain-question-area"), result=document.getElementById("brain-result");
+ const bestEl=document.getElementById("brain-best"), qEl=document.getElementById("brain-question"), answersEl=document.getElementById("brain-answers");
+ const feedback=document.getElementById("brain-feedback"), next=document.getElementById("brain-next");
  const playerForm=document.getElementById('player-register-form'), playerInput=document.getElementById('player-nickname');
- const playerStatus=document.getElementById('player-register-status'), playerCurrent=document.getElementById('player-current'), savePlayerBtn=document.getElementById('save-player-name'), beginBtn=document.getElementById('brain-begin');
- let activePlayer=null;
- try{const saved=JSON.parse(localStorage.getItem('mehdiBrainPlayer')||'null');if(saved&&saved.id&&saved.nickname){activePlayer=saved;playerInput.value=saved.nickname;playerCurrent.textContent=`اللاعب الحالي: ${saved.nickname}`;playerCurrent.hidden=false;playerStatus.textContent='تم استعادة اسم اللاعب على هذا الجهاز.';playerStatus.classList.add('ok');beginBtn.disabled=false;beginBtn.textContent='ابدأ اللعب الآن ←';}}catch(e){}
- playerForm.addEventListener('submit',async e=>{
-  e.preventDefault();const nickname=playerInput.value.trim().replace(/\s+/g,' ');
-  if(nickname.length<2||nickname.length>24){playerStatus.textContent='اكتب اسماً من حرفين إلى 24 حرفاً.';playerStatus.className='player-register-status err';return;}
-  savePlayerBtn.disabled=true;savePlayerBtn.textContent='جارٍ الحفظ…';playerStatus.className='player-register-status';playerStatus.textContent='جارٍ حفظ اسم اللاعب في قاعدة البيانات…';
-  try{
-   const response=await fetch(`${PLAYER_URL}/rest/v1/game_players`,{method:'POST',headers:{apikey:PLAYER_KEY,Authorization:`Bearer ${PLAYER_KEY}`,'Content-Type':'application/json',Prefer:'return=representation'},body:JSON.stringify({nickname})});
-   if(!response.ok){const detail=await response.text();throw new Error(detail||`HTTP ${response.status}`)}
-   const data=await response.json();if(!data[0]?.id)throw new Error('لم يتم استلام معرّف اللاعب.');
-   activePlayer={id:data[0].id,nickname:data[0].nickname};localStorage.setItem('mehdiBrainPlayer',JSON.stringify(activePlayer));
-   playerCurrent.textContent=`اللاعب الحالي: ${activePlayer.nickname}`;playerCurrent.hidden=false;playerStatus.textContent='تم حفظ اسمك بنجاح! يمكنك بدء اللعب.';playerStatus.className='player-register-status ok';beginBtn.disabled=false;beginBtn.textContent='ابدأ اللعب الآن ←';
-  }catch(err){playerStatus.textContent='تعذر حفظ الاسم. تأكد من تنفيذ إعداد SQL الإضافي أدناه والاتصال بالإنترنت.';playerStatus.className='player-register-status err';}
-  finally{savePlayerBtn.disabled=false;savePlayerBtn.textContent='حفظ الاسم';}
+ const playerStatus=document.getElementById('player-register-status'), playerCurrent=document.getElementById('player-current');
+ const savePlayerBtn=document.getElementById('save-player-name'), beginBtn=document.getElementById('brain-begin');
+ const modeNames={challenge:"تحدي العقل",riddle:"الألغاز الذكية",knowledge:"المعرفة العامة"};
+ const serverCategories={challenge:"challenge",riddle:"riddles",knowledge:"knowledge"};
+ let mode="challenge", questions=[], index=0, answers=[], activePlayer=null, sessionId=null, supabase=null, submitting=false;
+
+ function setPlayerMessage(message,kind="") {
+  playerStatus.textContent=message;
+  playerStatus.className="player-register-status"+(kind?" "+kind:"");
+ }
+ async function getClient() {
+  if(!supabase) {
+   const {createClient}=await import('https://esm.sh/@supabase/supabase-js@2');
+   supabase=createClient(PLAYER_URL,PLAYER_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+  }
+  return supabase;
+ }
+ async function ensureSession() {
+  const client=await getClient();
+  let {data,error}=await client.auth.getSession();
+  if(error) throw error;
+  if(!data.session) {
+   const signed=await client.auth.signInAnonymously();
+   if(signed.error) throw signed.error;
+   data={session:signed.data.session};
+  }
+  if(!data.session?.access_token) throw new Error("لم يتم إنشاء جلسة لاعب.");
+  return data.session;
+ }
+ async function callBrain(action,payload={}) {
+  const session=await ensureSession();
+  const response=await fetch(FUNCTION_URL,{
+   method:"POST",
+   headers:{apikey:PLAYER_KEY,Authorization:"Bearer "+session.access_token,"Content-Type":"application/json"},
+   body:JSON.stringify({action,...payload})
+  });
+  let body={};
+  try{body=await response.json()}catch(e){}
+  if(!response.ok) throw new Error(body.error||("HTTP "+response.status));
+  return body;
+ }
+ window.mehdiBrainCall=callBrain;
+
+ function showPlayer(player) {
+  activePlayer=player;
+  playerCurrent.textContent="اللاعب الحالي: "+player.nickname;
+  playerCurrent.hidden=false;
+  beginBtn.disabled=false;
+  beginBtn.textContent="ابدأ اللعب الآن ←";
+  setPlayerMessage("تم حفظ اسم اللاعب بنجاح. يمكنك بدء اللعب.","ok");
+  try{localStorage.setItem("mehdiBrainPlayer",JSON.stringify({nickname:player.nickname}))}catch(e){}
+  window.dispatchEvent(new Event("mehdi-player-ready"));
+ }
+ async function restorePlayer() {
+  let saved=null;
+  try{saved=JSON.parse(localStorage.getItem("mehdiBrainPlayer")||"null")}catch(e){}
+  if(!saved?.nickname) return;
+  playerInput.value=saved.nickname;
+  try {
+   setPlayerMessage("جارٍ استعادة اللاعب والاتصال بقاعدة البيانات…");
+   const data=await callBrain("register",{nickname:saved.nickname});
+   showPlayer(data.player);
+  } catch(e) {
+   setPlayerMessage("تعذر استعادة اللاعب تلقائياً. اضغط حفظ الاسم لإعادة المحاولة.","err");
+  }
+ }
+ beginBtn.disabled=true;
+ playerForm.addEventListener("submit",async e=>{
+  e.preventDefault();
+  const nickname=playerInput.value.trim().replace(/\s+/g," ");
+  if(nickname.length<2||nickname.length>24){setPlayerMessage("اكتب اسماً من حرفين إلى 24 حرفاً.","err");return;}
+  savePlayerBtn.disabled=true;savePlayerBtn.textContent="جارٍ الحفظ…";
+  setPlayerMessage("جارٍ إنشاء جلسة اللاعب وحفظ الاسم…");
+  try {
+   const data=await callBrain("register",{nickname});
+   if(!data.player?.id) throw new Error("لم يتم استلام بيانات اللاعب.");
+   showPlayer(data.player);
+  } catch(err) {
+   setPlayerMessage("تعذر حفظ الاسم: "+(err.message||"تحقق من نشر brain-game وإعدادات Supabase."),"err");
+  } finally {
+   savePlayerBtn.disabled=false;savePlayerBtn.textContent="حفظ الاسم";
+  }
  });
- try{bestEl.textContent=localStorage.getItem("mehdiBrainBest_challenge")||"0"}catch(e){}
- modes.forEach(b=>b.addEventListener("click",()=>{if(!area.hidden&&index<questions.length)return;mode=b.dataset.mode;modes.forEach(x=>x.classList.toggle("active",x===b));}));
- function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
- function dailyRoundQuestions(pool, gameMode){
-  const day=new Date().toISOString().slice(0,10), key=`mehdi-round-${day}-${gameMode}`;
-  let round=0;try{round=Number(localStorage.getItem(key)||0);localStorage.setItem(key,String(round+1))}catch(e){}
-  let seed=0;for(const ch of `${day}-${gameMode}-${round}`)seed=(seed*31+ch.charCodeAt(0))>>>0;
-  const copy=[...pool];for(let i=copy.length-1;i>0;i--){seed=(seed*1664525+1013904223)>>>0;const j=seed%(i+1);[copy[i],copy[j]]=[copy[j],copy[i]]}return copy.slice(0,10);
+
+ try{bestEl.textContent="—"}catch(e){}
+ modes.forEach(button=>button.addEventListener("click",()=>{
+  if(!area.hidden)return;
+  mode=button.dataset.mode;
+  modes.forEach(item=>item.classList.toggle("active",item===button));
+ }));
+ function stopRoundView(){area.hidden=true;start.hidden=false;result.hidden=true;submitting=false}
+ async function begin() {
+  if(!activePlayer){setPlayerMessage("احفظ اسم اللاعب أولاً قبل بدء الجولة.","err");return;}
+  beginBtn.disabled=true;beginBtn.textContent="جارٍ تجهيز الأسئلة…";
+  try {
+   const data=await callBrain("start",{category:serverCategories[mode]});
+   if(!data.sessionId||!Array.isArray(data.questions)||data.questions.length!==10) throw new Error("لم تصل عشرة أسئلة صالحة من الخادم.");
+   sessionId=data.sessionId;
+   questions=data.questions;
+   if(questions.some(q=>!q.id||typeof q.question!=="string"||!Array.isArray(q.options)||q.options.length!==4)) throw new Error("صيغة الأسئلة المستلمة غير متوافقة.");
+   answers=[];index=0;submitting=false;
+   start.hidden=true;result.hidden=true;area.hidden=false;
+   showQuestion();
+  } catch(err) {
+   setPlayerMessage("تعذر بدء الجولة: "+(err.message||"خطأ في الاتصال."),"err");
+   beginBtn.textContent="إعادة المحاولة ←";
+  } finally {beginBtn.disabled=false;}
  }
- function stopTimer(){if(timer){clearInterval(timer);timer=null}}
- function begin(){
-  if(!activePlayer){playerStatus.textContent='احفظ اسم اللاعب أولاً قبل بدء الجولة.';playerStatus.className='player-register-status err';return;}
-  stopTimer();let pool=mode==="riddle"?bank.riddle:mode==="knowledge"?bank.knowledge:[...bank.riddle,...bank.knowledge,...bank.tech];
-  questions=dailyRoundQuestions(pool,mode);index=0;score=0;start.hidden=true;result.hidden=true;area.hidden=false;clock.hidden=true;show();
+ function showQuestion() {
+  const q=questions[index];
+  next.disabled=true;
+  next.textContent=index===9?"إرسال النتيجة والتحقق ✓":"السؤال التالي ←";
+  feedback.textContent="اختر إجابة واحدة.";
+  document.getElementById("brain-progress").textContent="السؤال "+(index+1)+" من 10";
+  document.getElementById("brain-score").textContent="الإجابات المسجلة: "+answers.length;
+  document.getElementById("brain-track-fill").style.width=(index/10*100)+"%";
+  qEl.textContent=q.question;
+  answersEl.innerHTML="";
+  q.options.forEach((option,i)=>{
+   const button=document.createElement("button");
+   button.type="button";button.className="brain-answer";
+   button.textContent=["أ","ب","ج","د"][i]+" — "+String(option);
+   button.addEventListener("click",()=>selectAnswer(i));
+   answersEl.appendChild(button);
+  });
  }
- function show(){
-  answered=false;seconds=15;next.disabled=true;feedback.textContent="";let q=questions[index];
-  document.getElementById("brain-progress").textContent=`السؤال ${index+1} من ${questions.length}`;
-  document.getElementById("brain-score").textContent=`النقاط: ${score}`;
-  document.getElementById("brain-track-fill").style.width=`${index/questions.length*100}%`;
-  qEl.textContent=q[0];answersEl.innerHTML="";
-  q[1].forEach((a,i)=>{let b=document.createElement("button");b.type="button";b.className="brain-answer";b.textContent=`${["أ","ب","ج","د"][i]} — ${a}`;b.addEventListener("click",()=>choose(i));answersEl.appendChild(b)});
-  
+ function selectAnswer(choice) {
+  if(answers[index]||submitting)return;
+  const q=questions[index];
+  answers[index]={questionId:String(q.id),choice};
+  [...answersEl.children].forEach((button,i)=>{button.disabled=true;if(i===choice)button.classList.add("correct")});
+  feedback.textContent="تم تسجيل اختيارك. لا تظهر صحة الإجابة إلا بعد التحقق من الجولة.";
+  document.getElementById("brain-score").textContent="الإجابات المسجلة: "+answers.length;
+  next.disabled=false;
  }
- function choose(choice){
-  if(answered)return;answered=true;stopTimer();let q=questions[index],buttons=[...answersEl.children],correct=q[2];
-  buttons.forEach((b,i)=>{b.disabled=true;if(i===correct)b.classList.add("correct");else if(i===choice)b.classList.add("wrong")});
-  if(choice===correct){score+=1;feedback.textContent="إجابة صحيحة! أحسنت 🎉"}else{feedback.textContent=choice===-1?`انتهى الوقت! ${q[3]}`:`ليست الإجابة الصحيحة. ${q[3]}`}
-  document.getElementById("brain-score").textContent=`النقاط: ${score}`;next.disabled=false;next.textContent=index===questions.length-1?"عرض النتيجة 🏆":"السؤال التالي ←";
+ async function finish() {
+  if(submitting)return;
+  submitting=true;next.disabled=true;next.textContent="جارٍ التحقق من النتيجة…";
+  feedback.textContent="يتم الآن تصحيح الإجابات داخل قاعدة البيانات.";
+  try {
+   if(answers.length!==10) throw new Error("يجب تسجيل إجابة لكل سؤال.");
+   const verified=await callBrain("submit",{sessionId,answers});
+   if(verified.verified!==true||typeof verified.score!=="number") throw new Error("لم يؤكد الخادم النتيجة.");
+   const score=verified.score;
+   area.hidden=true;result.hidden=false;
+   document.getElementById("brain-track-fill").style.width="100%";
+   document.getElementById("brain-final-score").textContent=score+" / 10";
+   document.getElementById("brain-result-title").textContent=score>=8?"ممتاز! عبقري التحديات 🏆":score>=5?"أحسنت، أداء جميل! 👏":"لا تستسلم، حاول مرة أخرى 💪";
+   document.getElementById("brain-result-text").textContent="تم التحقق من إجاباتك وتسجيل "+score+" نقاط من أصل 10 في قاعدة البيانات.";
+   bestEl.textContent="—";
+   window.dispatchEvent(new Event("mehdi-leaderboard-refresh"));
+  } catch(err) {
+   submitting=false;
+   feedback.textContent="تعذر التحقق من النتيجة: "+(err.message||"حاول مجدداً.");
+   next.disabled=false;next.textContent="إعادة إرسال النتيجة";
+  }
  }
- function finish(){
-  stopTimer();area.hidden=true;result.hidden=false;document.getElementById("brain-track-fill").style.width="100%";
-  let max=10;document.getElementById("brain-final-score").textContent=`${score} / ${max}`;
-  document.getElementById("brain-result-title").textContent=score>=max*.8?"ممتاز! عبقري التحديات 🏆":score>=max*.5?"أحسنت، أداء جميل! 👏":"لا تستسلم، حاول مرة أخرى 💪";
-  document.getElementById("brain-result-text").textContent=`أجبت عن ${score} من 10 إجابات صحيحة. كل إجابة صحيحة تساوي نقطة.`;
-  try{let key="mehdiBrainBest_"+mode;let old=Number(localStorage.getItem(key)||0);if(score>old){localStorage.setItem(key,score)}bestEl.textContent=localStorage.getItem(key)||"0"}catch(e){}
+ function advance() {
+  if(submitting)return;
+  if(index===9){finish();return;}
+  index++;showQuestion();
  }
- next.addEventListener("click",()=>{if(!answered)return;index++;if(index>=questions.length)finish();else show()});
- document.getElementById("brain-begin").addEventListener("click",begin);
- document.getElementById("brain-restart").addEventListener("click",()=>{start.hidden=false;result.hidden=true;area.hidden=true;document.getElementById("brain-begin").textContent="ابدأ جولة جديدة ←"});
+ next.addEventListener("click",advance);
+ beginBtn.addEventListener("click",begin);
+ document.getElementById("brain-restart").addEventListener("click",()=>{
+  stopRoundView();sessionId=null;questions=[];answers=[];
+  beginBtn.textContent="ابدأ جولة جديدة ←";
+ });
  const modal=document.getElementById("game-modal");
+ const label=document.getElementById("selected-game-label");
+ function openChooser(){modal.hidden=false;document.body.style.overflow="hidden"}
+ function closeChooser(){modal.hidden=true;document.body.style.overflow=""}
+ function chooseGame(pick){
+  mode=pick;modes.forEach(x=>x.classList.toggle("active",x.dataset.mode===pick));
+  label.textContent="اللعبة المختارة: "+modeNames[pick];
+  closeChooser();stopRoundView();sessionId=null;questions=[];answers=[];
+  beginBtn.textContent="ابدأ اللعب الآن ←";
+  document.getElementById("brain-game").scrollIntoView({behavior:"smooth",block:"start"});
+ }
+ document.getElementById("open-game-chooser").addEventListener("click",openChooser);
+ document.getElementById("header-play").addEventListener("click",openChooser);
+ document.getElementById("change-game").addEventListener("click",openChooser);
+ document.getElementById("close-game-modal").addEventListener("click",closeChooser);
+ document.querySelectorAll("[data-pick]").forEach(b=>b.addEventListener("click",()=>chooseGame(b.dataset.pick)));
+ document.getElementById("modal-home").addEventListener("click",()=>{closeChooser();document.getElementById("home").scrollIntoView({behavior:"smooth"})});
+ document.getElementById("modal-exit").addEventListener("click",()=>{closeChooser();document.getElementById("home").scrollIntoView({behavior:"smooth"})});
+ document.getElementById("header-home").addEventListener("click",()=>document.getElementById("home").scrollIntoView({behavior:"smooth"}));
+ document.getElementById("footer-home").addEventListener("click",()=>document.getElementById("home").scrollIntoView({behavior:"smooth"}));
+ document.getElementById("footer-back").addEventListener("click",()=>{if(!modal.hidden)closeChooser();else if(!area.hidden){area.hidden=true;start.hidden=false}else history.back()});
+ document.getElementById("footer-exit").addEventListener("click",()=>{closeChooser();document.getElementById("home").scrollIntoView({behavior:"smooth"})});
+ modal.addEventListener("click",e=>{if(e.target===modal)closeChooser()});
+ document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!modal.hidden)closeChooser()});
+ window.mehdiBrainReady=restorePlayer();
+})();
  const label=document.getElementById("selected-game-label");
  const names={challenge:"تحدي العقل",riddle:"الألغاز الذكية",knowledge:"المعرفة العامة"};
  function openChooser(){modal.hidden=false;document.body.style.overflow="hidden"}
@@ -371,35 +454,58 @@ window.addEventListener('resize', () => {
 
 </script>
 <script>
-// Shared daily leaderboard: public read-only access using Supabase Publishable key.
-(() => {
- const SUPABASE_URL = 'https://mqibocnozcfagrvxkxbr.supabase.co';
- const SUPABASE_KEY = 'sb_publishable_rMU2RduEYH0IPon7s0Wj4w_uS_GmMNE';
- const modes = {challenge:'تحدي العقل',riddles:'الألغاز الذكية',general:'المعرفة العامة'};
- const dbMode = {challenge:'challenge',riddle:'riddles',knowledge:'general'};
- let selected='challenge';
- const status=document.getElementById('leader-status'), rows=document.getElementById('leader-rows');
- const today=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
- async function loadBoard(){
-  status.textContent='جارٍ تحميل أفضل 100 لاعب لهذا اليوم…';
+// Shared leaderboard reads only server-verified brain_scores.
+(async () => {
+ const status=document.getElementById("leader-status"), rows=document.getElementById("leader-rows");
+ const categoryForTab={challenge:"challenge",riddle:"riddles",knowledge:"knowledge"};
+ const categoryNames={challenge:"تحدي العقل",riddles:"الألغاز الذكية",knowledge:"المعرفة العامة"};
+ let selected="challenge",busy=false;
+ async function loadBoard() {
+  if(busy)return;busy=true;
+  status.textContent="جارٍ تحميل النتائج اليومية المعتمدة…";
   rows.innerHTML='<tr><td colspan="4">جارٍ التحميل…</td></tr>';
-  const url=`${SUPABASE_URL}/rest/v1/daily_leaderboard?select=nickname,game_mode,played_on,score&game_mode=eq.${dbMode[selected]}&played_on=eq.${today()}&order=score.desc&limit=100`;
-  try{
-   const response=await fetch(url,{headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`}});
-   if(!response.ok) throw new Error(`HTTP ${response.status}`);
-   const data=await response.json();
-   if(!data.length){rows.innerHTML='<tr><td colspan="4">لا توجد نتائج مسجلة لهذه اللعبة اليوم بعد. كن أول المتصدرين!</td></tr>';status.textContent='متصل بقاعدة البيانات — لا توجد نتائج اليوم بعد.';return;}
-   rows.innerHTML='';data.forEach((item,i)=>{const tr=document.createElement('tr');[String(i+1),item.nickname,modes[item.game_mode]||item.game_mode,String(item.score)].forEach(value=>{const td=document.createElement('td');td.textContent=value;tr.appendChild(td)});rows.appendChild(tr)});
-   status.textContent=`تم تحميل ${data.length} نتيجة من لوحة الصدارة اليومية.`;
-  }catch(err){rows.innerHTML='<tr><td colspan="4">تعذر تحميل لوحة الصدارة. تحقق من اتصال الإنترنت وإعدادات Supabase.</td></tr>';status.textContent='الاتصال غير متاح حالياً؛ يمكنك لعب الجولات محلياً.';}
+  try {
+   if(window.mehdiBrainReady) await window.mehdiBrainReady;
+   if(typeof window.mehdiBrainCall!=="function") throw new Error("لم تجهز خدمة الاتصال بعد.");
+   const data=await window.mehdiBrainCall("leaderboard",{category:categoryForTab[selected]});
+   const list=Array.isArray(data.results)?data.results:[];
+   if(!list.length) {
+    rows.innerHTML='<tr><td colspan="4">لا توجد نتائج موثقة لهذه اللعبة اليوم بعد. كن أول المتصدرين!</td></tr>';
+    status.textContent="متصل بقاعدة البيانات — لا توجد نتائج اليوم بعد.";
+    return;
+   }
+   rows.innerHTML="";
+   list.forEach((item,i)=>{
+    const tr=document.createElement("tr");
+    [String(i+1),item.nickname||"لاعب",categoryNames[item.category]||item.category,String(item.score)].forEach(value=>{
+     const td=document.createElement("td");td.textContent=value;tr.appendChild(td);
+    });
+    rows.appendChild(tr);
+   });
+   status.textContent="تم تحميل "+list.length+" نتيجة موثقة من قاعدة البيانات.";
+  } catch(err) {
+   rows.innerHTML='<tr><td colspan="4">سجّل اسم اللاعب أولاً، أو تحقق من اتصال الموقع بخدمة Supabase.</td></tr>';
+   status.textContent="تعذر تحميل لوحة الصدارة: "+(err.message||"خطأ اتصال.");
+  } finally {busy=false;}
  }
- document.querySelectorAll('.leader-tab').forEach(btn=>btn.addEventListener('click',()=>{selected=btn.dataset.board;document.querySelectorAll('.leader-tab').forEach(x=>x.classList.toggle('active',x===btn));loadBoard()}));
+ document.querySelectorAll(".leader-tab").forEach(btn=>btn.addEventListener("click",()=>{
+  selected=btn.dataset.board;
+  document.querySelectorAll(".leader-tab").forEach(x=>x.classList.toggle("active",x===btn));
+  loadBoard();
+ }));
+ window.addEventListener("mehdi-player-ready",loadBoard);
+ window.addEventListener("mehdi-leaderboard-refresh",loadBoard);
  loadBoard();
- const home=()=>document.getElementById('home').scrollIntoView({behavior:'smooth'});
- const back=()=>{const modal=document.getElementById('game-modal');if(!modal.hidden){modal.hidden=true;document.body.style.overflow='';return}if(!document.getElementById('brain-question-area').hidden){document.getElementById('brain-question-area').hidden=true;document.getElementById('brain-start').hidden=false;return}if(history.length>1)history.back();else home()};
- document.getElementById('dock-home').addEventListener('click',home);
- document.getElementById('dock-back').addEventListener('click',back);
- document.getElementById('dock-exit').addEventListener('click',()=>{home();const modal=document.getElementById('game-modal');modal.hidden=true;document.body.style.overflow='';});
+ const home=()=>document.getElementById("home").scrollIntoView({behavior:"smooth"});
+ const back=()=>{
+  const modal=document.getElementById("game-modal");
+  if(!modal.hidden){modal.hidden=true;document.body.style.overflow="";return;}
+  if(!document.getElementById("brain-question-area").hidden){document.getElementById("brain-question-area").hidden=true;document.getElementById("brain-start").hidden=false;return;}
+  if(history.length>1)history.back();else home();
+ };
+ document.getElementById("dock-home").addEventListener("click",home);
+ document.getElementById("dock-back").addEventListener("click",back);
+ document.getElementById("dock-exit").addEventListener("click",()=>{home();const modal=document.getElementById("game-modal");modal.hidden=true;document.body.style.overflow="";});
 })();
 </script>
 
