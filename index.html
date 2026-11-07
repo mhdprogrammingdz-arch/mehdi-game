@@ -241,6 +241,31 @@ footer{min-width:0}
  .photo-shell{height:300px}
 }
 
+
+
+/* Keep decorative background elements still on touch screens */
+@media (max-width: 820px), (hover: none) and (pointer: coarse) {
+ .photo-halo,
+ .float,
+ .pulse {
+  animation: none !important;
+ }
+ .photo-halo {
+  transform: none !important;
+ }
+ .float {
+  transform: none !important;
+ }
+ body::before,
+ body::after,
+ .hero::before,
+ .hero::after,
+ .visual::before,
+ .visual::after {
+  animation: none !important;
+ }
+}
+
 </style></head>
 <body>
 <div class="intro-screen"><div class="intro-content"><div class="intro-title">MEHDI<span>.</span></div><div class="intro-caption">DEVELOPER · CREATOR · SECURITY ENTHUSIAST</div><div class="bar"></div></div></div>
