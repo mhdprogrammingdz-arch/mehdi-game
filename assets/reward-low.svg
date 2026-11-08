@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" fill="none">
+<defs>
+ <linearGradient id="bg" x1="80" y1="20" x2="1120" y2="900" gradientUnits="userSpaceOnUse"><stop stop-color="#122B47"/><stop offset=".55" stop-color="#14213C"/><stop offset="1" stop-color="#20234A"/></linearGradient>
+ <radialGradient id="light" cx="0" cy="0" r="1" gradientTransform="matrix(0 450 -520 0 600 430)" gradientUnits="userSpaceOnUse"><stop stop-color="#38BDF8" stop-opacity=".28"/><stop offset="1" stop-color="#38BDF8" stop-opacity="0"/></radialGradient>
+ <linearGradient id="steps" x1="310" y1="440" x2="890" y2="750" gradientUnits="userSpaceOnUse"><stop stop-color="#6EE7F9"/><stop offset=".5" stop-color="#3B82F6"/><stop offset="1" stop-color="#4352B8"/></linearGradient>
+ <linearGradient id="person" x1="480" y1="260" x2="720" y2="690" gradientUnits="userSpaceOnUse"><stop stop-color="#F8FAFC"/><stop offset="1" stop-color="#9FB8D4"/></linearGradient>
+ <filter id="shadow" x="240" y="200" width="720" height="600" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feDropShadow dx="0" dy="22" stdDeviation="24" flood-color="#020617" flood-opacity=".55"/></filter>
+</defs>
+<rect width="1200" height="900" rx="54" fill="url(#bg)"/><rect width="1200" height="900" rx="54" fill="url(#light)"/>
+<g stroke="#8DDDFB" stroke-opacity=".22" stroke-width="2"><path d="M100 160H1100M100 740H1100"/><circle cx="600" cy="430" r="300" stroke-dasharray="7 18"/><circle cx="600" cy="430" r="370" stroke-dasharray="2 20"/></g>
+<g fill="#D7F6FF"><circle cx="205" cy="250" r="6"/><circle cx="1000" cy="270" r="5"/><circle cx="930" cy="650" r="7"/><circle cx="270" cy="680" r="5"/></g>
+<g filter="url(#shadow)">
+ <path d="M260 690H940V760H260z" fill="#243B68" stroke="#6FCBF0" stroke-width="5"/>
+ <path d="M360 600H840V690H360z" fill="url(#steps)" stroke="#A5F3FC" stroke-width="5"/>
+ <path d="M455 510H745V600H455z" fill="url(#steps)" stroke="#A5F3FC" stroke-width="5"/>
+ <path d="M525 425H675V510H525z" fill="url(#steps)" stroke="#A5F3FC" stroke-width="5"/>
+ <circle cx="600" cy="275" r="65" fill="url(#person)" stroke="#DDF7FF" stroke-width="8"/>
+ <path d="M520 365C520 330 548 310 600 310C652 310 680 330 680 365L710 500H490L520 365Z" fill="url(#person)" stroke="#DDF7FF" stroke-width="9"/>
+ <path d="m525 385-75 80 45 38 76-73M675 385l75 80-45 38-76-73" stroke="#B6D2E8" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+ <path d="m550 500-30 110M650 500l30 110" stroke="#A8C5DE" stroke-width="32" stroke-linecap="round"/>
+ <path d="M600 225v-44m-22 22h44" stroke="#38BDF8" stroke-width="8" stroke-linecap="round"/>
+</g>
+<path d="M820 350c45-38 90-34 118-4" stroke="#67E8F9" stroke-width="8" stroke-linecap="round" stroke-dasharray="3 20"/>
+<path d="m910 310 28 36-46 9" stroke="#67E8F9" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#BFEFFF"><path d="m310 330 8 22 22 8-22 8-8 22-8-22-22-8 22-8 8-22Z"/><path d="m870 570 7 18 18 7-18 7-7 18-7-18-18-7 18-7 7-18Z"/></g>
+<text x="600" y="825" fill="#E8FBFF" font-family="Arial,sans-serif" font-size="32" font-weight="700" text-anchor="middle" letter-spacing="7">MEHDI GAME • KEEP GOING</text>
+</svg>
