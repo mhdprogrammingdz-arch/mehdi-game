@@ -118,17 +118,24 @@ Deno.serve(async (req) => {
         for (const id of (round.question_ids ?? [])) seen.add(String(id));
       }
 
-      // Never recycle a question for this player. A standard round requires
-      // ten unseen questions; if fewer remain, stop and ask for new questions.
-      const candidates = pool.filter((q: any) => !seen.has(String(q.id)));
+      // Prefer unseen questions first. Once the player has exhausted the pool,
+      // refill the round with previously seen questions chosen at random.
+      // IDs are unique in the pool, so a question can never repeat within one round.
+      const unseen = pool.filter((q: any) => !seen.has(String(q.id)));
+      const seenQuestions = pool.filter((q: any) => seen.has(String(q.id)));
+      const candidates = [...unseen];
+
       if (candidates.length < 10) {
-        return json({
-          error: candidates.length === 0
-            ? 'لقد أكملت جميع الأسئلة المتاحة. لن نكرر الأسئلة؛ انتظر إضافة أسئلة جديدة.'
-            : `لم يتبقَّ لك سوى ${candidates.length} أسئلة جديدة. نحتاج إلى 10 أسئلة جديدة لبدء جولة دون تكرار. انتظر إضافة أسئلة جديدة.`,
-          remainingQuestions: candidates.length,
-          requiredQuestions: 10,
-        }, 409);
+        const recycled = [...seenQuestions];
+        for (let i = recycled.length - 1; i > 0; i--) {
+          const j = crypto.getRandomValues(new Uint32Array(1))[0] % (i + 1);
+          [recycled[i], recycled[j]] = [recycled[j], recycled[i]];
+        }
+        candidates.push(...recycled.slice(0, 10 - candidates.length));
+      }
+
+      if (candidates.length < 10) {
+        return json({ error: 'عدد الأسئلة المتاحة في هذا القسم أقل من 10. أضف المزيد من الأسئلة لبدء الجولة.' }, 409);
       }
 
       // Fisher-Yates shuffle; no answer key or explanation is sent to the browser.
