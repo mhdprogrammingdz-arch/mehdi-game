@@ -551,7 +551,7 @@ window.addEventListener('resize', () => {
    document.getElementById("brain-track-fill").style.width="100%";
    document.getElementById("brain-final-score").textContent=score+" / 10";
    const rewardImage=document.getElementById("brain-reward-image");
-   rewardImage.hidden=score<=5;
+   rewardImage.hidden=score<5;
    document.getElementById("brain-low-score-image").hidden=score>=5;
    document.getElementById("brain-result-title").textContent=score>=8?"ممتاز! عبقري التحديات 🏆":score>=5?"أحسنت، أداء جميل! 👏":"لا تستسلم، حاول مرة أخرى 💪";
    document.getElementById("brain-result-text").textContent="تم التحقق من إجاباتك وتسجيل "+score+" نقاط من أصل 10 في قاعدة البيانات.";
