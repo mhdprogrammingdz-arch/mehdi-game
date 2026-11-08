@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" fill="none">
+<defs>
+ <linearGradient id="bg" x1="90" y1="40" x2="1100" y2="850" gradientUnits="userSpaceOnUse"><stop stop-color="#102B52"/><stop offset=".52" stop-color="#101B42"/><stop offset="1" stop-color="#24124A"/></linearGradient>
+ <radialGradient id="halo" cx="0" cy="0" r="1" gradientTransform="matrix(0 480 -500 0 600 410)" gradientUnits="userSpaceOnUse"><stop stop-color="#16D9FF" stop-opacity=".34"/><stop offset="1" stop-color="#16D9FF" stop-opacity="0"/></radialGradient>
+ <linearGradient id="gold" x1="380" y1="210" x2="830" y2="670" gradientUnits="userSpaceOnUse"><stop stop-color="#FFF6B0"/><stop offset=".28" stop-color="#FFD85A"/><stop offset=".7" stop-color="#F59E0B"/><stop offset="1" stop-color="#A94D08"/></linearGradient>
+ <linearGradient id="cyan" x1="300" y1="500" x2="900" y2="800" gradientUnits="userSpaceOnUse"><stop stop-color="#67F3FF"/><stop offset="1" stop-color="#3278FF"/></linearGradient>
+ <filter id="glow" x="170" y="90" width="860" height="760" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feGaussianBlur stdDeviation="28"/></filter>
+ <filter id="shadow" x="250" y="150" width="700" height="650" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feDropShadow dx="0" dy="28" stdDeviation="24" flood-color="#020617" flood-opacity=".6"/></filter>
+</defs>
+<rect width="1200" height="900" rx="54" fill="url(#bg)"/><rect width="1200" height="900" rx="54" fill="url(#halo)"/>
+<g opacity=".28" stroke="#78E9FF"><path d="M0 180H1200M0 720H1200M170 0V900M1030 0V900" stroke-opacity=".22"/><circle cx="600" cy="430" r="300" stroke-width="2" stroke-dasharray="8 18"/><circle cx="600" cy="430" r="365" stroke-width="1.5" stroke-dasharray="3 22"/></g>
+<g fill="#DDFBFF"><circle cx="190" cy="210" r="5"/><circle cx="1000" cy="220" r="7"/><circle cx="950" cy="650" r="5"/><circle cx="250" cy="690" r="7"/><path d="m310 170 8 22 22 8-22 8-8 22-8-22-22-8 22-8 8-22ZM890 330l7 18 18 7-18 7-7 18-7-18-18-7 18-7 7-18Z"/></g>
+<circle cx="600" cy="420" r="220" fill="#FBBF24" fill-opacity=".22" filter="url(#glow)"/>
+<g filter="url(#shadow)">
+ <path d="M410 250H790V390C790 512 707 600 600 628C493 600 410 512 410 390V250Z" fill="url(#gold)" stroke="#FFF1A6" stroke-width="12"/>
+ <path d="M452 292H748V390C748 480 690 545 600 575C510 545 452 480 452 390V292Z" fill="#7C3D0C" fill-opacity=".25" stroke="#FFF8D6" stroke-opacity=".5" stroke-width="5"/>
+ <path d="M410 292H315C315 407 364 468 456 482L477 420C432 399 410 360 410 292ZM790 292H885C885 407 836 468 744 482L723 420C768 399 790 360 790 292Z" fill="url(#gold)" stroke="#FFEAA0" stroke-width="11"/>
+ <path d="M520 620H680V692H520z" fill="url(#gold)"/><path d="M450 690H750V748H450z" fill="url(#gold)" stroke="#FFF0A6" stroke-width="8"/>
+ <path d="m600 322 26 55 61 9-44 43 10 61-53-29-53 29 10-61-44-43 61-9 26-55Z" fill="#FFFBEA" stroke="#FFF1A6" stroke-width="7" stroke-linejoin="round"/>
+</g>
+<g stroke="url(#cyan)" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"><path d="m300 560-55 45 64 5-10 65 54-44"/><path d="m900 540 55 45-64 5 10 65-54-44"/></g>
+<g fill="url(#cyan)"><circle cx="330" cy="310" r="13"/><circle cx="850" cy="230" r="10"/><circle cx="820" cy="700" r="12"/><circle cx="380" cy="740" r="9"/></g>
+<path d="M350 790H850" stroke="#68E8FF" stroke-opacity=".55" stroke-width="3" stroke-linecap="round"/>
+<text x="600" y="835" fill="#E8FBFF" font-family="Arial,sans-serif" font-size="32" font-weight="700" text-anchor="middle" letter-spacing="8">MEHDI GAME • VICTORY</text>
+</svg>
