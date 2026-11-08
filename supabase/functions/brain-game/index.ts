@@ -39,12 +39,38 @@ Deno.serve(async (req) => {
       const category = String(body.category ?? 'challenge');
       if (!categories.has(category)) return json({ error: 'القسم غير صحيح.' }, 400);
       const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Algiers', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
-      const { data, error } = await db.from('brain_scores')
-        .select('score,category,played_on,created_at,brain_players!inner(nickname)')
-        .eq('category', category).eq('played_on', today)
-        .order('score', { ascending: false }).order('created_at', { ascending: true }).limit(100);
-      if (error) throw error;
-      return json({ results: (data ?? []).map((r: any) => ({ nickname: r.brain_players?.nickname ?? 'لاعب', category: r.category, score: r.score, played_on: r.played_on })) });
+      // Aggregate every verified round by normalized nickname for this category/day.
+      // Paginate because Supabase may cap a single response at 1,000 rows.
+      const allScores: any[] = [];
+      const pageSize = 1000;
+      for (let from = 0; ; from += pageSize) {
+        const { data, error } = await db.from('brain_scores')
+          .select('score,category,played_on,created_at,brain_players!inner(nickname)')
+          .eq('category', category).eq('played_on', today)
+          .order('created_at', { ascending: true })
+          .range(from, from + pageSize - 1);
+        if (error) throw error;
+        const page = data ?? [];
+        allScores.push(...page);
+        if (page.length < pageSize) break;
+      }
+
+      const grouped = new Map<string, { nickname: string; category: string; score: number; rounds: number; played_on: string }>();
+      for (const row of allScores) {
+        const nickname = String(row.brain_players?.nickname ?? 'لاعب').trim().replace(/\\s+/g, ' ');
+        const key = nickname.toLocaleLowerCase('ar');
+        const existing = grouped.get(key);
+        if (existing) {
+          existing.score += Number(row.score) || 0;
+          existing.rounds += 1;
+        } else {
+          grouped.set(key, { nickname, category: row.category, score: Number(row.score) || 0, rounds: 1, played_on: row.played_on });
+        }
+      }
+      const results = [...grouped.values()]
+        .sort((a, b) => b.score - a.score || b.rounds - a.rounds || a.nickname.localeCompare(b.nickname, 'ar'))
+        .slice(0, 100);
+      return json({ results });
     }
     if (body.action === 'start') {
       const category = String(body.category ?? '');
