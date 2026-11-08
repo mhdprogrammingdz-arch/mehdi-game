@@ -96,36 +96,40 @@ Deno.serve(async (req) => {
       if (error) throw error;
       if (!pool || pool.length < 10) return json({ error: 'لا توجد أسئلة كافية لهذا القسم بعد.' }, 409);
 
-      // Per-player question history: question IDs are recorded in brain_sessions,
-      // so no schema migration or browser-side storage is needed. History is
-      // shared across categories to avoid seeing the same question in another mode.
-      const { data: history, error: historyError } = await db.from('brain_sessions')
-        .select('question_ids,created_at')
-        .eq('player_id', player.id)
-        .order('created_at', { ascending: false })
-        .limit(500);
-      if (historyError) throw historyError;
-      const pastRounds = history ?? [];
+      // Permanent per-player history: inspect every prior session, not just
+      // the most recent 500. Question history is shared across game categories.
+      const pastRounds: any[] = [];
+      const historyPageSize = 1000;
+      for (let from = 0; ; from += historyPageSize) {
+        const { data: historyPage, error: historyError } = await db.from('brain_sessions')
+          .select('id,question_ids,created_at')
+          .eq('player_id', player.id)
+          .order('created_at', { ascending: true })
+          .order('id', { ascending: true })
+          .range(from, from + historyPageSize - 1);
+        if (historyError) throw historyError;
+        const page = historyPage ?? [];
+        pastRounds.push(...page);
+        if (page.length < historyPageSize) break;
+      }
+
       const seen = new Set<string>();
       for (const round of pastRounds) {
         for (const id of (round.question_ids ?? [])) seen.add(String(id));
       }
 
-      // First exhaust questions this player has never seen. When fewer than
-      // ten remain, gradually allow older questions back, while protecting the
-      // most recent rounds from immediate repetition.
-      let candidates = pool.filter((q: any) => !seen.has(String(q.id)));
+      // Never recycle a question for this player. A standard round requires
+      // ten unseen questions; if fewer remain, stop and ask for new questions.
+      const candidates = pool.filter((q: any) => !seen.has(String(q.id)));
       if (candidates.length < 10) {
-        for (const protectedRounds of [3, 2, 1, 0]) {
-          const protectedIds = new Set<string>();
-          for (const round of pastRounds.slice(0, protectedRounds)) {
-            for (const id of (round.question_ids ?? [])) protectedIds.add(String(id));
-          }
-          candidates = pool.filter((q: any) => !protectedIds.has(String(q.id)));
-          if (candidates.length >= 10) break;
-        }
+        return json({
+          error: candidates.length === 0
+            ? 'لقد أكملت جميع الأسئلة المتاحة. لن نكرر الأسئلة؛ انتظر إضافة أسئلة جديدة.'
+            : `لم يتبقَّ لك سوى ${candidates.length} أسئلة جديدة. نحتاج إلى 10 أسئلة جديدة لبدء جولة دون تكرار. انتظر إضافة أسئلة جديدة.`,
+          remainingQuestions: candidates.length,
+          requiredQuestions: 10,
+        }, 409);
       }
-      if (candidates.length < 10) candidates = [...pool]; // final fallback for small question banks
 
       // Fisher-Yates shuffle; no answer key or explanation is sent to the browser.
       const shuffled = [...candidates];
