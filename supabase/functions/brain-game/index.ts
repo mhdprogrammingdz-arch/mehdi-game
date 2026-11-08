@@ -59,7 +59,7 @@ Deno.serve(async (req) => {
       const pageSize = 1000;
       for (let from = 0; ; from += pageSize) {
         const { data, error } = await db.from('brain_scores')
-          .select('score,category,played_on,created_at,brain_players!inner(nickname)')
+          .select('player_id,score,category,played_on,created_at,brain_players!inner(id,nickname)')
           .eq('category', category).eq('played_on', today)
           .order('created_at', { ascending: true })
           .range(from, from + pageSize - 1);
@@ -69,10 +69,12 @@ Deno.serve(async (req) => {
         if (page.length < pageSize) break;
       }
 
+      // Group by the canonical player record ID, not the displayed nickname.
+      // All historical scores for merged duplicate accounts point to this same ID.
       const grouped = new Map<string, { nickname: string; category: string; score: number; rounds: number; played_on: string }>();
       for (const row of allScores) {
-        const nickname = String(row.brain_players?.nickname ?? 'لاعب').trim().replace(/\\s+/g, ' ');
-        const key = nickname.toLocaleLowerCase('ar');
+        const nickname = String(row.brain_players?.nickname ?? 'لاعب').trim().replace(/\s+/g, ' ');
+        const key = String(row.player_id);
         const existing = grouped.get(key);
         if (existing) {
           existing.score += Number(row.score) || 0;
