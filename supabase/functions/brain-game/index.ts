@@ -27,8 +27,22 @@ Deno.serve(async (req) => {
     if (body.action === 'register') {
       const nickname = String(body.nickname ?? '').trim().replace(/\s+/g, ' ');
       if (nickname.length < 2 || nickname.length > 24) return json({ error: 'الاسم يجب أن يكون بين حرفين و24 حرفاً.' }, 400);
+      // Nicknames are global identities: reject a name already owned by another account.
+      // The database unique index added by the companion migration is the final race-safe guard.
+      const { data: nameOwner, error: nameError } = await db.from('brain_players')
+        .select('id,user_id,nickname')
+        .ilike('nickname', nickname)
+        .neq('user_id', userId)
+        .limit(1)
+        .maybeSingle();
+      if (nameError) throw nameError;
+      if (nameOwner) return json({ error: 'هذا الاسم مستخدم بالفعل. اختر اسماً آخر لاستخدامه.' }, 409);
+
       const { data, error } = await db.from('brain_players').upsert({ user_id: userId, nickname }, { onConflict: 'user_id' }).select('id,nickname').single();
-      if (error) throw error;
+      if (error) {
+        if (error.code === '23505') return json({ error: 'هذا الاسم مستخدم بالفعل. اختر اسماً آخر لاستخدامه.' }, 409);
+        throw error;
+      }
       return json({ player: data });
     }
     const { data: player, error: playerError } = await db.from('brain_players').select('id,nickname').eq('user_id', userId).maybeSingle();
