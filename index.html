@@ -102,7 +102,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offse
 /* MEHDI game selection, navigation and responsive controls */
 .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.btn-ghost{background:transparent;color:var(--cyan);border:1px solid #00d9ff66}
 .header-actions{display:flex;gap:8px;align-items:center}.header-actions button,.footer-controls button{border:1px solid #00d9ff55;background:#071727;color:#dff8ff;border-radius:9px;padding:9px 13px;font:700 12px Cairo;cursor:pointer}.header-actions .header-play{background:linear-gradient(110deg,#00d9ff,#4c8cff);color:#03101a}.game-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:22px 0 12px;color:#9fc4df;font-size:13px}.brain-modes[hidden]{display:none!important}
-.game-modal{position:fixed;inset:0;z-index:50;background:#020611eF;backdrop-filter:blur(14px);display:grid;place-items:center;padding:20px;overflow-y:auto}.game-modal[hidden]{display:none}.game-modal-card{position:relative;width:min(980px,100%);padding:clamp(22px,4vw,42px);border:1px solid #8b48ff;border-radius:24px;background:radial-gradient(ellipse at 50% 0%,#35206b88,transparent 55%),linear-gradient(145deg,#0b1024,#050b18);box-shadow:0 0 60px #702cff44,0 25px 90px #000b;text-align:center}.game-modal-card h2{font-size:clamp(28px,5vw,44px);margin:8px 0;color:#fff;text-shadow:0 0 22px #9d48ff}.game-modal-card>p{color:#aebed3;margin:0 0 25px}.modal-x{position:absolute;top:14px;left:14px;width:42px;height:42px;border-radius:50%;border:1px solid #ff5d7c;background:#4b1225;color:#fff;font-size:28px;cursor:pointer}.game-choice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.game-choice{min-height:245px;border-radius:18px;padding:22px 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;color:#fff;background:#081426;cursor:pointer;transition:.25s;font-family:Cairo}.game-choice:hover{transform:translateY(-7px) scale(1.015);filter:brightness(1.15)}.game-choice .choice-icon{font-size:52px;filter:drop-shadow(0 0 15px currentColor)}.game-choice strong{font-size:22px}.game-choice small{color:#c5d2e3;font-size:13px}.game-choice b{padding:9px 18px;border-radius:30px;background:#ffffff18;font-size:13px}.game-choice.gold{border:1px solid #e9a92e;box-shadow:inset 0 0 35px #d58b1b18}.game-choice.violet{border:1px solid #b64cff;box-shadow:inset 0 0 35px #9c36ff22}.game-choice.green{border:1px solid #35d68a;box-shadow:inset 0 0 35px #1acb7920}.modal-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:24px}.brain-mode.danger{border-color:#ff627c;color:#ff9cac}.footer-controls{display:flex;gap:8px;direction:rtl}.footer-controls button{padding:7px 12px}
+.game-modal{position:fixed;inset:0;z-index:50;background:#020611eF;backdrop-filter:blur(14px);display:grid;place-items:center;padding:20px;overflow-y:auto}.game-modal[hidden]{display:none}.game-modal-card{position:relative;width:min(980px,100%);padding:clamp(22px,4vw,42px);border:1px solid #8b48ff;border-radius:24px;background:radial-gradient(ellipse at 50% 0%,#35206b88,transparent 55%),linear-gradient(145deg,#0b1024,#050b18);box-shadow:0 0 60px #702cff44,0 25px 90px #000b;text-align:center}.game-modal-card h2{font-size:clamp(28px,5vw,44px);margin:8px 0;color:#fff;text-shadow:0 0 22px #9d48ff}.game-modal-card>p{color:#aebed3;margin:0 0 25px}.modal-x{position:absolute;top:14px;left:14px;width:42px;height:42px;border-radius:50%;border:1px solid #ff5d7c;background:#4b1225;color:#fff;font-size:28px;cursor:pointer}.game-choice-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.game-choice{min-height:245px;border-radius:18px;padding:22px 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;color:#fff;background:#081426;cursor:pointer;transition:.25s;font-family:Cairo}.game-choice:hover{transform:translateY(-7px) scale(1.015);filter:brightness(1.15)}.game-choice .choice-icon{font-size:52px;filter:drop-shadow(0 0 15px currentColor)}.game-choice strong{font-size:22px}.game-choice small{color:#c5d2e3;font-size:13px}.game-choice b{padding:9px 18px;border-radius:30px;background:#ffffff18;font-size:13px}.game-choice.gold{border:1px solid #e9a92e;box-shadow:inset 0 0 35px #d58b1b18}.game-choice.violet{border:1px solid #b64cff;box-shadow:inset 0 0 35px #9c36ff22}.game-choice.green{border:1px solid #35d68a;box-shadow:inset 0 0 35px #1acb7920}.game-choice.red{border:1px solid #ff687d;box-shadow:inset 0 0 35px #ff3c5c20}.game-choice.blue{border:1px solid #4a9fff;box-shadow:inset 0 0 35px #287dff20}.game-choice.teal{border:1px solid #20d6c2;box-shadow:inset 0 0 35px #20d6c220}.game-choice:disabled{opacity:.55;cursor:not-allowed;transform:none!important}.modal-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:24px}.brain-mode.danger{border-color:#ff627c;color:#ff9cac}.footer-controls{display:flex;gap:8px;direction:rtl}.footer-controls button{padding:7px 12px}
 @media(max-width:760px){.header-actions{display:none}.game-choice-grid{grid-template-columns:1fr}.game-choice{min-height:170px}.game-choice .choice-icon{font-size:38px}.game-toolbar{align-items:flex-start;flex-direction:column}.hero-actions{justify-content:center}.footer-controls{flex-wrap:wrap}}
 
 
@@ -295,7 +295,7 @@ footer{min-width:0}
  </div>
  <div class="brain-wrap reveal">
   <div class="brain-head">
-   <div><span class="brain-tag">MEHDI GAME ZONE</span><h3>مستعد للتحدي؟</h3><p>اختر لعبة من الألعاب الثلاث وابدأ مغامرتك الذهنية.</p></div>
+   <div><span class="brain-tag">MEHDI GAME ZONE</span><h3>مستعد للتحدي؟</h3><p>اختر القسم الذي تريد اختباره: سياسة، تاريخ، إعلام آلي، رياضيات أو تحديات متنوعة.</p></div>
    <div class="brain-best"><small>أفضل نتيجة</small><strong id="brain-best">0</strong><small>نقطة</small></div>
   </div>
   <div class="game-toolbar"><button class="brain-mode active" id="change-game" type="button">🎮 تغيير اللعبة</button><span id="selected-game-label">اللعبة المختارة: تحدي العقل</span></div>
@@ -303,6 +303,10 @@ footer{min-width:0}
    <button class="brain-mode active" data-mode="challenge" type="button">🎯 تحدي العقل</button>
    <button class="brain-mode" data-mode="riddle" type="button">🧩 الألغاز الذكية</button>
    <button class="brain-mode" data-mode="knowledge" type="button">🌍 المعرفة العامة</button>
+   <button class="brain-mode" data-mode="politics" type="button">🏛️ أسئلة سياسية</button>
+   <button class="brain-mode" data-mode="history" type="button">📜 أسئلة تاريخية</button>
+   <button class="brain-mode" data-mode="computer" type="button">💻 الإعلام الآلي</button>
+   <button class="brain-mode" data-mode="math" type="button" disabled title="سيُفعّل بعد إضافة بنك أسئلة الرياضيات">➗ الرياضيات — قريباً</button>
   </div>
   <div class="brain-play" id="brain-play">
    <div class="brain-start" id="brain-start">
@@ -341,17 +345,21 @@ footer{min-width:0}
  <div class="game-modal-card">
   <button class="modal-x" id="close-game-modal" type="button" aria-label="إغلاق">×</button>
   <span class="brain-tag">MEHDI GAME ZONE</span><h2 id="game-modal-title">هل تريد اللعب؟</h2>
-  <p>اختر واحدة من الألعاب الثلاث للبدء في التحدي.</p>
+  <p>اختر مجالاً من المجالات السبعة، بأسئلة عربية مع التركيز على المنهاج الجزائري.</p>
   <div class="game-choice-grid">
    <button class="game-choice gold" data-pick="challenge" type="button"><span class="choice-icon">🏆</span><strong>تحدي العقل</strong><small>أسئلة متنوعة تختبر قدراتك</small><b>اختر والعب ←</b></button>
    <button class="game-choice violet" data-pick="riddle" type="button"><span class="choice-icon">🧩</span><strong>الألغاز الذكية</strong><small>فكر بذكاء واكتشف الحل</small><b>اختر والعب ←</b></button>
-   <button class="game-choice green" data-pick="knowledge" type="button"><span class="choice-icon">🌍</span><strong>المعرفة العامة</strong><small>اختبر معلوماتك في مجالات مختلفة</small><b>اختر والعب ←</b></button>
+   <button class="game-choice green" data-pick="knowledge" type="button"><span class="choice-icon">🌍</span><strong>المعرفة العامة</strong><small>ثقافة عربية وعالمية متنوعة</small><b>اختر والعب ←</b></button>
+   <button class="game-choice red" data-pick="politics" type="button"><span class="choice-icon">🏛️</span><strong>أسئلة سياسية</strong><small>الجزائر والوطن العربي والنظم السياسية</small><b>اختر والعب ←</b></button>
+   <button class="game-choice blue" data-pick="history" type="button"><span class="choice-icon">📜</span><strong>أسئلة تاريخية</strong><small>تاريخ الجزائر والعالم العربي والعالم</small><b>اختر والعب ←</b></button>
+   <button class="game-choice teal" data-pick="computer" type="button"><span class="choice-icon">💻</span><strong>الإعلام الآلي</strong><small>مفاهيم الحاسوب والبرمجة والمنهاج الجزائري</small><b>اختر والعب ←</b></button>
+   <button class="game-choice" data-pick="math" type="button" disabled style="opacity:.55;cursor:not-allowed"><span class="choice-icon">➗</span><strong>الرياضيات — قريباً</strong><small>سيُفتح بعد تجهيز بنك أسئلة الرياضيات</small><b>قيد التجهيز</b></button>
   </div>
   <div class="modal-actions"><button class="brain-mode" id="modal-home" type="button">⌂ العودة للرئيسية</button><button class="brain-mode danger" id="modal-exit" type="button">⏻ خروج</button></div>
  </div>
 </div>
 
-<section class="section" id="leaderboard"><div class="reveal"><div class="kicker">05 — DAILY LEADERBOARD</div><h2>لوحة صدارة أفضل 100 لاعب 🏆</h2><p class="intro">تُعرض النتائج اليومية المشتركة المسجلة في قاعدة بيانات Supabase.</p></div><div class="leader-panel reveal"><div class="leader-tabs"><button class="leader-tab active" data-board="challenge">تحدي العقل</button><button class="leader-tab" data-board="riddle">الألغاز الذكية</button><button class="leader-tab" data-board="knowledge">المعرفة العامة</button></div><div class="leader-status" id="leader-status">جارٍ الاتصال بلوحة الصدارة…</div><div class="leader-table-wrap"><table class="leader-table"><thead><tr><th>الترتيب</th><th>اللاعب</th><th>اللعبة</th><th>النقاط</th></tr></thead><tbody id="leader-rows"><tr><td colspan="4">جارٍ تحميل النتائج…</td></tr></tbody></table></div></div></section>
+<section class="section" id="leaderboard"><div class="reveal"><div class="kicker">05 — DAILY LEADERBOARD</div><h2>لوحة صدارة أفضل 100 لاعب 🏆</h2><p class="intro">تُعرض النتائج اليومية المشتركة المسجلة في قاعدة بيانات Supabase.</p></div><div class="leader-panel reveal"><div class="leader-tabs"><button class="leader-tab active" data-board="challenge">تحدي العقل</button><button class="leader-tab" data-board="riddle">الألغاز الذكية</button><button class="leader-tab" data-board="knowledge">المعرفة العامة</button><button class="leader-tab" data-board="politics">السياسة</button><button class="leader-tab" data-board="history">التاريخ</button><button class="leader-tab" data-board="computer">الإعلام الآلي</button><button class="leader-tab" data-board="math">الرياضيات</button></div><div class="leader-status" id="leader-status">جارٍ الاتصال بلوحة الصدارة…</div><div class="leader-table-wrap"><table class="leader-table"><thead><tr><th>الترتيب</th><th>اللاعب</th><th>اللعبة</th><th>النقاط</th></tr></thead><tbody id="leader-rows"><tr><td colspan="4">جارٍ تحميل النتائج…</td></tr></tbody></table></div></div></section>
 <section class="section" id="contact"><div class="contact reveal"><div><div class="kicker">05 — GET IN TOUCH</div><h2 style="margin:8px 0">لنبنِ شيئاً مميزاً.</h2><p>يسعدني التواصل مع المهتمين بالتقنية والبرمجة والأفكار الجديدة.</p></div><a class="btn" href="mailto:mhdprogrammingdz@gmail.com">تواصل معي ↗</a></div></section>
 <div class="global-dock" aria-label="أزرار التنقل"><button id="dock-back" type="button">↶ عودة</button><button id="dock-home" type="button">⌂ الرئيسية</button><button id="dock-exit" type="button">⏻ خروج</button></div>
 <footer><span>© 2026 MEHDI — PERSONAL PORTFOLIO</span><span class="footer-controls"><button id="footer-back" type="button">↶ عودة</button><button id="footer-home" type="button">⌂ الرئيسية</button><button id="footer-exit" type="button">⏻ خروج</button></span><span>DESIGNED WITH PURPOSE · BUILT WITH PASSION</span></footer>
@@ -399,8 +407,8 @@ window.addEventListener('resize', () => {
  const playerForm=document.getElementById('player-register-form'), playerInput=document.getElementById('player-nickname');
  const playerStatus=document.getElementById('player-register-status'), playerCurrent=document.getElementById('player-current');
  const savePlayerBtn=document.getElementById('save-player-name'), beginBtn=document.getElementById('brain-begin');
- const modeNames={challenge:"تحدي العقل",riddle:"الألغاز الذكية",knowledge:"المعرفة العامة"};
- const serverCategories={challenge:"challenge",riddle:"riddles",knowledge:"knowledge"};
+ const modeNames={challenge:"تحدي العقل",riddle:"الألغاز الذكية",knowledge:"المعرفة العامة",politics:"الأسئلة السياسية",history:"الأسئلة التاريخية",computer:"الإعلام الآلي",math:"الرياضيات"};
+ const serverCategories={challenge:"challenge",riddle:"riddles",knowledge:"knowledge",politics:"politics",history:"history",computer:"technology",math:"mathematics"};
  let mode="challenge", questions=[], index=0, answers=[], activePlayer=null, sessionId=null, supabase=null, submitting=false;
 
  function setPlayerMessage(message,kind="") {
@@ -606,8 +614,8 @@ window.addEventListener('resize', () => {
 // Shared leaderboard reads only server-verified brain_scores.
 (async () => {
  const status=document.getElementById("leader-status"), rows=document.getElementById("leader-rows");
- const categoryForTab={challenge:"challenge",riddle:"riddles",knowledge:"knowledge"};
- const categoryNames={challenge:"تحدي العقل",riddles:"الألغاز الذكية",knowledge:"المعرفة العامة"};
+ const categoryForTab={challenge:"challenge",riddle:"riddles",knowledge:"knowledge",politics:"politics",history:"history",computer:"technology",math:"mathematics"};
+ const categoryNames={challenge:"تحدي العقل",riddles:"الألغاز الذكية",knowledge:"المعرفة العامة",politics:"الأسئلة السياسية",history:"الأسئلة التاريخية",technology:"الإعلام الآلي",mathematics:"الرياضيات"};
  let selected="challenge",busy=false;
  async function loadBoard() {
   if(busy)return;busy=true;
