@@ -50,17 +50,14 @@ Deno.serve(async (req) => {
     if (!player) return json({ error: 'سجّل اسم اللاعب أولاً.' }, 403);
 
     if (body.action === 'leaderboard') {
-      const category = String(body.category ?? 'challenge');
-      if (!categories.has(category)) return json({ error: 'القسم غير صحيح.' }, 400);
-      const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Algiers', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
-      // Aggregate every verified round by normalized nickname for this category/day.
+      // Global permanent leaderboard: combine verified scores from every game
+      // category and every date, keeping exactly one row per player account.
       // Paginate because Supabase may cap a single response at 1,000 rows.
       const allScores: any[] = [];
       const pageSize = 1000;
       for (let from = 0; ; from += pageSize) {
         const { data, error } = await db.from('brain_scores')
           .select('player_id,score,category,played_on,created_at,brain_players!inner(id,nickname)')
-          .eq('category', category).eq('played_on', today)
           .order('created_at', { ascending: true })
           .range(from, from + pageSize - 1);
         if (error) throw error;
@@ -69,8 +66,6 @@ Deno.serve(async (req) => {
         if (page.length < pageSize) break;
       }
 
-      // Group by the canonical player record ID, not the displayed nickname.
-      // All historical scores for merged duplicate accounts point to this same ID.
       const grouped = new Map<string, { nickname: string; category: string; score: number; rounds: number; played_on: string }>();
       for (const row of allScores) {
         const nickname = String(row.brain_players?.nickname ?? 'لاعب').trim().replace(/\s+/g, ' ');
@@ -80,7 +75,7 @@ Deno.serve(async (req) => {
           existing.score += Number(row.score) || 0;
           existing.rounds += 1;
         } else {
-          grouped.set(key, { nickname, category: row.category, score: Number(row.score) || 0, rounds: 1, played_on: row.played_on });
+          grouped.set(key, { nickname, category: 'all', score: Number(row.score) || 0, rounds: 1, played_on: row.played_on });
         }
       }
       const results = [...grouped.values()]
