@@ -92,9 +92,30 @@ Deno.serve(async (req) => {
       if ((recentRounds ?? 0) >= 20) return json({ error: 'وصلت إلى الحد المؤقت: 20 جولة في الساعة. حاول لاحقاً.' }, 429);
       let query = db.from('brain_questions').select('id,category,question,options').eq('active', true);
       if (category !== 'challenge') query = query.eq('category', category);
-      const { data: pool, error } = await query;
+      const { data: rawPool, error } = await query;
       if (error) throw error;
-      if (!pool || pool.length < 10) return json({ error: 'لا توجد أسئلة كافية لهذا القسم بعد.' }, 409);
+      if (!rawPool || rawPool.length < 10) return json({ error: 'لا توجد أسئلة كافية لهذا القسم بعد.' }, 409);
+
+      // Remove duplicate question records by normalized question text. Different
+      // database IDs can still contain the exact same question, so ID-only
+      // uniqueness is not enough to prevent repeats within a single round.
+      const normalizeQuestion = (value: unknown) => String(value ?? '')
+        .normalize('NFKC')
+        .toLocaleLowerCase()
+        .replace(/[\\u064B-\\u065F\\u0670\\u0640]/g, '')
+        .replace(/[أإآ]/g, 'ا')
+        .replace(/ى/g, 'ي')
+        .replace(/[^\\p{L}\\p{N}]+/gu, ' ')
+        .trim();
+      const uniqueByText = new Map<string, any>();
+      for (const question of rawPool) {
+        const key = normalizeQuestion(question.question);
+        if (key && !uniqueByText.has(key)) uniqueByText.set(key, question);
+      }
+      const pool = [...uniqueByText.values()];
+      if (pool.length < 10) {
+        return json({ error: `يوجد ${pool.length} أسئلة مختلفة فقط في هذا القسم. يجب إضافة 10 أسئلة مختلفة على الأقل.` }, 409);
+      }
 
       // Permanent per-player history: inspect every prior session, not just
       // the most recent 500. Question history is shared across game categories.
