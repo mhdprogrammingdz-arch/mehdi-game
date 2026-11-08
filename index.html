@@ -626,7 +626,18 @@ window.addEventListener('resize', () => {
    if(window.mehdiBrainReady) await window.mehdiBrainReady;
    if(typeof window.mehdiBrainCall!=="function") throw new Error("لم تجهز خدمة الاتصال بعد.");
    const data=await window.mehdiBrainCall("leaderboard",{category:categoryForTab[selected]});
-   const list=Array.isArray(data.results)?data.results:[];
+    const rawList=Array.isArray(data.results)?data.results:[];
+    // Deduplicate names defensively and combine their scores before rendering.
+    const uniquePlayers=new Map();
+    rawList.forEach(item=>{
+     const nickname=String(item.nickname||"لاعب").trim().replace(/\s+/g," ");
+     const key=nickname.normalize("NFKC").toLocaleLowerCase("ar");
+     const score=Number(item.score)||0;
+     const existing=uniquePlayers.get(key);
+     if(existing) existing.score+=score;
+     else uniquePlayers.set(key,{...item,nickname,score});
+    });
+    const list=[...uniquePlayers.values()].sort((a,b)=>b.score-a.score);
    if(!list.length) {
     rows.innerHTML='<tr><td colspan="4">لا توجد نتائج موثقة لهذه اللعبة اليوم بعد. كن أول المتصدرين!</td></tr>';
     status.textContent="متصل بقاعدة البيانات — لا توجد نتائج اليوم بعد.";
