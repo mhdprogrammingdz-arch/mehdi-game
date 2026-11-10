@@ -5,7 +5,7 @@ const cors = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
-const categories = new Set(['riddles','knowledge','technology','politics','history','challenge']);
+const categories = new Set(['riddles','knowledge','technology','politics','history','mathematics','challenge']);
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), {
   status, headers: { ...cors, 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
 });
