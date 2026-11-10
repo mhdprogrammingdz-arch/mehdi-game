@@ -332,8 +332,10 @@ footer{min-width:0}
    <div class="brain-result" id="brain-result" hidden>
     <div class="brain-orb">🏆</div><h3 id="brain-result-title">أحسنت!</h3>
     <p id="brain-result-text"></p>
-    <div class="brain-final-score" id="brain-final-score">0 / 10</div><img class="brain-reward-image" id="brain-reward-image" src="assets/reward-success.svg" alt="صورة مكافأة النجاح" hidden>
-    <img class="brain-reward-image" id="brain-low-score-image" src="assets/reward-low.svg" alt="صورة نتيجة منخفضة" hidden>
+    <div class="brain-final-score" id="brain-final-score">0 / 10</div>
+    <img class="brain-reward-image" id="brain-low-score-image" src="assets/score-low.jpg" alt="نتيجة من 0 إلى 4 من 10" hidden>
+    <img class="brain-reward-image" id="brain-medium-score-image" src="assets/score-medium.jpg" alt="نتيجة 5 من 10" hidden>
+    <img class="brain-reward-image" id="brain-high-score-image" src="assets/score-high.jpg" alt="نتيجة من 6 إلى 10 من 10" hidden>
     <button class="btn brain-start-btn" id="brain-restart" type="button">العب مرة أخرى ↻</button>
    </div>
   </div>
@@ -558,10 +560,10 @@ window.addEventListener('resize', () => {
    area.hidden=true;result.hidden=false;
    document.getElementById("brain-track-fill").style.width="100%";
    document.getElementById("brain-final-score").textContent=score+" / 10";
-   const rewardImage=document.getElementById("brain-reward-image");
-   // Show exactly one result image: 0–4 gets the low-score image; 5–10 gets the success image.
-   rewardImage.hidden=score<5;
-   document.getElementById("brain-low-score-image").hidden=score>=5;
+   // Select one of the three supplied result images by the verified score.
+   document.getElementById("brain-low-score-image").hidden=score>4;
+   document.getElementById("brain-medium-score-image").hidden=score!==5;
+   document.getElementById("brain-high-score-image").hidden=score<6;
    document.getElementById("brain-result-title").textContent=score>=8?"ممتاز! عبقري التحديات 🏆":score>=5?"أحسنت، أداء جميل! 👏":"لا تستسلم، حاول مرة أخرى 💪";
    document.getElementById("brain-result-text").textContent="تم التحقق من إجاباتك وتسجيل "+score+" نقاط من أصل 10 في قاعدة البيانات.";
    bestEl.textContent="—";
