@@ -86,41 +86,52 @@ Deno.serve(async (req) => {
     if (body.action === 'start') {
       const category = String(body.category ?? '');
       if (!categories.has(category)) return json({ error: 'القسم غير صحيح.' }, 400);
-      let query = db.from('brain_questions').select('id,category,question,options').eq('active', true);
+      let query = db.from('brain_questions').select('id,category,question,options').eq('active', true).order('id', { ascending: true });
       if (category !== 'challenge') query = query.eq('category', category);
       const { data: rawPool, error } = await query;
       if (error) throw error;
-      if (!rawPool || rawPool.length < 10) return json({ error: 'لا توجد أسئلة كافية لهذا القسم بعد.' }, 409);
+      if (!rawPool?.length) return json({ error: 'لا توجد أسئلة متاحة لهذا القسم حالياً.' }, 409);
 
-      // Remove duplicate question records by normalized question text. Different
-      // database IDs can still contain the exact same question, so ID-only
-      // uniqueness is not enough to prevent repeats within a single round.
-      const normalizeQuestion = (value: unknown) => String(value ?? '')
+      const normalize = (value: unknown) => String(value ?? '')
         .normalize('NFKC')
         .toLocaleLowerCase()
-        .replace(/[\u064B-\u065F\u0670\u0640]/g, '')
+        .replace(/[\\u064B-\\u065F\\u0670\\u0640]/g, '')
         .replace(/[أإآ]/g, 'ا')
         .replace(/ى/g, 'ي')
-        .replace(/[^\p{L}\p{N}]+/gu, ' ')
+        .replace(/[^\\p{L}\\p{N}]+/gu, ' ')
         .trim();
-      const uniqueByText = new Map<string, any>();
-      for (const question of rawPool) {
-        const key = normalizeQuestion(question.question);
-        if (key && !uniqueByText.has(key)) uniqueByText.set(key, question);
-      }
-      const pool = [...uniqueByText.values()];
-      if (pool.length < 10) {
-        return json({ error: `يوجد ${pool.length} أسئلة مختلفة فقط في هذا القسم. يجب إضافة 10 أسئلة مختلفة على الأقل.` }, 409);
-      }
 
-      // Permanent per-player history: inspect every prior session, not just
-      // the most recent 500. Question history is shared across game categories.
+      // Read answer keys server-side so duplicate detection compares the
+      // question, its four answer choices, and the correct choice.
+      const questionIds = rawPool.map((q: any) => String(q.id));
+      const { data: keyRows, error: keyError } = await db.from('brain_answer_keys')
+        .select('question_id,correct_index')
+        .in('question_id', questionIds);
+      if (keyError) throw keyError;
+      const answerKeyById = new Map<string, number>();
+      for (const row of keyRows ?? []) answerKeyById.set(String(row.question_id), Number(row.correct_index));
+
+      const uniqueQuestions = new Map<string, any>();
+      for (const q of rawPool as any[]) {
+        const opts = Array.isArray(q.options) ? q.options.map((x: unknown) => normalize(x)) : [];
+        const correctIndex = answerKeyById.get(String(q.id));
+        if (!normalize(q.question) || opts.length !== 4 || correctIndex === undefined) continue;
+        const duplicateKey = JSON.stringify([normalize(q.question), opts, correctIndex]);
+        if (!uniqueQuestions.has(duplicateKey)) uniqueQuestions.set(duplicateKey, q);
+      }
+      const pool = [...uniqueQuestions.values()];
+      if (!pool.length) return json({ error: 'لا توجد أسئلة صالحة ومتاحة لهذا القسم.' }, 409);
+
+      // History is isolated by player AND category, and only successfully
+      // submitted rounds consume questions. Abandoned sessions do not.
       const pastRounds: any[] = [];
       const historyPageSize = 1000;
       for (let from = 0; ; from += historyPageSize) {
         const { data: historyPage, error: historyError } = await db.from('brain_sessions')
-          .select('id,question_ids,created_at')
+          .select('id,question_ids,created_at,submitted_at')
           .eq('player_id', player.id)
+          .eq('category', category)
+          .not('submitted_at', 'is', null)
           .order('created_at', { ascending: true })
           .order('id', { ascending: true })
           .range(from, from + historyPageSize - 1);
@@ -130,35 +141,41 @@ Deno.serve(async (req) => {
         if (page.length < historyPageSize) break;
       }
 
+      const poolIds = new Set(pool.map((q: any) => String(q.id)));
       const seen = new Set<string>();
       for (const round of pastRounds) {
-        for (const id of (round.question_ids ?? [])) seen.add(String(id));
-      }
-
-      // Prefer unseen questions first. Once the player has exhausted the pool,
-      // refill the round with previously seen questions chosen at random.
-      // IDs are unique in the pool, so a question can never repeat within one round.
-      const unseen = pool.filter((q: any) => !seen.has(String(q.id)));
-      const seenQuestions = pool.filter((q: any) => seen.has(String(q.id)));
-      const candidates = [...unseen];
-
-      if (candidates.length < 10) {
-        const recycled = [...seenQuestions];
-        for (let i = recycled.length - 1; i > 0; i--) {
-          const j = crypto.getRandomValues(new Uint32Array(1))[0] % (i + 1);
-          [recycled[i], recycled[j]] = [recycled[j], recycled[i]];
+        for (const id of (round.question_ids ?? [])) {
+          if (poolIds.has(String(id))) seen.add(String(id));
         }
-        candidates.push(...recycled.slice(0, 10 - candidates.length));
+      }
+      const shuffle = <T>(items: T[]) => {
+        const result = [...items];
+        for (let i = result.length - 1; i > 0; i--) {
+          const j = crypto.getRandomValues(new Uint32Array(1))[0] % (i + 1);
+          [result[i], result[j]] = [result[j], result[i]];
+        }
+        return result;
+      };
+
+      const unseen = pool.filter((q: any) => !seen.has(String(q.id)));
+      let chosen: any[];
+      if (unseen.length > 0) {
+        // A final short round is allowed when fewer than ten new questions remain.
+        chosen = shuffle(unseen).slice(0, Math.min(10, unseen.length));
+      } else {
+        // All unique questions in this category have been answered: start a
+        // fresh randomized cycle, avoiding the exact previous round order.
+        const lastRound = pastRounds[pastRounds.length - 1];
+        let shuffled = shuffle(pool);
+        const lastIds = (lastRound?.question_ids ?? []).map(String);
+        const sameOrder = (a: any[], b: string[]) =>
+          a.length === b.length && a.every((q, i) => String(q.id) === b[i]);
+        if (shuffled.length > 1 && sameOrder(shuffled.slice(0, Math.min(10, shuffled.length)), lastIds)) {
+          [shuffled[0], shuffled[1]] = [shuffled[1], shuffled[0]];
+        }
+        chosen = shuffled.slice(0, Math.min(10, shuffled.length));
       }
 
-      if (candidates.length < 10) {
-        return json({ error: 'عدد الأسئلة المتاحة في هذا القسم أقل من 10. أضف المزيد من الأسئلة لبدء الجولة.' }, 409);
-      }
-
-      // Fisher-Yates shuffle; no answer key or explanation is sent to the browser.
-      const shuffled = [...candidates];
-      for (let i = shuffled.length - 1; i > 0; i--) { const j = crypto.getRandomValues(new Uint32Array(1))[0] % (i + 1); [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; }
-      const chosen = shuffled.slice(0, 10);
       const { data: session, error: sessionError } = await db.from('brain_sessions').insert({
         player_id: player.id, category, question_ids: chosen.map((q: any) => q.id),
       }).select('id,expires_at').single();
@@ -182,7 +199,7 @@ Deno.serve(async (req) => {
         throw error;
       }
       const row = data?.[0];
-      return json({ verified: true, score: row.score, total: 10, category: row.category, message: 'تم التحقق من النتيجة وتسجيلها على الخادم.' });
+      return json({ verified: true, score: row.score, total: answers.length, category: row.category, message: 'تم التحقق من النتيجة وتسجيلها على الخادم.' });
     }
     return json({ error: 'Unknown action' }, 400);
   } catch (e) {
