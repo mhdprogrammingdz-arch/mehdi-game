@@ -502,7 +502,7 @@ window.addEventListener('resize', () => {
   beginBtn.disabled=true;beginBtn.textContent="جارٍ تجهيز الأسئلة…";
   try {
    const data=await callBrain("start",{category:serverCategories[mode]});
-   if(!data.sessionId||!Array.isArray(data.questions)||data.questions.length!==10) throw new Error("لم تصل عشرة أسئلة صالحة من الخادم.");
+   if(!data.sessionId||!Array.isArray(data.questions)||data.questions.length<1||data.questions.length>10) throw new Error("لم تصل أسئلة صالحة من الخادم.");
    sessionId=data.sessionId;
    questions=data.questions;
    if(questions.some(q=>!q.id||typeof q.question!=="string"||!Array.isArray(q.options)||q.options.length!==4)) throw new Error("صيغة الأسئلة المستلمة غير متوافقة.");
@@ -517,11 +517,11 @@ window.addEventListener('resize', () => {
  function showQuestion() {
   const q=questions[index];
   next.disabled=true;
-  next.textContent=index===9?"إرسال النتيجة والتحقق ✓":"السؤال التالي ←";
+  next.textContent=index===questions.length-1?"إرسال النتيجة والتحقق ✓":"السؤال التالي ←";
   feedback.textContent="اختر إجابة واحدة.";
-  document.getElementById("brain-progress").textContent="السؤال "+(index+1)+" من 10";
+  document.getElementById("brain-progress").textContent="السؤال "+(index+1)+" من "+questions.length;
   document.getElementById("brain-score").textContent="الإجابات المسجلة: "+answers.length;
-  document.getElementById("brain-track-fill").style.width=(index/10*100)+"%";
+  document.getElementById("brain-track-fill").style.width=(index/questions.length*100)+"%";
   qEl.textContent=q.question;
   answersEl.innerHTML="";
   q.options.forEach((option,i)=>{
@@ -552,20 +552,22 @@ window.addEventListener('resize', () => {
   submitting=true;next.disabled=true;next.textContent="جارٍ التحقق من النتيجة…";
   feedback.textContent="يتم الآن تصحيح الإجابات داخل قاعدة البيانات.";
   try {
-   if(answers.length!==10) throw new Error("يجب تسجيل إجابة لكل سؤال.");
+   if(answers.length!==questions.length||answers.some((answer,i)=>!answer||String(answer.questionId)!==String(questions[i].id))) throw new Error("يجب تسجيل إجابة لكل سؤال.");
    const verified=await callBrain("submit",{sessionId,answers});
    if(verified.verified!==true||typeof verified.score!=="number") throw new Error("لم يؤكد الخادم النتيجة.");
    const score=verified.score;
    area.hidden=true;result.hidden=false;
    document.getElementById("brain-track-fill").style.width="100%";
-   document.getElementById("brain-final-score").textContent=score+" / 10";
+   const total=Number(verified.total)||questions.length;
+   document.getElementById("brain-final-score").textContent=score+" / "+total;
    const rewardImage=document.getElementById("brain-reward-image");
    // Show exactly one original result image for each score range: 0–4, exactly 5, or 6–10.
-   rewardImage.hidden=score<6;
-   document.getElementById("brain-low-score-image").hidden=score>=5;
-   document.getElementById("brain-medium-score-image").hidden=score!==5;
-   document.getElementById("brain-result-title").textContent=score>=8?"ممتاز! عبقري التحديات 🏆":score>=5?"أحسنت، أداء جميل! 👏":"لا تستسلم، حاول مرة أخرى 💪";
-   document.getElementById("brain-result-text").textContent="تم التحقق من إجاباتك وتسجيل "+score+" نقاط من أصل 10 في قاعدة البيانات.";
+   const ratio=total?score/total:0;
+   rewardImage.hidden=ratio<0.6;
+   document.getElementById("brain-low-score-image").hidden=ratio>=0.5;
+   document.getElementById("brain-medium-score-image").hidden=ratio!==0.5;
+   document.getElementById("brain-result-title").textContent=ratio>=0.8?"ممتاز! عبقري التحديات 🏆":ratio>=0.5?"أحسنت، أداء جميل! 👏":"لا تستسلم، حاول مرة أخرى 💪";
+   document.getElementById("brain-result-text").textContent="تم التحقق من إجاباتك وتسجيل "+score+" نقاط من أصل "+total+" في قاعدة البيانات.";
    bestEl.textContent="—";
    window.dispatchEvent(new Event("mehdi-leaderboard-refresh"));
   } catch(err) {
@@ -576,7 +578,7 @@ window.addEventListener('resize', () => {
  }
  function advance() {
   if(submitting)return;
-  if(index===9){finish();return;}
+  if(index===questions.length-1){finish();return;}
   index++;showQuestion();
  }
  next.addEventListener("click",advance);
