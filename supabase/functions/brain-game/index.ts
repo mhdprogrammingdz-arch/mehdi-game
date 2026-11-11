@@ -116,7 +116,10 @@ Deno.serve(async (req) => {
         const opts = Array.isArray(q.options) ? q.options.map((x: unknown) => normalize(x)) : [];
         const correctIndex = answerKeyById.get(String(q.id));
         if (!normalize(q.question) || opts.length !== 4 || correctIndex === undefined) continue;
-        const duplicateKey = JSON.stringify([normalize(q.question), opts, correctIndex]);
+        // A question is identified by its normalized wording alone.
+        // This prevents the same prompt appearing multiple times even when
+        // duplicate rows have different option ordering or answer-key records.
+        const duplicateKey = normalize(q.question);
         if (!uniqueQuestions.has(duplicateKey)) uniqueQuestions.set(duplicateKey, q);
       }
       const pool = [...uniqueQuestions.values()];
