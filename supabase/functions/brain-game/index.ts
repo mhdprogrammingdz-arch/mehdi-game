@@ -90,7 +90,7 @@ Deno.serve(async (req) => {
       if (category !== 'challenge') query = query.eq('category', category);
       const { data: rawPool, error } = await query;
       if (error) throw error;
-      if (!rawPool?.length) return json({ error: 'لا توجد أسئلة متاحة لهذا القسم حالياً.' }, 409);
+      if (!rawPool?.length) return json({ error: 'تشخيص: لم يتم جلب أي سؤال من قاعدة البيانات.', diagnostic: { category, rawQuestions: 0 } }, 409);
 
       const normalize = (value: unknown) => String(value ?? '')
         .normalize('NFKC')
@@ -120,7 +120,15 @@ Deno.serve(async (req) => {
         if (!uniqueQuestions.has(duplicateKey)) uniqueQuestions.set(duplicateKey, q);
       }
       const pool = [...uniqueQuestions.values()];
-      if (!pool.length) return json({ error: 'لا توجد أسئلة صالحة ومتاحة لهذا القسم.' }, 409);
+      if (!pool.length) {
+        const optionsArrayCount = (rawPool as any[]).filter((q: any) => Array.isArray(q.options)).length;
+        const fourOptionsCount = (rawPool as any[]).filter((q: any) => Array.isArray(q.options) && q.options.length === 4).length;
+        const answerKeyCount = answerKeyById.size;
+        return json({
+          error: 'تشخيص: تم جلب الأسئلة لكن لم يجتز أي سؤال شروط الصلاحية.',
+          diagnostic: { category, rawQuestions: rawPool.length, optionsArrayCount, fourOptionsCount, answerKeyCount }
+        }, 409);
+      }
 
       // History is isolated by player AND category, and only successfully
       // submitted rounds consume questions. Abandoned sessions do not.
