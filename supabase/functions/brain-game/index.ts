@@ -95,10 +95,10 @@ Deno.serve(async (req) => {
       const normalize = (value: unknown) => String(value ?? '')
         .normalize('NFKC')
         .toLocaleLowerCase()
-        .replace(/[\\u064B-\\u065F\\u0670\\u0640]/g, '')
+        .replace(/[\u064B-\u065F\u0670\u0640]/g, '')
         .replace(/[أإآ]/g, 'ا')
         .replace(/ى/g, 'ي')
-        .replace(/[^\\p{L}\\p{N}]+/gu, ' ')
+        .replace(/[^\p{L}\p{N}]+/gu, ' ')
         .trim();
 
       // Read answer keys server-side so duplicate detection compares the
