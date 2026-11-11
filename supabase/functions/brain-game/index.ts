@@ -86,10 +86,6 @@ Deno.serve(async (req) => {
     if (body.action === 'start') {
       const category = String(body.category ?? '');
       if (!categories.has(category)) return json({ error: 'القسم غير صحيح.' }, 400);
-      const since = new Date(Date.now() - 60 * 60 * 1000).toISOString();
-      const { count: recentRounds, error: rateError } = await db.from('brain_sessions').select('id', { count: 'exact', head: true }).eq('player_id', player.id).gte('created_at', since);
-      if (rateError) throw rateError;
-      if ((recentRounds ?? 0) >= 20) return json({ error: 'وصلت إلى الحد المؤقت: 20 جولة في الساعة. حاول لاحقاً.' }, 429);
       let query = db.from('brain_questions').select('id,category,question,options').eq('active', true);
       if (category !== 'challenge') query = query.eq('category', category);
       const { data: rawPool, error } = await query;
