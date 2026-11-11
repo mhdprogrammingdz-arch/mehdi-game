@@ -86,12 +86,6 @@ Deno.serve(async (req) => {
     if (body.action === 'start') {
       const category = String(body.category ?? '');
       if (!categories.has(category)) return json({ error: 'القسم غير صحيح.' }, 400);
-      let query = db.from('brain_questions').select('id,category,question,options').eq('active', true).order('id', { ascending: true });
-      if (category !== 'challenge') query = query.eq('category', category);
-      const { data: rawPool, error } = await query;
-      if (error) throw error;
-      if (!rawPool?.length) return json({ error: 'تشخيص: لم يتم جلب أي سؤال من قاعدة البيانات.', diagnostic: { category, rawQuestions: 0 } }, 409);
-
       const normalize = (value: unknown) => String(value ?? '')
         .normalize('NFKC')
         .toLocaleLowerCase()
@@ -101,47 +95,65 @@ Deno.serve(async (req) => {
         .replace(/[^\p{L}\p{N}]+/gu, ' ')
         .trim();
 
-      // Read answer keys server-side so duplicate detection compares the
-      // question, its four answer choices, and the correct choice.
-      const questionIds = rawPool.map((q: any) => String(q.id));
-      const { data: keyRows, error: keyError } = await db.from('brain_answer_keys')
-        .select('question_id,correct_index')
-        .in('question_id', questionIds);
-      if (keyError) throw keyError;
-      const answerKeyById = new Map<string, number>();
-      for (const row of keyRows ?? []) answerKeyById.set(String(row.question_id), Number(row.correct_index));
+      // Load the complete active question bank so uniqueness is enforced
+      // across every category, not just inside the selected category.
+      const rawPool: any[] = [];
+      const questionPageSize = 1000;
+      for (let from = 0; ; from += questionPageSize) {
+        const { data: page, error } = await db.from('brain_questions')
+          .select('id,category,question,options')
+          .eq('active', true)
+          .order('id', { ascending: true })
+          .range(from, from + questionPageSize - 1);
+        if (error) throw error;
+        rawPool.push(...(page ?? []));
+        if (!page || page.length < questionPageSize) break;
+      }
+      if (!rawPool.length) return json({
+        error: 'لا توجد أسئلة نشطة في قاعدة البيانات.',
+        diagnostic: { category, rawQuestions: 0 }
+      }, 409);
 
+      // Fetch answer keys in small batches to avoid request-size limits.
+      const answerKeyById = new Map<string, number>();
+      const questionIds = rawPool.map((q: any) => String(q.id));
+      for (let i = 0; i < questionIds.length; i += 500) {
+        const batch = questionIds.slice(i, i + 500);
+        const { data: keyRows, error: keyError } = await db.from('brain_answer_keys')
+          .select('question_id,correct_index')
+          .in('question_id', batch);
+        if (keyError) throw keyError;
+        for (const row of keyRows ?? []) {
+          answerKeyById.set(String(row.question_id), Number(row.correct_index));
+        }
+      }
+
+      // One normalized question wording can exist only once in the global pool.
       const uniqueQuestions = new Map<string, any>();
-      for (const q of rawPool as any[]) {
+      for (const q of rawPool) {
         const opts = Array.isArray(q.options) ? q.options.map((x: unknown) => normalize(x)) : [];
         const correctIndex = answerKeyById.get(String(q.id));
-        if (!normalize(q.question) || opts.length !== 4 || correctIndex === undefined) continue;
-        // A question is identified by its normalized wording alone.
-        // This prevents the same prompt appearing multiple times even when
-        // duplicate rows have different option ordering or answer-key records.
+        if (!normalize(q.question) || opts.length !== 4 || !Number.isInteger(correctIndex) || correctIndex! < 0 || correctIndex! > 3) continue;
         const duplicateKey = normalize(q.question);
         if (!uniqueQuestions.has(duplicateKey)) uniqueQuestions.set(duplicateKey, q);
       }
-      const pool = [...uniqueQuestions.values()];
-      if (!pool.length) {
-        const optionsArrayCount = (rawPool as any[]).filter((q: any) => Array.isArray(q.options)).length;
-        const fourOptionsCount = (rawPool as any[]).filter((q: any) => Array.isArray(q.options) && q.options.length === 4).length;
-        const answerKeyCount = answerKeyById.size;
-        return json({
-          error: 'تشخيص: تم جلب الأسئلة لكن لم يجتز أي سؤال شروط الصلاحية.',
-          diagnostic: { category, rawQuestions: rawPool.length, optionsArrayCount, fourOptionsCount, answerKeyCount }
-        }, 409);
-      }
+      const globalPool = [...uniqueQuestions.values()];
+      const pool = category === 'challenge'
+        ? globalPool
+        : globalPool.filter((q: any) => q.category === category);
+      if (!pool.length) return json({
+        error: 'لا توجد أسئلة صالحة لهذا القسم بعد إزالة الأسئلة المكررة.',
+        diagnostic: { category, activeQuestions: rawPool.length, validUniqueGlobalQuestions: globalPool.length }
+      }, 409);
 
-      // History is isolated by player AND category, and only successfully
-      // submitted rounds consume questions. Abandoned sessions do not.
+      // A player's submitted questions are tracked globally across all categories.
+      // Abandoned/unsubmitted rounds never consume questions.
       const pastRounds: any[] = [];
       const historyPageSize = 1000;
       for (let from = 0; ; from += historyPageSize) {
         const { data: historyPage, error: historyError } = await db.from('brain_sessions')
           .select('id,question_ids,created_at,submitted_at')
           .eq('player_id', player.id)
-          .eq('category', category)
           .not('submitted_at', 'is', null)
           .order('created_at', { ascending: true })
           .order('id', { ascending: true })
@@ -152,11 +164,21 @@ Deno.serve(async (req) => {
         if (page.length < historyPageSize) break;
       }
 
-      const poolIds = new Set(pool.map((q: any) => String(q.id)));
-      const seen = new Set<string>();
-      for (const round of pastRounds) {
-        for (const id of (round.question_ids ?? [])) {
-          if (poolIds.has(String(id))) seen.add(String(id));
+      // Compare wording, not only row IDs, because duplicate prompts may have
+      // different IDs in different categories.
+      const seenQuestionIds = [...new Set(pastRounds.flatMap((round: any) =>
+        Array.isArray(round.question_ids) ? round.question_ids.map(String) : []
+      ))];
+      const seenQuestionTexts = new Set<string>();
+      for (let i = 0; i < seenQuestionIds.length; i += 500) {
+        const batch = seenQuestionIds.slice(i, i + 500);
+        const { data: oldQuestions, error: oldQuestionsError } = await db.from('brain_questions')
+          .select('id,question')
+          .in('id', batch);
+        if (oldQuestionsError) throw oldQuestionsError;
+        for (const oldQuestion of oldQuestions ?? []) {
+          const wording = normalize(oldQuestion.question);
+          if (wording) seenQuestionTexts.add(wording);
         }
       }
       const shuffle = <T>(items: T[]) => {
@@ -168,16 +190,23 @@ Deno.serve(async (req) => {
         return result;
       };
 
-      const unseen = pool.filter((q: any) => !seen.has(String(q.id)));
+      const unseenGlobal = globalPool.filter((q: any) => !seenQuestionTexts.has(normalize(q.question)));
+      const unseen = pool.filter((q: any) => !seenQuestionTexts.has(normalize(q.question)));
       let chosen: any[];
       if (unseen.length > 0) {
-        // A final short round is allowed when fewer than ten new questions remain.
+        // Only never-before-submitted questions can be selected, regardless of category.
         chosen = shuffle(unseen).slice(0, Math.min(10, unseen.length));
+      } else if (unseenGlobal.length > 0) {
+        // This category is exhausted for this player, but other categories still
+        // contain unseen questions. Do not silently repeat; ask them to switch.
+        return json({
+          error: 'لقد أكملت الأسئلة الجديدة في هذا القسم. اختر قسماً آخر لمتابعة أسئلة لم تظهر لك من قبل.',
+          diagnostic: { category, unseenInSelectedCategory: 0, unseenAcrossAllCategories: unseenGlobal.length }
+        }, 409);
       } else {
-        // All unique questions in this category have been answered: start a
-        // fresh randomized cycle, avoiding the exact previous round order.
-        const lastRound = pastRounds[pastRounds.length - 1];
+        // The player has exhausted the entire global bank: begin a fresh cycle.
         let shuffled = shuffle(pool);
+        const lastRound = pastRounds[pastRounds.length - 1];
         const lastIds = (lastRound?.question_ids ?? []).map(String);
         const sameOrder = (a: any[], b: string[]) =>
           a.length === b.length && a.every((q, i) => String(q.id) === b[i]);
