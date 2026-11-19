@@ -47,7 +47,12 @@ Deno.serve(async (req) => {
     }
     const { data: player, error: playerError } = await db.from('brain_players').select('id,nickname').eq('user_id', userId).maybeSingle();
     if (playerError) throw playerError;
-    if (!player) return json({ error: 'سجّل اسم اللاعب أولاً.' }, 403);
+    if (!player) return json({ error: 'لم يتم العثور على لاعب مرتبط بهذه الجلسة. سجّل اسمك مرة واحدة للمتابعة.' }, 403);
+
+    // Restore returns the existing database identity without changing its nickname.
+    if (body.action === 'restore') {
+      return json({ player });
+    }
 
     if (body.action === 'leaderboard') {
       // Global permanent leaderboard: combine verified scores from every game
