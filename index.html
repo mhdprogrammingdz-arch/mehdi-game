@@ -451,6 +451,7 @@ window.addEventListener('resize', () => {
 
  function showPlayer(player) {
   activePlayer=player;
+  playerInput.value=player.nickname;
   playerCurrent.textContent="اللاعب الحالي: "+player.nickname;
   playerCurrent.hidden=false;
   beginBtn.disabled=false;
@@ -466,7 +467,10 @@ window.addEventListener('resize', () => {
   playerInput.value=saved.nickname;
   try {
    setPlayerMessage("جارٍ استعادة اللاعب والاتصال بقاعدة البيانات…");
-   const data=await callBrain("register",{nickname:saved.nickname});
+   // Restore the existing player by the authenticated Supabase user_id.
+   // Do not re-register the stale nickname cached in this browser.
+   const data=await callBrain("restore");
+   if(!data.player?.id) throw new Error("لم يتم العثور على حساب اللاعب في الجلسة الحالية.");
    showPlayer(data.player);
   } catch(e) {
    setPlayerMessage("تعذر استعادة اللاعب تلقائياً. اضغط حفظ الاسم لإعادة المحاولة.","err");
