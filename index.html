@@ -307,6 +307,7 @@ footer{min-width:0}
    <button class="brain-mode" data-mode="history" type="button">📜 أسئلة تاريخية</button>
    <button class="brain-mode" data-mode="computer" type="button">💻 الإعلام الآلي</button>
    <button class="brain-mode" data-mode="math" type="button">➗ الرياضيات</button>
+   <button class="brain-mode" data-mode="friends" type="button">🤝 الأصدقاء</button>
   </div>
   <div class="brain-play" id="brain-play">
    <div class="brain-start" id="brain-start">
@@ -346,7 +347,7 @@ footer{min-width:0}
  <div class="game-modal-card">
   <button class="modal-x" id="close-game-modal" type="button" aria-label="إغلاق">×</button>
   <span class="brain-tag">MEHDI GAME ZONE</span><h2 id="game-modal-title">هل تريد اللعب؟</h2>
-  <p>اختر مجالاً من المجالات السبعة، بأسئلة عربية مع التركيز على المنهاج الجزائري.</p>
+  <p>اختر مجالاً من المجالات الثمانية، بأسئلة عربية مع التركيز على المنهاج الجزائري.</p>
   <div class="game-choice-grid">
    <button class="game-choice gold" data-pick="challenge" type="button"><span class="choice-icon">🏆</span><strong>تحدي العقل</strong><small>أسئلة متنوعة تختبر قدراتك</small><b>اختر والعب ←</b></button>
    <button class="game-choice violet" data-pick="riddle" type="button"><span class="choice-icon">🧩</span><strong>الألغاز الذكية</strong><small>فكر بذكاء واكتشف الحل</small><b>اختر والعب ←</b></button>
@@ -355,6 +356,7 @@ footer{min-width:0}
    <button class="game-choice blue" data-pick="history" type="button"><span class="choice-icon">📜</span><strong>أسئلة تاريخية</strong><small>تاريخ الجزائر والعالم العربي والعالم</small><b>اختر والعب ←</b></button>
    <button class="game-choice teal" data-pick="computer" type="button"><span class="choice-icon">💻</span><strong>الإعلام الآلي</strong><small>مفاهيم الحاسوب والبرمجة والمنهاج الجزائري</small><b>اختر والعب ←</b></button>
    <button class="game-choice" data-pick="math" type="button"><span class="choice-icon">➗</span><strong>الرياضيات</strong><small>الحساب والمنطق والمسائل الرياضية</small><b>اختر والعب ←</b></button>
+   <button class="game-choice violet" data-pick="friends" type="button"><span class="choice-icon">🤝</span><strong>الأصدقاء</strong><small>أسئلة عن الصداقة والمواقف بين الأصدقاء</small><b>اختر والعب ←</b></button>
   </div>
   <div class="modal-actions"><button class="brain-mode" id="modal-home" type="button">⌂ العودة للرئيسية</button><button class="brain-mode danger" id="modal-exit" type="button">⏻ خروج</button></div>
  </div>
@@ -408,8 +410,8 @@ window.addEventListener('resize', () => {
  const playerForm=document.getElementById('player-register-form'), playerInput=document.getElementById('player-nickname');
  const playerStatus=document.getElementById('player-register-status'), playerCurrent=document.getElementById('player-current');
  const savePlayerBtn=document.getElementById('save-player-name'), beginBtn=document.getElementById('brain-begin');
- const modeNames={challenge:"تحدي العقل",riddle:"الألغاز الذكية",knowledge:"المعرفة العامة",politics:"الأسئلة السياسية",history:"الأسئلة التاريخية",computer:"الإعلام الآلي",math:"الرياضيات"};
- const serverCategories={challenge:"challenge",riddle:"riddles",knowledge:"knowledge",politics:"politics",history:"history",computer:"technology",math:"mathematics"};
+ const modeNames={challenge:"تحدي العقل",riddle:"الألغاز الذكية",knowledge:"المعرفة العامة",politics:"الأسئلة السياسية",history:"الأسئلة التاريخية",computer:"الإعلام الآلي",math:"الرياضيات",friends:"الأصدقاء"};
+ const serverCategories={challenge:"challenge",riddle:"riddles",knowledge:"knowledge",politics:"politics",history:"history",computer:"technology",math:"mathematics",friends:"friends"};
  let mode="challenge", questions=[], index=0, answers=[], activePlayer=null, sessionId=null, supabase=null, submitting=false;
 
  function setPlayerMessage(message,kind="") {
@@ -624,7 +626,7 @@ window.addEventListener('resize', () => {
 (async () => {
  const status=document.getElementById("leader-status"), rows=document.getElementById("leader-rows");
  const categoryForTab={challenge:"challenge",riddle:"riddles",knowledge:"knowledge",politics:"politics",history:"history",computer:"technology",math:"mathematics"};
- const categoryNames={challenge:"تحدي العقل",riddles:"الألغاز الذكية",knowledge:"المعرفة العامة",politics:"الأسئلة السياسية",history:"الأسئلة التاريخية",technology:"الإعلام الآلي",mathematics:"الرياضيات"};
+ const categoryNames={challenge:"تحدي العقل",riddles:"الألغاز الذكية",knowledge:"المعرفة العامة",politics:"الأسئلة السياسية",history:"الأسئلة التاريخية",technology:"الإعلام الآلي",mathematics:"الرياضيات",friends:"الأصدقاء"};
  let selected="challenge",busy=false;
  async function loadBoard() {
   if(busy)return;busy=true;
