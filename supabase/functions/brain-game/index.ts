@@ -181,7 +181,7 @@ Deno.serve(async (req) => {
       }
       const globalPool = [...uniqueQuestions.values()];
       const friendPerson = String(body.friendPerson ?? '');
-      if (category === 'friends' && !/^[\\p{L}\\p{N}_-]{1,64}$/u.test(friendPerson)) {
+      if (category === 'friends' && !/^[\p{L}\p{N}_-]{1,64}$/u.test(friendPerson)) {
         return json({ error: 'اختر الشخص الذي تريد الإجابة عن أسئلته.' }, 400);
       }
       const friendPrefix = category === 'friends' ? `friends-${friendPerson}-` : '';
