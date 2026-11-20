@@ -344,6 +344,7 @@ footer{min-width:0}
     <img class="brain-reward-image" id="brain-medium-score-image" src="assets/score-medium.jpg" alt="نتيجة 5 من 10" hidden>
     <button class="btn brain-start-btn" id="brain-restart" type="button">العب مرة أخرى ↻</button>
    </div>
+   <button class="btn btn-ghost" id="change-friend-person" type="button" hidden>تغيير الشخص في مجال الأصدقاء ↻</button>
   </div>
   <p class="brain-note">تتغير الأسئلة بين الجولات ويمكن لعب جولات غير محدودة. اسم اللاعب يُحفظ سحابياً؛ رفع النقاط للوحة الصدارة سيُفعّل بعد إضافة التحقق الآمن من النتائج.</p>
  </div>
@@ -422,6 +423,7 @@ window.addEventListener('resize', () => {
  const friendPicker=document.getElementById("friend-person-picker");
  const friendGrid=document.getElementById("friend-person-grid");
  const friendPeopleStatus=document.getElementById("friend-people-status");
+ const changeFriendBtn=document.getElementById("change-friend-person");
 
  function setPlayerMessage(message,kind="") {
   playerStatus.textContent=message;
@@ -569,6 +571,7 @@ window.addEventListener('resize', () => {
    if(questions.some(q=>!q.id||typeof q.question!=="string"||!Array.isArray(q.options)||q.options.length!==4)) throw new Error("صيغة الأسئلة المستلمة غير متوافقة.");
    answers=[];index=0;submitting=false;
    start.hidden=true;result.hidden=true;area.hidden=false;
+   changeFriendBtn.hidden=mode!=="friends";
    showQuestion();
   } catch(err) {
    setPlayerMessage("تعذر بدء الجولة: "+(err.message||"خطأ في الاتصال."),"err");
@@ -644,6 +647,13 @@ window.addEventListener('resize', () => {
  }
  next.addEventListener("click",advance);
  beginBtn.addEventListener("click",begin);
+ changeFriendBtn.addEventListener("click",async()=>{
+  if(mode!=="friends")return;
+  stopRoundView();sessionId=null;questions=[];answers=[];index=0;submitting=false;
+  changeFriendBtn.hidden=true;
+  friendPicker.hidden=false;beginBtn.hidden=true;
+  await loadFriendPeople();
+ });
  document.getElementById("brain-restart").addEventListener("click",()=>{
   stopRoundView();sessionId=null;questions=[];answers=[];
   friendPicker.hidden=true;
@@ -661,6 +671,7 @@ window.addEventListener('resize', () => {
   beginBtn.textContent="ابدأ اللعب الآن ←";
   beginBtn.hidden=false;
   friendPicker.hidden=true;
+  changeFriendBtn.hidden=true;
   selectedFriend=null;
   selectedFriendName="";
   friendGrid.replaceChildren();
