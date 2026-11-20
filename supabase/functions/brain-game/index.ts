@@ -216,7 +216,9 @@ Deno.serve(async (req) => {
       // Friend rounds have an independent history per selected person.
       // Other categories keep the original global no-repeat history.
       const relevantPastRounds = category === 'friends'
-        ? pastRounds.filter((round: any) => round.category === 'friends')
+        ? pastRounds.filter((round: any) => round.category === 'friends'
+            && Array.isArray(round.question_ids)
+            && round.question_ids.some((id: unknown) => String(id).startsWith(friendPrefix)))
         : pastRounds;
       // Compare wording, not only row IDs, because duplicate prompts may have
       // different IDs in different categories. For friends, only this person's IDs count.
