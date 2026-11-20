@@ -307,6 +307,7 @@ footer{min-width:0}
    <button class="brain-mode" data-mode="history" type="button">📜 أسئلة تاريخية</button>
    <button class="brain-mode" data-mode="computer" type="button">💻 الإعلام الآلي</button>
    <button class="brain-mode" data-mode="math" type="button">➗ الرياضيات</button>
+    <button class="brain-mode" data-mode="friends" type="button">🤝 الأصدقاء</button>
      </div>
   <div class="brain-play" id="brain-play">
    <div class="brain-start" id="brain-start">
@@ -346,7 +347,7 @@ footer{min-width:0}
  <div class="game-modal-card">
   <button class="modal-x" id="close-game-modal" type="button" aria-label="إغلاق">×</button>
   <span class="brain-tag">MEHDI GAME ZONE</span><h2 id="game-modal-title">هل تريد اللعب؟</h2>
-  <p>اختر مجالاً من المجالات الثمانية، بأسئلة عربية مع التركيز على المنهاج الجزائري.</p>
+  <p>اختر مجالاً من المجالات الثمانية، بأسئلة عربية متنوعة.</p>
   <div class="game-choice-grid">
    <button class="game-choice gold" data-pick="challenge" type="button"><span class="choice-icon">🏆</span><strong>تحدي العقل</strong><small>أسئلة متنوعة تختبر قدراتك</small><b>اختر والعب ←</b></button>
    <button class="game-choice violet" data-pick="riddle" type="button"><span class="choice-icon">🧩</span><strong>الألغاز الذكية</strong><small>فكر بذكاء واكتشف الحل</small><b>اختر والعب ←</b></button>
@@ -355,13 +356,13 @@ footer{min-width:0}
    <button class="game-choice blue" data-pick="history" type="button"><span class="choice-icon">📜</span><strong>أسئلة تاريخية</strong><small>تاريخ الجزائر والعالم العربي والعالم</small><b>اختر والعب ←</b></button>
    <button class="game-choice teal" data-pick="computer" type="button"><span class="choice-icon">💻</span><strong>الإعلام الآلي</strong><small>مفاهيم الحاسوب والبرمجة والمنهاج الجزائري</small><b>اختر والعب ←</b></button>
    <button class="game-choice" data-pick="math" type="button"><span class="choice-icon">➗</span><strong>الرياضيات</strong><small>الحساب والمنطق والمسائل الرياضية</small><b>اختر والعب ←</b></button>
-   <button class="game-choice violet" type="button" disabled aria-disabled="true"><span class="choice-icon">🤝</span><strong>الأصدقاء</strong><small>أسئلة عن الصداقة والمواقف بين الأصدقاء</small><b>قيد الإنجاز</b></button>
+   <button class="game-choice violet" data-pick="friends" type="button"><span class="choice-icon">🤝</span><strong>الأصدقاء</strong><small>أسئلة عن سرين والأصدقاء</small><b>ابدأ اللعب ←</b></button>
   </div>
   <div class="modal-actions"><button class="brain-mode" id="modal-home" type="button">⌂ العودة للرئيسية</button><button class="brain-mode danger" id="modal-exit" type="button">⏻ خروج</button></div>
  </div>
 </div>
 
-<section class="section" id="leaderboard"><div class="reveal"><div class="kicker">05 — DAILY LEADERBOARD</div><h2>لوحة صدارة أفضل 100 لاعب 🏆</h2><p class="intro">تُعرض النتائج اليومية المشتركة المسجلة في قاعدة بيانات Supabase.</p></div><div class="leader-panel reveal"><div class="leader-tabs"><button class="leader-tab active" data-board="challenge">تحدي العقل</button><button class="leader-tab" data-board="riddle">الألغاز الذكية</button><button class="leader-tab" data-board="knowledge">المعرفة العامة</button><button class="leader-tab" data-board="politics">السياسة</button><button class="leader-tab" data-board="history">التاريخ</button><button class="leader-tab" data-board="computer">الإعلام الآلي</button><button class="leader-tab" data-board="math">الرياضيات</button></div><div class="leader-status" id="leader-status">جارٍ الاتصال بلوحة الصدارة…</div><div class="leader-table-wrap"><table class="leader-table"><thead><tr><th>الترتيب</th><th>اللاعب</th><th>اللعبة</th><th>النقاط</th></tr></thead><tbody id="leader-rows"><tr><td colspan="4">جارٍ تحميل النتائج…</td></tr></tbody></table></div></div></section>
+<section class="section" id="leaderboard"><div class="reveal"><div class="kicker">05 — DAILY LEADERBOARD</div><h2>لوحة صدارة أفضل 100 لاعب 🏆</h2><p class="intro">تُعرض النتائج اليومية المشتركة المسجلة في قاعدة بيانات Supabase.</p></div><div class="leader-panel reveal"><div class="leader-tabs"><button class="leader-tab active" data-board="challenge">تحدي العقل</button><button class="leader-tab" data-board="riddle">الألغاز الذكية</button><button class="leader-tab" data-board="knowledge">المعرفة العامة</button><button class="leader-tab" data-board="politics">السياسة</button><button class="leader-tab" data-board="history">التاريخ</button><button class="leader-tab" data-board="computer">الإعلام الآلي</button><button class="leader-tab" data-board="math">الرياضيات</button><button class="leader-tab" data-board="friends">الأصدقاء</button></div><div class="leader-status" id="leader-status">جارٍ الاتصال بلوحة الصدارة…</div><div class="leader-table-wrap"><table class="leader-table"><thead><tr><th>الترتيب</th><th>اللاعب</th><th>اللعبة</th><th>النقاط</th></tr></thead><tbody id="leader-rows"><tr><td colspan="4">جارٍ تحميل النتائج…</td></tr></tbody></table></div></div></section>
 <section class="section" id="contact"><div class="contact reveal"><div><div class="kicker">05 — GET IN TOUCH</div><h2 style="margin:8px 0">لنبنِ شيئاً مميزاً.</h2><p>يسعدني التواصل مع المهتمين بالتقنية والبرمجة والأفكار الجديدة.</p></div><a class="btn" href="mailto:mhdprogrammingdz@gmail.com">تواصل معي ↗</a></div></section>
 <div class="global-dock" aria-label="أزرار التنقل"><button id="dock-back" type="button">↶ عودة</button><button id="dock-home" type="button">⌂ الرئيسية</button><button id="dock-exit" type="button">⏻ خروج</button></div>
 <footer><span>© 2026 MEHDI — PERSONAL PORTFOLIO</span><span class="footer-controls"><button id="footer-back" type="button">↶ عودة</button><button id="footer-home" type="button">⌂ الرئيسية</button><button id="footer-exit" type="button">⏻ خروج</button></span><span>DESIGNED WITH PURPOSE · BUILT WITH PASSION</span></footer>
@@ -409,8 +410,8 @@ window.addEventListener('resize', () => {
  const playerForm=document.getElementById('player-register-form'), playerInput=document.getElementById('player-nickname');
  const playerStatus=document.getElementById('player-register-status'), playerCurrent=document.getElementById('player-current');
  const savePlayerBtn=document.getElementById('save-player-name'), beginBtn=document.getElementById('brain-begin');
- const modeNames={challenge:"تحدي العقل",riddle:"الألغاز الذكية",knowledge:"المعرفة العامة",politics:"الأسئلة السياسية",history:"الأسئلة التاريخية",computer:"الإعلام الآلي",math:"الرياضيات"};
- const serverCategories={challenge:"challenge",riddle:"riddles",knowledge:"knowledge",politics:"politics",history:"history",computer:"technology",math:"mathematics"};
+ const modeNames={challenge:"تحدي العقل",riddle:"الألغاز الذكية",knowledge:"المعرفة العامة",politics:"الأسئلة السياسية",history:"الأسئلة التاريخية",computer:"الإعلام الآلي",math:"الرياضيات",friends:"الأصدقاء"};
+ const serverCategories={challenge:"challenge",riddle:"riddles",knowledge:"knowledge",politics:"politics",history:"history",computer:"technology",math:"mathematics",friends:"friends"};
  let mode="challenge", questions=[], index=0, answers=[], activePlayer=null, sessionId=null, supabase=null, submitting=false;
 
  function setPlayerMessage(message,kind="") {
@@ -624,7 +625,7 @@ window.addEventListener('resize', () => {
 // Shared leaderboard reads only server-verified brain_scores.
 (async () => {
  const status=document.getElementById("leader-status"), rows=document.getElementById("leader-rows");
- const categoryForTab={challenge:"challenge",riddle:"riddles",knowledge:"knowledge",politics:"politics",history:"history",computer:"technology",math:"mathematics"};
+ const categoryForTab={challenge:"challenge",riddle:"riddles",knowledge:"knowledge",politics:"politics",history:"history",computer:"technology",math:"mathematics",friends:"friends"};
  const categoryNames={challenge:"تحدي العقل",riddles:"الألغاز الذكية",knowledge:"المعرفة العامة",politics:"الأسئلة السياسية",history:"الأسئلة التاريخية",technology:"الإعلام الآلي",mathematics:"الرياضيات",friends:"الأصدقاء"};
  let selected="challenge",busy=false;
  async function loadBoard() {
