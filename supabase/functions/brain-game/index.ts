@@ -49,6 +49,42 @@ Deno.serve(async (req) => {
     if (playerError) throw playerError;
     if (!player) return json({ error: 'لم يتم العثور على لاعب مرتبط بهذه الجلسة. سجّل اسمك مرة واحدة للمتابعة.' }, 403);
 
+    if (body.action === 'friend_people') {
+      const friendRows: any[] = [];
+      const pageSize = 1000;
+      for (let from = 0; ; from += pageSize) {
+        const { data, error } = await db.from('brain_questions')
+          .select('id')
+          .eq('category', 'friends')
+          .eq('active', true)
+          .order('id', { ascending: true })
+          .range(from, from + pageSize - 1);
+        if (error) throw error;
+        const page = data ?? [];
+        friendRows.push(...page);
+        if (page.length < pageSize) break;
+      }
+      const peopleBySlug = new Map<string, number>();
+      for (const row of friendRows) {
+        const match = String(row.id ?? '').match(/^friends-(.+)-\\d+$/u);
+        if (!match) continue;
+        const slug = match[1];
+        peopleBySlug.set(slug, (peopleBySlug.get(slug) ?? 0) + 1);
+      }
+      const knownNames: Record<string, string> = {
+        sireen: 'سرين',
+        abdelhadi: 'عبد هادي',
+      };
+      const people = [...peopleBySlug.entries()]
+        .map(([slug, questionCount]) => ({
+          slug,
+          name: knownNames[slug] ?? slug.replace(/[-_]+/g, ' '),
+          questionCount,
+        }))
+        .sort((a, b) => a.name.localeCompare(b.name, 'ar'));
+      return json({ people });
+    }
+
     // Restore returns the existing database identity without changing its nickname.
     if (body.action === 'restore') {
       return json({ player });
@@ -144,17 +180,14 @@ Deno.serve(async (req) => {
       }
       const globalPool = [...uniqueQuestions.values()];
       const friendPerson = String(body.friendPerson ?? '');
-      const friendPrefixes: Record<string, string> = {
-        sireen: 'friends-sireen-',
-        abdelhadi: 'friends-abdelhadi-',
-      };
-      if (category === 'friends' && !friendPrefixes[friendPerson]) {
+      if (category === 'friends' && !/^[\\p{L}\\p{N}_-]{1,64}$/u.test(friendPerson)) {
         return json({ error: 'اختر الشخص الذي تريد الإجابة عن أسئلته.' }, 400);
       }
+      const friendPrefix = category === 'friends' ? `friends-${friendPerson}-` : '';
       const pool = category === 'challenge'
         ? globalPool
         : category === 'friends'
-          ? globalPool.filter((q: any) => q.category === 'friends' && String(q.id).startsWith(friendPrefixes[friendPerson]))
+          ? globalPool.filter((q: any) => q.category === 'friends' && String(q.id).startsWith(friendPrefix))
           : globalPool.filter((q: any) => q.category === category);
       if (!pool.length) return json({
         error: 'لا توجد أسئلة صالحة لهذا القسم بعد إزالة الأسئلة المكررة.',
