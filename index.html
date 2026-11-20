@@ -266,6 +266,9 @@ footer{min-width:0}
  }
 }
 
+/* Enforce friend-switch visibility despite generic .btn display rules. */
+#change-friend-person[hidden]{display:none!important}
+#change-friend-person:not([hidden]){display:inline-block!important}
 </style></head>
 <body>
 <div class="intro-screen"><div class="intro-content"><div class="intro-title">MEHDI<span>.</span></div><div class="intro-caption">DEVELOPER · CREATOR · SECURITY ENTHUSIAST</div><div class="bar"></div></div></div>
@@ -655,10 +658,11 @@ window.addEventListener('resize', () => {
   await loadFriendPeople();
  });
  document.getElementById("brain-restart").addEventListener("click",()=>{
-  stopRoundView();sessionId=null;questions=[];answers=[];
+  stopRoundView();sessionId=null;questions=[];answers=[];index=0;submitting=false;
   friendPicker.hidden=true;
   beginBtn.hidden=false;
-  beginBtn.textContent=mode==="friends"&&selectedFriend?"أعد أسئلة "+selectedFriendName+" ←":"ابدأ جولة جديدة ←";
+  beginBtn.textContent=mode==="friends"&&selectedFriend?"جارٍ بدء جولة جديدة عن "+selectedFriendName+"…":"ابدأ جولة جديدة ←";
+  if(mode==="friends"&&selectedFriend){begin();}
  });
  const modal=document.getElementById("game-modal");
  const label=document.getElementById("selected-game-label");
