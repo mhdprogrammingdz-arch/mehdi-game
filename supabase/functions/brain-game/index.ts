@@ -201,7 +201,7 @@ Deno.serve(async (req) => {
       const historyPageSize = 1000;
       for (let from = 0; ; from += historyPageSize) {
         const { data: historyPage, error: historyError } = await db.from('brain_sessions')
-          .select('id,question_ids,created_at,submitted_at')
+          .select('id,category,question_ids,created_at,submitted_at')
           .eq('player_id', player.id)
           .not('submitted_at', 'is', null)
           .order('created_at', { ascending: true })
@@ -213,11 +213,16 @@ Deno.serve(async (req) => {
         if (page.length < historyPageSize) break;
       }
 
+      // Friend rounds have an independent history per selected person.
+      // Other categories keep the original global no-repeat history.
+      const relevantPastRounds = category === 'friends'
+        ? pastRounds.filter((round: any) => round.category === 'friends')
+        : pastRounds;
       // Compare wording, not only row IDs, because duplicate prompts may have
-      // different IDs in different categories.
-      const seenQuestionIds = [...new Set(pastRounds.flatMap((round: any) =>
+      // different IDs in different categories. For friends, only this person's IDs count.
+      const seenQuestionIds = [...new Set(relevantPastRounds.flatMap((round: any) =>
         Array.isArray(round.question_ids) ? round.question_ids.map(String) : []
-      ))];
+      ))].filter((id: string) => category !== 'friends' || id.startsWith(friendPrefix));
       const seenQuestionTexts = new Set<string>();
       for (let i = 0; i < seenQuestionIds.length; i += 500) {
         const batch = seenQuestionIds.slice(i, i + 500);
@@ -255,7 +260,7 @@ Deno.serve(async (req) => {
       } else {
         // The player has exhausted the entire global bank: begin a fresh cycle.
         let shuffled = shuffle(pool);
-        const lastRound = pastRounds[pastRounds.length - 1];
+        const lastRound = relevantPastRounds[relevantPastRounds.length - 1];
         const lastIds = (lastRound?.question_ids ?? []).map(String);
         const sameOrder = (a: any[], b: string[]) =>
           a.length === b.length && a.every((q, i) => String(q.id) === b[i]);
