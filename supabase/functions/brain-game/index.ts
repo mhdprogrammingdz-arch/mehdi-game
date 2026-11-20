@@ -126,7 +126,10 @@ Deno.serve(async (req) => {
       return json({ results });
     }
     if (body.action === 'start') {
-      const category = String(body.category ?? '');
+      // The selected friend is authoritative: never let a stale/mismatched
+      // category value route a friends round through the global no-repeat rule.
+      const requestedFriendPerson = String(body.friendPerson ?? '').trim();
+      const category = requestedFriendPerson ? 'friends' : String(body.category ?? '');
       if (!categories.has(category)) return json({ error: 'القسم غير صحيح.' }, 400);
       const normalize = (value: unknown) => String(value ?? '')
         .normalize('NFKC')
@@ -180,7 +183,7 @@ Deno.serve(async (req) => {
         if (!uniqueQuestions.has(duplicateKey)) uniqueQuestions.set(duplicateKey, q);
       }
       const globalPool = [...uniqueQuestions.values()];
-      const friendPerson = String(body.friendPerson ?? '');
+      const friendPerson = requestedFriendPerson;
       if (category === 'friends' && !/^[\p{L}\p{N}_-]{1,64}$/u.test(friendPerson)) {
         return json({ error: 'اختر الشخص الذي تريد الإجابة عن أسئلته.' }, 400);
       }
