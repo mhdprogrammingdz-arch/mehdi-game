@@ -323,10 +323,8 @@ footer{min-width:0}
     <div class="friend-person-picker" id="friend-person-picker" hidden>
      <h3>اختر الصديق الذي تريد الإجابة عن أسئلته</h3>
      <p>ستظهر لك أسئلة تخص الشخص الذي تختاره فقط.</p>
-     <div class="friend-person-grid">
-      <button class="friend-person-card" type="button" data-friend-person="sireen"><strong>👤 سرين</strong><small>أسئلة عن سرين</small></button>
-      <button class="friend-person-card" type="button" data-friend-person="abdelhadi"><strong>👤 عبد هادي</strong><small>أسئلة عن عبد هادي</small></button>
-     </div>
+     <p id="friend-people-status" class="player-register-status" aria-live="polite">جارٍ تحميل قائمة الأصدقاء…</p>
+     <div class="friend-person-grid" id="friend-person-grid"></div>
     </div>
     <button class="btn brain-start-btn" id="brain-begin" type="button" disabled>احفظ اسمك أولاً</button>
    </div>
@@ -420,8 +418,10 @@ window.addEventListener('resize', () => {
  const savePlayerBtn=document.getElementById('save-player-name'), beginBtn=document.getElementById('brain-begin');
  const modeNames={challenge:"تحدي العقل",riddle:"الألغاز الذكية",knowledge:"المعرفة العامة",politics:"الأسئلة السياسية",history:"الأسئلة التاريخية",computer:"الإعلام الآلي",math:"الرياضيات",friends:"الأصدقاء"};
  const serverCategories={challenge:"challenge",riddle:"riddles",knowledge:"knowledge",politics:"politics",history:"history",computer:"technology",math:"mathematics",friends:"friends"};
- let mode="challenge", questions=[], index=0, answers=[], activePlayer=null, sessionId=null, supabase=null, submitting=false, selectedFriend=null;
+ let mode="challenge", questions=[], index=0, answers=[], activePlayer=null, sessionId=null, supabase=null, submitting=false, selectedFriend=null, selectedFriendName="";
  const friendPicker=document.getElementById("friend-person-picker");
+ const friendGrid=document.getElementById("friend-person-grid");
+ const friendPeopleStatus=document.getElementById("friend-people-status");
 
  function setPlayerMessage(message,kind="") {
   playerStatus.textContent=message;
@@ -457,6 +457,44 @@ window.addEventListener('resize', () => {
   try{body=await response.json()}catch(e){}
   if(!response.ok) throw new Error(body.error||("HTTP "+response.status));
   return body;
+ }
+ async function loadFriendPeople() {
+  friendPeopleStatus.textContent="جارٍ تحميل الأشخاص الذين لديهم أسئلة…";
+  friendPeopleStatus.className="player-register-status";
+  friendGrid.replaceChildren();
+  try {
+   const data=await callBrain("friend_people");
+   const people=Array.isArray(data.people)?data.people:[];
+   if(!people.length){
+    friendPeopleStatus.textContent="لا توجد أسئلة أصدقاء نشطة حالياً.";
+    return;
+   }
+   people.forEach(person=>{
+    const button=document.createElement("button");
+    button.type="button";
+    button.className="friend-person-card";
+    button.dataset.friendPerson=person.slug;
+    const title=document.createElement("strong");
+    title.textContent="👤 "+person.name;
+    const detail=document.createElement("small");
+    detail.textContent="أسئلة عن "+person.name+" · "+person.questionCount+" سؤال";
+    button.append(title,detail);
+    button.addEventListener("click",()=>{
+     selectedFriend=person.slug;
+     selectedFriendName=person.name;
+     friendPicker.hidden=true;
+     beginBtn.hidden=false;
+     beginBtn.disabled=false;
+     beginBtn.textContent="ابدأ أسئلة "+selectedFriendName+" ←";
+     begin();
+    });
+    friendGrid.appendChild(button);
+   });
+   friendPeopleStatus.textContent="اختر شخصاً لبدء الجولة.";
+  } catch(err) {
+   friendPeopleStatus.textContent="تعذر تحميل قائمة الأصدقاء: "+(err.message||"خطأ اتصال.");
+   friendPeopleStatus.className="player-register-status err";
+  }
  }
  window.mehdiBrainCall=callBrain;
 
@@ -517,6 +555,7 @@ window.addEventListener('resize', () => {
   if(mode==="friends"&&!selectedFriend){
    friendPicker.hidden=false;
    beginBtn.hidden=true;
+   await loadFriendPeople();
    return;
   }
   beginBtn.disabled=true;beginBtn.textContent="جارٍ تجهيز الأسئلة…";
@@ -609,7 +648,7 @@ window.addEventListener('resize', () => {
   stopRoundView();sessionId=null;questions=[];answers=[];
   friendPicker.hidden=true;
   beginBtn.hidden=false;
-  beginBtn.textContent=mode==="friends"&&selectedFriend?"أعد أسئلة "+(selectedFriend==="sireen"?"سرين":"عبد هادي")+" ←":"ابدأ جولة جديدة ←";
+  beginBtn.textContent=mode==="friends"&&selectedFriend?"أعد أسئلة "+selectedFriendName+" ←":"ابدأ جولة جديدة ←";
  });
  const modal=document.getElementById("game-modal");
  const label=document.getElementById("selected-game-label");
@@ -623,16 +662,12 @@ window.addEventListener('resize', () => {
   beginBtn.hidden=false;
   friendPicker.hidden=true;
   selectedFriend=null;
+  selectedFriendName="";
+  friendGrid.replaceChildren();
+  friendPeopleStatus.textContent="جارٍ تحميل قائمة الأصدقاء…";
   document.getElementById("brain-game").scrollIntoView({behavior:"smooth",block:"start"});
  }
- document.querySelectorAll("[data-friend-person]").forEach(button=>button.addEventListener("click",()=>{
-  selectedFriend=button.dataset.friendPerson;
-  friendPicker.hidden=true;
-  beginBtn.hidden=false;
-  beginBtn.disabled=false;
-  beginBtn.textContent="ابدأ أسئلة "+(selectedFriend==="sireen"?"سرين":"عبد هادي")+" ←";
-  begin();
- }));
+
  document.getElementById("open-game-chooser").addEventListener("click",openChooser);
  document.getElementById("header-play").addEventListener("click",openChooser);
  document.getElementById("change-game").addEventListener("click",openChooser);
