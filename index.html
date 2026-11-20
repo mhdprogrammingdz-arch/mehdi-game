@@ -94,7 +94,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offse
 .brain-modes{display:flex;flex-wrap:wrap;gap:9px;margin:24px 0 17px}.brain-mode{border:1px solid #25415b;background:#0a1727;color:#c9d9e9;border-radius:10px;padding:10px 15px;font:700 13px Cairo;cursor:pointer;transition:.2s}.brain-mode:hover,.brain-mode.active{border-color:var(--cyan);color:var(--cyan);background:#00d9ff12;box-shadow:0 0 18px #00d9ff15}
 .brain-play{min-height:330px;border:1px solid #1b3851;border-radius:16px;background:radial-gradient(ellipse at 50% 0%,#0e3150aa,transparent 65%),#07111e;padding:clamp(18px,3vw,30px);display:grid;place-items:center;text-align:center}
 .brain-start,.brain-result{max-width:520px}.brain-orb{width:66px;height:66px;display:grid;place-items:center;margin:0 auto 12px;border-radius:20px;background:linear-gradient(145deg,#00d9ff2b,#176cff24);border:1px solid #00d9ff77;color:var(--cyan);font:800 36px 'Space Grotesk';box-shadow:0 0 30px #00bfff1c}
-.brain-start h3,.brain-result h3{font-size:24px;margin:5px 0}.brain-start p,.brain-result p{color:var(--muted);line-height:1.9;margin:5px 0 20px}.brain-start-btn{border:0;cursor:pointer;font-family:Cairo}.player-register{max-width:440px;margin:18px auto 16px;padding:16px;border:1px solid #00d9ff55;border-radius:14px;background:#061526}.player-register label{display:block;color:#dff7ff;font-weight:700;margin-bottom:8px}.player-register-row{display:flex;gap:8px}.player-register input{min-width:0;flex:1;border:1px solid #31516d;border-radius:9px;background:#07101d;color:#fff;padding:11px 13px;font:600 14px Cairo;outline:none}.player-register input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #00d9ff18}.player-register button{border:0;border-radius:9px;padding:9px 14px;background:linear-gradient(110deg,#00d9ff,#4c8cff);color:#03101a;font:800 13px Cairo;cursor:pointer}.player-register-status{min-height:22px;margin:8px 0 0;color:#9eb4ca;font-size:12px}.player-register-status.ok{color:#6ee7b7}.player-register-status.err{color:#ff9baa}.player-current{color:#65e7ff;font-weight:800;margin:8px 0}.brain-question-area{width:100%;text-align:right}.brain-stats{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:#9eb4ca;font-size:12px;font-weight:700}.brain-track{height:6px;background:#152b40;border-radius:10px;overflow:hidden;margin:12px 0 23px}.brain-track span{display:block;height:100%;width:0;background:linear-gradient(90deg,#087bff,#00e5ff);transition:width .3s}
+.brain-start h3,.brain-result h3{font-size:24px;margin:5px 0}.brain-start p,.brain-result p{color:var(--muted);line-height:1.9;margin:5px 0 20px}.brain-start-btn{border:0;cursor:pointer;font-family:Cairo}.friend-person-picker{width:min(620px,100%);margin:18px auto;padding:18px;border:1px solid #b64cff77;border-radius:16px;background:#160d2c88}.friend-person-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}.friend-person-card{border:1px solid #8b48ff88;border-radius:13px;padding:17px 12px;background:linear-gradient(145deg,#21123e,#0a1426);color:#fff;cursor:pointer;font-family:Cairo;transition:.2s}.friend-person-card:hover{transform:translateY(-3px);border-color:#d3a2ff;box-shadow:0 0 22px #8b48ff33}.friend-person-card strong{display:block;font-size:19px}.friend-person-card small{display:block;color:#c6b6df;margin-top:5px}.friend-person-picker[hidden]{display:none!important}@media(max-width:560px){.friend-person-grid{grid-template-columns:1fr}}.player-register{max-width:440px;margin:18px auto 16px;padding:16px;border:1px solid #00d9ff55;border-radius:14px;background:#061526}.player-register label{display:block;color:#dff7ff;font-weight:700;margin-bottom:8px}.player-register-row{display:flex;gap:8px}.player-register input{min-width:0;flex:1;border:1px solid #31516d;border-radius:9px;background:#07101d;color:#fff;padding:11px 13px;font:600 14px Cairo;outline:none}.player-register input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #00d9ff18}.player-register button{border:0;border-radius:9px;padding:9px 14px;background:linear-gradient(110deg,#00d9ff,#4c8cff);color:#03101a;font:800 13px Cairo;cursor:pointer}.player-register-status{min-height:22px;margin:8px 0 0;color:#9eb4ca;font-size:12px}.player-register-status.ok{color:#6ee7b7}.player-register-status.err{color:#ff9baa}.player-current{color:#65e7ff;font-weight:800;margin:8px 0}.brain-question-area{width:100%;text-align:right}.brain-stats{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:#9eb4ca;font-size:12px;font-weight:700}.brain-track{height:6px;background:#152b40;border-radius:10px;overflow:hidden;margin:12px 0 23px}.brain-track span{display:block;height:100%;width:0;background:linear-gradient(90deg,#087bff,#00e5ff);transition:width .3s}
 .brain-question{font-size:clamp(18px,2.5vw,23px);font-weight:800;line-height:1.8;margin:0 0 18px}.brain-answers{display:grid;grid-template-columns:1fr 1fr;gap:10px}.brain-answer{border:1px solid #29445d;border-radius:11px;background:#0b1b2c;color:#e4f1ff;padding:13px;text-align:right;font:600 14px Cairo;cursor:pointer;transition:.2s}.brain-answer:hover:not(:disabled){border-color:var(--cyan);background:#00d9ff10}.brain-answer.selected{border-color:var(--cyan);background:#00d9ff20;color:#fff;box-shadow:0 0 0 1px #00d9ff55 inset}.brain-answer:disabled{cursor:default;opacity:.9}.brain-answer.correct{border-color:#32d49a;background:#32d49a16;color:#8df0c8}.brain-answer.wrong{border-color:#ff647c;background:#ff647c16;color:#ff9baa}.brain-feedback{min-height:28px;color:var(--cyan);font-weight:700;margin:12px 0}.brain-next{border:0;cursor:pointer;font-family:Cairo}.brain-next:disabled{opacity:.4;cursor:not-allowed}.brain-final-score{font:800 42px 'Space Grotesk';color:var(--cyan);margin:12px}.brain-note{color:#8298af;font-size:11px;text-align:center;margin:15px 0 0}.brain-result{width:100%}.brain-reward-image[hidden]{display:none!important}.brain-reward-image{display:block;width:min(280px,80%);max-height:300px;object-fit:contain;margin:18px auto 22px;border:2px solid #00d9ff88;border-radius:18px;box-shadow:0 0 30px #00d9ff35;animation:rewardPop .65s cubic-bezier(.2,.8,.2,1) both}@keyframes rewardPop{from{opacity:0;transform:scale(.82) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
 @media(max-width:560px){.brain-head{align-items:flex-start}.brain-head h3{font-size:21px}.brain-modes{display:grid;grid-template-columns:1fr 1fr}.brain-mode{padding:10px 5px}.brain-answers{grid-template-columns:1fr}.brain-play{min-height:360px;padding:17px}.brain-stats{font-size:11px}}
 
@@ -320,6 +320,14 @@ footer{min-width:0}
      <p class="player-register-status" id="player-register-status" aria-live="polite">يُحفظ الاسم في قاعدة بيانات الموقع بعد الاتصال بالإنترنت.</p>
      <p class="player-current" id="player-current" hidden></p>
     </form>
+    <div class="friend-person-picker" id="friend-person-picker" hidden>
+     <h3>اختر الصديق الذي تريد الإجابة عن أسئلته</h3>
+     <p>ستظهر لك أسئلة تخص الشخص الذي تختاره فقط.</p>
+     <div class="friend-person-grid">
+      <button class="friend-person-card" type="button" data-friend-person="sireen"><strong>👤 سرين</strong><small>أسئلة عن سرين</small></button>
+      <button class="friend-person-card" type="button" data-friend-person="abdelhadi"><strong>👤 عبد هادي</strong><small>أسئلة عن عبد هادي</small></button>
+     </div>
+    </div>
     <button class="btn brain-start-btn" id="brain-begin" type="button" disabled>احفظ اسمك أولاً</button>
    </div>
    <div class="brain-question-area" id="brain-question-area" hidden>
@@ -412,7 +420,8 @@ window.addEventListener('resize', () => {
  const savePlayerBtn=document.getElementById('save-player-name'), beginBtn=document.getElementById('brain-begin');
  const modeNames={challenge:"تحدي العقل",riddle:"الألغاز الذكية",knowledge:"المعرفة العامة",politics:"الأسئلة السياسية",history:"الأسئلة التاريخية",computer:"الإعلام الآلي",math:"الرياضيات",friends:"الأصدقاء"};
  const serverCategories={challenge:"challenge",riddle:"riddles",knowledge:"knowledge",politics:"politics",history:"history",computer:"technology",math:"mathematics",friends:"friends"};
- let mode="challenge", questions=[], index=0, answers=[], activePlayer=null, sessionId=null, supabase=null, submitting=false;
+ let mode="challenge", questions=[], index=0, answers=[], activePlayer=null, sessionId=null, supabase=null, submitting=false, selectedFriend=null;
+ const friendPicker=document.getElementById("friend-person-picker");
 
  function setPlayerMessage(message,kind="") {
   playerStatus.textContent=message;
@@ -505,9 +514,16 @@ window.addEventListener('resize', () => {
  function stopRoundView(){area.hidden=true;start.hidden=false;result.hidden=true;submitting=false}
  async function begin() {
   if(!activePlayer){setPlayerMessage("احفظ اسم اللاعب أولاً قبل بدء الجولة.","err");return;}
+  if(mode==="friends"&&!selectedFriend){
+   friendPicker.hidden=false;
+   beginBtn.hidden=true;
+   return;
+  }
   beginBtn.disabled=true;beginBtn.textContent="جارٍ تجهيز الأسئلة…";
   try {
-   const data=await callBrain("start",{category:serverCategories[mode]});
+   const payload={category:serverCategories[mode]};
+   if(mode==="friends")payload.friendPerson=selectedFriend;
+   const data=await callBrain("start",payload);
    if(!data.sessionId||!Array.isArray(data.questions)||data.questions.length<1||data.questions.length>10) throw new Error("لم تصل أسئلة صالحة من الخادم.");
    sessionId=data.sessionId;
    questions=data.questions;
@@ -591,7 +607,9 @@ window.addEventListener('resize', () => {
  beginBtn.addEventListener("click",begin);
  document.getElementById("brain-restart").addEventListener("click",()=>{
   stopRoundView();sessionId=null;questions=[];answers=[];
-  beginBtn.textContent="ابدأ جولة جديدة ←";
+  friendPicker.hidden=true;
+  beginBtn.hidden=false;
+  beginBtn.textContent=mode==="friends"&&selectedFriend?"أعد أسئلة "+(selectedFriend==="sireen"?"سرين":"عبد هادي")+" ←":"ابدأ جولة جديدة ←";
  });
  const modal=document.getElementById("game-modal");
  const label=document.getElementById("selected-game-label");
@@ -602,8 +620,19 @@ window.addEventListener('resize', () => {
   label.textContent="اللعبة المختارة: "+modeNames[pick];
   closeChooser();stopRoundView();sessionId=null;questions=[];answers=[];
   beginBtn.textContent="ابدأ اللعب الآن ←";
+  beginBtn.hidden=false;
+  friendPicker.hidden=true;
+  selectedFriend=null;
   document.getElementById("brain-game").scrollIntoView({behavior:"smooth",block:"start"});
  }
+ document.querySelectorAll("[data-friend-person]").forEach(button=>button.addEventListener("click",()=>{
+  selectedFriend=button.dataset.friendPerson;
+  friendPicker.hidden=true;
+  beginBtn.hidden=false;
+  beginBtn.disabled=false;
+  beginBtn.textContent="ابدأ أسئلة "+(selectedFriend==="sireen"?"سرين":"عبد هادي")+" ←";
+  begin();
+ }));
  document.getElementById("open-game-chooser").addEventListener("click",openChooser);
  document.getElementById("header-play").addEventListener("click",openChooser);
  document.getElementById("change-game").addEventListener("click",openChooser);
