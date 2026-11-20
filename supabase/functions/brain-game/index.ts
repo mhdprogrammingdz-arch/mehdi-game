@@ -74,6 +74,7 @@ Deno.serve(async (req) => {
       const knownNames: Record<string, string> = {
         sireen: 'سرين',
         abdelhadi: 'عبد هادي',
+        mehdi: 'Mehdi',
       };
       const people = [...peopleBySlug.entries()]
         .map(([slug, questionCount]) => ({
