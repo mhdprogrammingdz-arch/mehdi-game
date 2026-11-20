@@ -258,9 +258,13 @@ Deno.serve(async (req) => {
       const unseen = pool.filter((q: any) => !seenQuestionTexts.has(normalize(q.question)));
       let chosen: any[];
       if (unseen.length > 0) {
-        // Only never-before-submitted questions can be selected, regardless of category.
+        // Use every unseen question for this player/person before starting a new cycle.
         chosen = shuffle(unseen).slice(0, Math.min(10, unseen.length));
-      } else if (category !== 'friends' && unseenGlobal.length > 0) {
+      } else if (category === 'friends') {
+        // Friends mode is intentionally repeatable: once this person's bank is exhausted,
+        // start another shuffled cycle immediately, regardless of unseen questions elsewhere.
+        chosen = shuffle(pool).slice(0, Math.min(10, pool.length));
+      } else if (unseenGlobal.length > 0) {
         // This category is exhausted for this player, but other categories still
         // contain unseen questions. Do not silently repeat; ask them to switch.
         return json({
