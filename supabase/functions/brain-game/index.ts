@@ -129,7 +129,12 @@ Deno.serve(async (req) => {
       // The selected friend is authoritative: never let a stale/mismatched
       // category value route a friends round through the global no-repeat rule.
       const requestedFriendPerson = String(body.friendPerson ?? '').trim();
-      const category = requestedFriendPerson ? 'friends' : String(body.category ?? '');
+      const requestedCategory = String(body.category ?? '').trim();
+      // Keep the friends category authoritative even if the selected-person
+      // field is missing or stale; validate the person separately below.
+      const category = requestedCategory === 'friends' || requestedFriendPerson
+        ? 'friends'
+        : requestedCategory;
       if (!categories.has(category)) return json({ error: 'القسم غير صحيح.' }, 400);
       const normalize = (value: unknown) => String(value ?? '')
         .normalize('NFKC')
