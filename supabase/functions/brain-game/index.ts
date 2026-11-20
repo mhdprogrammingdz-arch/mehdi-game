@@ -143,9 +143,19 @@ Deno.serve(async (req) => {
         if (!uniqueQuestions.has(duplicateKey)) uniqueQuestions.set(duplicateKey, q);
       }
       const globalPool = [...uniqueQuestions.values()];
+      const friendPerson = String(body.friendPerson ?? '');
+      const friendPrefixes: Record<string, string> = {
+        sireen: 'friends-sireen-',
+        abdelhadi: 'friends-abdelhadi-',
+      };
+      if (category === 'friends' && !friendPrefixes[friendPerson]) {
+        return json({ error: 'اختر الشخص الذي تريد الإجابة عن أسئلته.' }, 400);
+      }
       const pool = category === 'challenge'
         ? globalPool
-        : globalPool.filter((q: any) => q.category === category);
+        : category === 'friends'
+          ? globalPool.filter((q: any) => q.category === 'friends' && String(q.id).startsWith(friendPrefixes[friendPerson]))
+          : globalPool.filter((q: any) => q.category === category);
       if (!pool.length) return json({
         error: 'لا توجد أسئلة صالحة لهذا القسم بعد إزالة الأسئلة المكررة.',
         diagnostic: { category, activeQuestions: rawPool.length, validUniqueGlobalQuestions: globalPool.length }
