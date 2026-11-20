@@ -457,7 +457,7 @@ window.addEventListener('resize', () => {
   });
   let body={};
   try{body=await response.json()}catch(e){}
-  if(!response.ok) throw new Error(body.error||("HTTP "+response.status));
+  if(!response.ok) throw new Error((body.error||("HTTP "+response.status))+(body.diagnostic?" [تشخيص: "+JSON.stringify(body.diagnostic)+"]":""));
   return body;
  }
  async function loadFriendPeople() {
