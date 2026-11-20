@@ -66,7 +66,7 @@ Deno.serve(async (req) => {
       }
       const peopleBySlug = new Map<string, number>();
       for (const row of friendRows) {
-        const match = String(row.id ?? '').match(/^friends-(.+)-\\d+$/u);
+        const match = String(row.id ?? '').match(/^friends-(.+)-\d+$/u);
         if (!match) continue;
         const slug = match[1];
         peopleBySlug.set(slug, (peopleBySlug.get(slug) ?? 0) + 1);
