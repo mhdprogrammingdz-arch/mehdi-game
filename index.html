@@ -372,6 +372,40 @@ footer{border-top-color:#25452f;color:#82968a}
 footer .footer-controls button,.global-dock button{border-color:#315b3d;color:#d5e7da;background:#0a140d}
 @media(min-width:800px){.hero-minimal{padding:48px 0 52px}.hero-portrait{width:390px;height:430px}}
 @media(max-width:700px){.minimal-header{height:64px}.minimal-header nav{background:#071009;border:1px solid #285338}.hero-minimal{padding:22px 0 30px}.hero-portrait{width:min(88vw,360px);height:clamp(300px,105vw,420px)}#leaderboard{padding-top:18px}}
+
+/* === Refined black & deep emerald visual polish === */
+:root{--bg:#030504;--panel:#080d09;--cyan:#20c85a;--blue:#126b35;--white:#eef4ef;--muted:#9ba99f;--line:rgba(32,200,90,.19)}
+html{scroll-behavior:smooth}
+body{background:#030504;color:#edf4ee}
+body:before{background:radial-gradient(ellipse at 50% 16%,#0b2413 0,transparent 38%),radial-gradient(ellipse at 92% 82%,#09180e 0,transparent 34%),linear-gradient(145deg,#020403,#060b07 58%,#020403)}
+body:after{opacity:.022}
+.minimal-header{background:rgba(2,5,3,.96);border-bottom:1px solid #1c6938aa;box-shadow:0 8px 30px #0008}
+.hero-portrait{isolation:isolate;border:1px solid #238849;background:#020503;box-shadow:0 0 0 1px #0d2917,0 0 0 7px #07110a,0 0 0 8px #1d6638aa,0 18px 55px #000c,0 0 38px #16b84c25;transition:transform .45s ease,box-shadow .45s ease}
+.hero-portrait:before{content:"";position:absolute;z-index:2;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(135deg,#48e77a24,transparent 28%,transparent 68%,#1ca64c22);mix-blend-mode:screen}
+.hero-portrait:after{z-index:1;background:linear-gradient(180deg,transparent 48%,#020503a8 100%)}
+.hero-portrait:hover{transform:translateY(-5px) scale(1.008);box-shadow:0 0 0 1px #174b29,0 0 0 8px #07110a,0 0 0 9px #39d86a,0 22px 65px #000e,0 0 55px #18c65342}
+.portrait-glow{z-index:2;border-radius:inherit;box-shadow:inset 0 0 28px #1ed65a18,inset 0 0 75px #0009}
+.hero-brand{filter:drop-shadow(0 5px 16px #0008)}
+.piratage-title{color:#e8f1e9;text-shadow:0 2px 0 #07140b,0 0 12px #1bc65335,0 0 28px #15954126;letter-spacing:clamp(4px,1.7vw,13px)}
+.brand-rule i{background:linear-gradient(90deg,transparent,#238e48 35%,#42d976 50%,#238e48 65%,transparent)}
+.brand-rule b{color:#5bd982;text-shadow:0 0 12px #2ac45b88}
+.brand-kicker{color:#8fa698}
+.hero-start,.btn,.header-actions .header-play,.player-register button{font-family:inherit;font-weight:800;letter-spacing:.2px;color:#eaffef;background:linear-gradient(135deg,#14572d,#0c3e20);border:1px solid #31bd60;box-shadow:inset 0 1px 0 #ffffff16,0 5px 18px #0008,0 0 0 1px #0b2815;transition:all .22s ease}
+.hero-start{outline:1px solid #174a2a;outline-offset:3px}
+.hero-start:hover,.btn:hover,.header-actions .header-play:hover{background:linear-gradient(135deg,#19703a,#10502a);border-color:#56e783;box-shadow:inset 0 1px 0 #ffffff20,0 8px 25px #000a,0 0 22px #1ec6532c;transform:translateY(-2px)}
+button,.btn,a{ -webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible{outline:2px solid #51df7b!important;outline-offset:4px!important}
+.leader-panel,.brain-wrap,.card,.tile{background:linear-gradient(145deg,#0a100c,#050806);border-color:#1c6035;box-shadow:0 14px 42px #0008,inset 0 1px 0 #ffffff08}
+.leader-tab,.brain-mode,.brain-answer,.game-choice,.friend-person-card{background:#080e0a;border:1px solid #1d5030;color:#cbd8ce;transition:background .2s ease,border-color .2s ease,transform .2s ease}
+.leader-tab:hover,.brain-mode:hover,.brain-answer:hover:not(:disabled),.game-choice:hover,.friend-person-card:hover{background:#102318;border-color:#31bd60;transform:translateY(-1px)}
+.leader-tab.active,.brain-mode.active{background:#10351e;border-color:#32c765;color:#e7ffed;box-shadow:inset 0 0 18px #1eb65316,0 0 12px #1eb65312}
+.leader-table th{color:#65d98a}.leader-table td{color:#dbe7de;border-bottom-color:#ffffff0c}
+.header-actions button,.footer-controls button,.global-dock button{background:#080f0a;border:1px solid #28583a;color:#dcebe0;border-radius:10px;transition:.2s ease}
+.header-actions button:hover,.footer-controls button:hover,.global-dock button:hover{border-color:#39cf6b;color:#fff;background:#102318}
+input,textarea,select{background:#050906!important;border:1px solid #28583a!important;color:#edf5ef!important}
+input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shadow:0 0 0 3px #20c85a18!important}
+::selection{background:#176c37;color:#fff}
+@media(prefers-reduced-motion:no-preference){.hero-portrait{animation:portraitBreath 5s ease-in-out infinite}@keyframes portraitBreath{0%,100%{box-shadow:0 0 0 1px #0d2917,0 0 0 7px #07110a,0 0 0 8px #1d6638aa,0 18px 55px #000c,0 0 30px #16b84c1c}50%{box-shadow:0 0 0 1px #174b29,0 0 0 7px #07110a,0 0 0 8px #39d86a,0 18px 58px #000c,0 0 44px #16b84c35}}}
 </style></head>
 <body>
 <div class="intro-screen"><div class="intro-content"><div class="intro-title">MEHDI<span>.</span></div><div class="intro-caption">PIRATAGE</div><div class="bar"></div></div></div>
