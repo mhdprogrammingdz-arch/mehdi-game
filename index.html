@@ -517,13 +517,13 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
     <button class="btn brain-start-btn" id="brain-begin" type="button" disabled>احفظ اسمك أولاً</button>
    </div>
    <div class="brain-question-area" id="brain-question-area" hidden>
+    <button class="btn btn-ghost" id="change-friend-person" type="button" hidden>تغيير الشخص في مجال الأصدقاء ↻</button>
     <div class="brain-stats"><span id="brain-progress">السؤال 1 من 10</span><span id="brain-score">النقاط: 0</span><span id="brain-clock" hidden>⏱ 15</span></div>
     <div class="brain-track"><span id="brain-track-fill"></span></div>
     <div class="brain-question" id="brain-question"></div>
     <div class="brain-answers" id="brain-answers"></div>
     <p class="brain-feedback" id="brain-feedback" aria-live="polite"></p>
     <button class="btn brain-next" id="brain-next" type="button" disabled>السؤال التالي ←</button>
-    <button class="btn btn-ghost" id="change-friend-person" type="button" hidden>تغيير الشخص في مجال الأصدقاء ↻</button>
    </div>
    <div class="brain-result" id="brain-result" hidden>
     <div class="brain-orb">🏆</div><h3 id="brain-result-title">أحسنت!</h3>
@@ -738,7 +738,7 @@ window.addEventListener('resize', () => {
   mode=button.dataset.mode;
   modes.forEach(item=>item.classList.toggle("active",item===button));
  }));
- function stopRoundView(){area.hidden=true;start.hidden=false;result.hidden=true;submitting=false;changeFriendBtn.hidden=true}
+ function stopRoundView(){area.hidden=true;start.hidden=false;result.hidden=true;submitting=false;changeFriendBtn.hidden=true;changeFriendBtn.style.display="none"}
  async function begin() {
   if(!activePlayer){setPlayerMessage("احفظ اسم اللاعب أولاً قبل بدء الجولة.","err");return;}
   if(mode==="friends"&&!selectedFriend){
@@ -758,7 +758,8 @@ window.addEventListener('resize', () => {
    if(questions.some(q=>!q.id||typeof q.question!=="string"||!Array.isArray(q.options)||q.options.length!==4)) throw new Error("صيغة الأسئلة المستلمة غير متوافقة.");
    answers=[];index=0;submitting=false;
    start.hidden=true;result.hidden=true;area.hidden=false;
-   changeFriendBtn.hidden=mode!=="friends";
+   changeFriendBtn.hidden=mode!=="friends" || !selectedFriend;
+   changeFriendBtn.style.display=changeFriendBtn.hidden?"none":"inline-flex";
    showQuestion();
   } catch(err) {
    setPlayerMessage("تعذر بدء الجولة: "+(err.message||"خطأ في الاتصال."),"err");
