@@ -408,14 +408,14 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
 @media(prefers-reduced-motion:no-preference){.hero-portrait{animation:portraitBreath 5s ease-in-out infinite}@keyframes portraitBreath{0%,100%{box-shadow:0 0 0 1px #0d2917,0 0 0 7px #07110a,0 0 0 8px #1d6638aa,0 18px 55px #000c,0 0 30px #16b84c1c}50%{box-shadow:0 0 0 1px #174b29,0 0 0 7px #07110a,0 0 0 8px #39d86a,0 18px 58px #000c,0 0 44px #16b84c35}}}
 
 /* PIRATAGE one-time fast cinematic intro */
-.piratage-cinematic{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;overflow:hidden;pointer-events:none;background:#020503;isolation:isolate;animation:cinemaExit 5.8s ease-in-out 1 forwards}
-.cinema-backdrop{position:absolute;inset:-20%;z-index:-2;background:radial-gradient(ellipse at 50% 48%,#0c2c16 0%,#061109 32%,#020503 72%);animation:backdropFlash 5.8s ease-out 1 both}
-.cinema-photo-spin{position:absolute;width:min(43vw,340px);height:min(65vh,440px);padding:5px;border:1px solid #35ff79;border-radius:18px;background:linear-gradient(135deg,#b9ffce,#168b45 48%,#d8b86c);box-shadow:0 0 22px #24f56b,0 0 75px #16b84b88;overflow:hidden;transform-origin:center;animation:fastSpinStop 5.8s ease-in-out 1 both}
+.piratage-cinematic{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;overflow:hidden;pointer-events:none;background:#020503;isolation:isolate;animation:cinemaExit 3.9s ease-in-out 1 forwards}
+.cinema-backdrop{position:absolute;inset:-20%;z-index:-2;background:radial-gradient(ellipse at 50% 48%,#0c2c16 0%,#061109 32%,#020503 72%);animation:backdropFlash 3.9s ease-out 1 both}
+.cinema-photo-spin{position:absolute;width:min(43vw,340px);height:min(65vh,440px);padding:5px;border:1px solid #35ff79;border-radius:18px;background:linear-gradient(135deg,#b9ffce,#168b45 48%,#d8b86c);box-shadow:0 0 22px #24f56b,0 0 75px #16b84b88;overflow:hidden;transform-origin:center;animation:fastSpinStop 3.9s ease-in-out 1 both}
 .cinema-photo-spin img{width:100%;height:100%;display:block;object-fit:contain;background:#050906;border-radius:13px}
-.cinema-title{position:absolute;top:10%;left:0;width:100%;text-align:center;font:900 clamp(36px,8vw,86px)/1 'Space Grotesk',sans-serif;letter-spacing:clamp(5px,1.4vw,13px);color:#eaffef;text-shadow:0 0 8px #39ff79,0 0 24px #1ee65d,0 0 58px #18a94a;opacity:0;transform:translateY(14px) scale(.8);animation:titleOneShot 5.8s ease-out 1 both}
+.cinema-title{position:absolute;top:10%;left:0;width:100%;text-align:center;font:900 clamp(36px,8vw,86px)/1 'Space Grotesk',sans-serif;letter-spacing:clamp(5px,1.4vw,13px);color:#eaffef;text-shadow:0 0 8px #39ff79,0 0 24px #1ee65d,0 0 58px #18a94a;opacity:0;transform:translateY(14px) scale(.8);animation:titleOneShot 3.9s ease-out 1 both}
 .cinema-title:after{content:"";display:block;width:min(230px,48vw);height:2px;margin:12px auto;background:linear-gradient(90deg,transparent,#38ff78,#d7b45d,transparent);box-shadow:0 0 15px #35ff79}
-.cinema-fireworks{position:absolute;inset:0;z-index:-1;opacity:0;animation:fireworkOneShot 5.8s ease-out 1 both}
-.cinema-fireworks i{position:absolute;width:5px;height:5px;border-radius:50%;left:50%;top:46%;background:#c9ffda;box-shadow:0 0 7px 2px #31ff76,0 0 18px 5px #159a43;animation:fireworkPop .7s ease-out 1 both}
+.cinema-fireworks{position:absolute;inset:0;z-index:-1;opacity:0;animation:fireworkOneShot 3.9s ease-out 1 both}
+.cinema-fireworks i{position:absolute;width:5px;height:5px;border-radius:50%;left:50%;top:46%;background:#c9ffda;box-shadow:0 0 7px 2px #31ff76,0 0 18px 5px #159a43;animation:fireworkPop .55s ease-out 1 both}
 .cinema-fireworks i:nth-child(2){--dx:190px;--dy:-130px;animation-delay:1.15s;background:#ffe5a0;box-shadow:0 0 8px 2px #e6b957,0 0 20px 5px #e6b957}
 .cinema-fireworks i:nth-child(3){--dx:-210px;--dy:-110px;animation-delay:1.2s}
 .cinema-fireworks i:nth-child(4){--dx:230px;--dy:115px;animation-delay:1.25s;background:#ffe5a0;box-shadow:0 0 8px 2px #e6b957,0 0 20px 5px #e6b957}
@@ -425,25 +425,30 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
 .cinema-fireworks i:nth-child(8){--dx:-125px;--dy:0px;animation-delay:1.45s;background:#ffe5a0;box-shadow:0 0 8px 2px #e6b957,0 0 20px 5px #e6b957}
 @keyframes fireworkPop{0%{transform:translate(0,0) scale(.2);opacity:0}15%{opacity:1}100%{transform:translate(var(--dx,145px),var(--dy,-145px)) scale(1.6);opacity:0}}
 /* Four complete duplicate portraits, not cropped quarters. */
-.cinema-shards{position:absolute;width:min(72vw,720px);height:min(72vh,570px);display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:12px;perspective:1000px;opacity:0;animation:fourPhotos 5.8s cubic-bezier(.2,.75,.2,1) 1 both}
+.cinema-shards{position:absolute;width:min(72vw,720px);height:min(72vh,570px);display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:12px;perspective:1000px;opacity:0;animation:fourPhotos 3.9s cubic-bezier(.2,.75,.2,1) 1 both}
 .shard{position:relative;min-width:0;min-height:0;overflow:hidden;display:grid;place-items:center;padding:5px;border:1px solid #36f879;border-radius:12px;background:linear-gradient(145deg,#0b2111,#030805);box-shadow:0 0 18px #1cda5b66,inset 0 0 12px #1cda5b22}
 .shard img{position:static;width:100%;height:100%;max-width:100%;object-fit:contain;display:block;filter:contrast(1.04);background:#030805;border-radius:7px}
 .shard span{position:absolute;left:5px;right:5px;bottom:7px;text-align:center;color:#f1fff4;font:900 clamp(9px,1.6vw,16px) 'Space Grotesk',sans-serif;letter-spacing:1px;text-shadow:0 0 8px #24ff6c,0 2px 5px #000;background:#031006df;padding:7px 3px;border:1px solid #35ff79;border-radius:5px}
-.shard-one{animation:panelOne 5.8s ease-out 1 both}.shard-two{animation:panelTwo 5.8s ease-out 1 both}.shard-three{animation:panelThree 5.8s ease-out 1 both}.shard-four{animation:panelFour 5.8s ease-out 1 both}
-.cinema-subtitle{position:absolute;bottom:8%;color:#a8c9af;font:600 10px 'Space Grotesk',sans-serif;letter-spacing:5px;opacity:0;animation:subtitleOneShot 5.8s ease-out 1 both}
-@keyframes cinemaExit{0%,88%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden}}
-@keyframes fastSpinStop{0%{opacity:0;transform:rotate(0) scale(.55)}4%{opacity:1}18%{transform:rotate(1440deg) scale(1.06)}23%,32%{transform:rotate(1440deg) scale(1)}39%,88%,100%{opacity:0;transform:rotate(1440deg) scale(.72)}}
-@keyframes titleOneShot{0%,17%{opacity:0;transform:translateY(14px) scale(.8)}24%,78%{opacity:1;transform:translateY(0) scale(1)}88%,100%{opacity:0;transform:translateY(-10px) scale(1.04)}}
-@keyframes fireworkOneShot{0%,18%{opacity:0}24%,65%{opacity:1}83%,100%{opacity:0}}
-@keyframes fourPhotos{0%,34%{opacity:0;transform:scale(.25)}40%{opacity:1;transform:scale(.72)}53%,78%{opacity:1;transform:scale(1)}88%,100%{opacity:0;transform:scale(.92)}}
-@keyframes panelOne{0%,38%{transform:translate(0,0) scale(.3)}55%,78%{transform:translate(-5px,-5px) scale(1) rotate(-1deg)}88%,100%{opacity:0}}
-@keyframes panelTwo{0%,38%{transform:translate(0,0) scale(.3)}55%,78%{transform:translate(5px,-5px) scale(1) rotate(1deg)}88%,100%{opacity:0}}
-@keyframes panelThree{0%,38%{transform:translate(0,0) scale(.3)}55%,78%{transform:translate(-5px,5px) scale(1) rotate(1deg)}88%,100%{opacity:0}}
-@keyframes panelFour{0%,38%{transform:translate(0,0) scale(.3)}55%,78%{transform:translate(5px,5px) scale(1) rotate(-1deg)}88%,100%{opacity:0}}
-@keyframes subtitleOneShot{0%,43%{opacity:0}56%,78%{opacity:1}88%,100%{opacity:0}}
-@keyframes backdropFlash{0%,18%{filter:brightness(.6)}25%,70%{filter:brightness(1.15)}100%{filter:brightness(.6)}}
+.shard-one{animation:panelOne 3.9s ease-out 1 both}.shard-two{animation:panelTwo 3.9s ease-out 1 both}.shard-three{animation:panelThree 3.9s ease-out 1 both}.shard-four{animation:panelFour 3.9s ease-out 1 both}
+.cinema-subtitle{position:absolute;bottom:8%;color:#a8c9af;font:600 10px 'Space Grotesk',sans-serif;letter-spacing:5px;opacity:0;animation:subtitleOneShot 3.9s ease-out 1 both}
+@keyframes cinemaExit{0%,95%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden}}
+@keyframes fastSpinStop{0%{opacity:0;transform:rotate(0) scale(.55)}3%{opacity:1}14%{transform:rotate(1800deg) scale(1.06)}18%,26%{transform:rotate(1800deg) scale(1)}32%,95%,100%{opacity:0;transform:rotate(1800deg) scale(.72)}}
+@keyframes titleOneShot{0%,14%{opacity:0;transform:translateY(14px) scale(.8)}19%,70%{opacity:1;transform:translateY(0) scale(1)}80%,100%{opacity:0;transform:translateY(-10px) scale(1.04)}}
+@keyframes fireworkOneShot{0%,15%{opacity:0}20%,65%{opacity:1}78%,100%{opacity:0}}
+@keyframes fourPhotos{0%,28%{opacity:0;transform:scale(.25)}34%{opacity:1;transform:scale(.72)}43%,67%{opacity:1;transform:scale(1)}76%,100%{opacity:0;transform:scale(.92)}}
+@keyframes panelOne{0%,38%{transform:translate(0,0) scale(.3)}43%,67%{transform:translate(-5px,-5px) scale(1) rotate(-1deg)}76%,100%{opacity:0}}
+@keyframes panelTwo{0%,38%{transform:translate(0,0) scale(.3)}43%,67%{transform:translate(5px,-5px) scale(1) rotate(1deg)}76%,100%{opacity:0}}
+@keyframes panelThree{0%,38%{transform:translate(0,0) scale(.3)}43%,67%{transform:translate(-5px,5px) scale(1) rotate(1deg)}76%,100%{opacity:0}}
+@keyframes panelFour{0%,38%{transform:translate(0,0) scale(.3)}43%,67%{transform:translate(5px,5px) scale(1) rotate(-1deg)}76%,100%{opacity:0}}
+@keyframes subtitleOneShot{0%,43%{opacity:0}56%,78%{opacity:1}76%,100%{opacity:0}}
+@keyframes backdropFlash{0%,15%{filter:brightness(.6)}22%,68%{filter:brightness(1.15)}100%{filter:brightness(.6)}}
 @media(max-width:600px){.cinema-photo-spin{width:min(66vw,290px);height:min(58vh,390px)}.cinema-shards{width:86vw;height:65vh;gap:7px}.cinema-title{top:9%;font-size:clamp(34px,10vw,58px)}.cinema-subtitle{bottom:7%;font-size:9px;letter-spacing:3px}.cinema-fireworks i:nth-child(2){--dx:105px}.cinema-fireworks i:nth-child(3){--dx:-105px}.cinema-fireworks i:nth-child(4){--dx:110px}.cinema-fireworks i:nth-child(5){--dx:-110px}}
 @media(prefers-reduced-motion:reduce){.piratage-cinematic{display:none!important}}
+
+/* A distinct emerald halo blooms behind each complete portrait tile. */
+.shard:before{content:"";position:absolute;inset:-18%;z-index:0;border-radius:50%;background:radial-gradient(ellipse at center,#28ff72a8 0%,#16b94c55 34%,#0a5d2922 58%,transparent 72%);filter:blur(18px);opacity:0;transform:scale(.55);animation:shardHalo 3.9s ease-out 1 both}
+.shard img,.shard span{z-index:1}
+@keyframes shardHalo{0%,31%{opacity:0;transform:scale(.55)}43%{opacity:1;transform:scale(1.18)}58%,69%{opacity:.82;transform:scale(1)}76%,100%{opacity:0;transform:scale(1.3)}}
 </style></head>
 <body>
 <div class="piratage-cinematic" aria-hidden="true">
