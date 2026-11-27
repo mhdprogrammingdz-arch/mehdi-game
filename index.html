@@ -1332,7 +1332,7 @@ window.mehdiBrainCall=callBrain;
    if(item.avatar_url&&String(item.avatar_url).startsWith("https://mqibocnozcfagrvxkxbr.supabase.co/storage/v1/object/public/player-avatars/")){
     leaderAvatar.innerHTML="";const photo=document.createElement("img");photo.src=item.avatar_url;photo.alt="صورة "+nickname;photo.style.cssText="width:100%;height:100%;object-fit:cover;border-radius:50%";leaderAvatar.append(photo);
    }else leaderAvatar.innerHTML=avatarRenderer(nickname).replace('viewBox="0 0 70 90"','viewBox="0 0 70 90"');
-  if(!avatarState||!avatarState.gender)document.getElementById("leader-profile-avatar").innerHTML='<div style="font-size:100px;color:#85d99b">♙</div>';
+  if(!item.avatar_url&&(!avatarState||!avatarState.gender))document.getElementById("leader-profile-avatar").innerHTML='<div style="font-size:100px;color:#85d99b">♙</div>';
   document.getElementById("leader-profile-rank").textContent=medal+" · ترتيب اللاعب في هذه اللوحة";
   document.getElementById("leader-profile-score").textContent=score.toLocaleString("ar");
   document.getElementById("leader-profile-level").textContent=level.toLocaleString("ar");
