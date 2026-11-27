@@ -1335,14 +1335,14 @@ window.mehdiBrainCall=callBrain;
  function openLeaderboardProfile(item,medal,avatarRenderer){
   const modal=document.getElementById("leader-profile-overlay");if(modal&&modal.parentElement!==document.body)document.body.appendChild(modal);
   const nickname=String(item.nickname||"لاعب");
-  let avatarState=null;try{avatarState=JSON.parse(localStorage.getItem("mehdiAvatar:"+nickname.trim().toLocaleLowerCase("ar"))||"null")}catch(e){}
+  const avatarState={gender:item.avatar_gender||null,equipped:item.equipped_outfit||"starter"};
   const outfitNames={starter:"الأسود الكلاسيكي",forest:"ظل الغابة",street:"نيون ستريت",violet:"الشبح البنفسجي",chrome:"كروم فضي",inferno:"لهيب الزمرد",royal:"الملكي الأسود والذهبي",phantom:"فانتوم النخبة"};
   const score=Math.max(0,Number(item.score)||0),level=Math.max(1,Math.floor(score/100)+1);
   document.getElementById("leader-profile-name").textContent=nickname;
    const leaderAvatar=document.getElementById("leader-profile-avatar");
    if(item.avatar_url&&String(item.avatar_url).startsWith("https://mqibocnozcfagrvxkxbr.supabase.co/storage/v1/object/public/player-avatars/")){
     leaderAvatar.innerHTML="";const photo=document.createElement("img");photo.src=item.avatar_url;photo.alt="صورة "+nickname;photo.style.cssText="width:100%;height:100%;object-fit:cover;border-radius:50%";leaderAvatar.append(photo);
-   }else leaderAvatar.innerHTML=avatarRenderer(nickname).replace('viewBox="0 0 70 90"','viewBox="0 0 70 90"');
+   }else leaderAvatar.innerHTML=avatarRenderer(nickname,avatarState);
   if(!item.avatar_url&&(!avatarState||!avatarState.gender))document.getElementById("leader-profile-avatar").innerHTML='<div style="font-size:100px;color:#85d99b">♙</div>';
   document.getElementById("leader-profile-rank").textContent=medal+" · ترتيب اللاعب في هذه اللوحة";
   document.getElementById("leader-profile-score").textContent=score.toLocaleString("ar");
@@ -1387,10 +1387,8 @@ window.mehdiBrainCall=callBrain;
     return;
    }
    rows.innerHTML="";
-   function leaderboardAvatar(nickname){
-    const key="mehdiAvatar:"+String(nickname||"guest").trim().toLocaleLowerCase("ar");
-    let state=null;try{state=JSON.parse(localStorage.getItem(key)||"null")}catch(e){}
-    if(!state||!state.gender)return '<span class="leader-avatar-default">♙</span>';
+   function leaderboardAvatar(nickname,state){
+    if(!state||!["male","female"].includes(state.gender))return '<span class="leader-avatar-default">♙</span>';
     const outfits={starter:["#101820","#4b6657","#090d12"],forest:["#174b32","#55d98a","#101b17"],street:["#122a46","#26c6da","#091321"],violet:["#39235d","#b68cff","#151021"],chrome:["#697b8a","#e4f4ff","#202a34"],inferno:["#174b37","#b2ff63","#091a14"],royal:["#171719","#ffd36b","#08090b"],phantom:["#111b26","#ff4f85","#05080d"]};
     const c=outfits[state.equipped]||outfits.starter;
     const hair=state.gender==="female"?"#24172b":"#171b20";
@@ -1407,7 +1405,7 @@ window.mehdiBrainCall=callBrain;
     const avatar=document.createElement("span");avatar.className="leader-avatar-mini";
     if(item.avatar_url&&String(item.avatar_url).startsWith("https://mqibocnozcfagrvxkxbr.supabase.co/storage/v1/object/public/player-avatars/")){
      const photo=document.createElement("img");photo.src=item.avatar_url;photo.alt="";photo.loading="lazy";photo.style.cssText="width:100%;height:100%;object-fit:cover;border-radius:50%";avatar.append(photo);
-    }else avatar.innerHTML=leaderboardAvatar(item.nickname||"لاعب");
+    }else avatar.innerHTML=leaderboardAvatar(item.nickname||"لاعب",{gender:item.avatar_gender,equipped:item.equipped_outfit});
     const identity=document.createElement("span");identity.className="leader-player-identity";
     const playerName=document.createElement("strong");playerName.className="leader-player-name";playerName.textContent=item.nickname||"لاعب";
     const avatarTag=document.createElement("small");avatarTag.className="leader-avatar-tag";avatarTag.textContent="PLAYER AVATAR";
