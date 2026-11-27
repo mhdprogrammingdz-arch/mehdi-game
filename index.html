@@ -510,6 +510,25 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
 .leader-player-name{font-weight:800;color:#eaffef}
 .leader-avatar-tag{display:block;color:#8ca997;font-size:9px;margin-top:2px}
 @media(max-width:560px){.leader-player-cell{gap:6px;min-width:120px}.leader-avatar-mini{width:34px;height:40px;flex-basis:34px}.leader-avatar-mini svg{width:31px;height:37px}.leader-player-name{font-size:11px}}
+
+.leader-profile-overlay{position:fixed;inset:0;z-index:10050;display:grid;place-items:center;padding:18px;background:#000c;backdrop-filter:blur(9px)}
+.leader-profile-overlay[hidden]{display:none}
+.leader-profile-card{position:relative;width:min(440px,100%);max-height:90vh;overflow:auto;border:1px solid #39794c;border-radius:22px;background:radial-gradient(ellipse at 50% 0%,#17472c88,transparent 48%),linear-gradient(145deg,#0b1710,#070b09);box-shadow:0 25px 90px #000c;padding:20px;color:#eaffef}
+.leader-profile-close{position:absolute;top:12px;left:12px;border:1px solid #315d3e;border-radius:9px;background:#0a160e;color:#dfffea;padding:7px 11px;cursor:pointer}
+.leader-profile-hero{text-align:center;padding:20px 0 12px}
+.leader-profile-avatar{height:225px;display:grid;place-items:center;margin:auto;filter:drop-shadow(0 15px 20px #0009)}
+.leader-profile-avatar svg{height:100%;max-width:170px}
+.leader-profile-name{font-size:22px;font-weight:900;margin:8px 0 3px}
+.leader-profile-sub{color:#91b49b;font-size:10px;letter-spacing:1px}
+.leader-profile-rank{display:inline-block;margin-top:9px;padding:6px 13px;border:1px solid #b28a42;border-radius:20px;background:#30230d;color:#ffe2a0;font-size:11px;font-weight:900}
+.leader-profile-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:14px 0}
+.leader-profile-stat{padding:12px;border:1px solid #294a34;border-radius:12px;background:#09150e;text-align:center}
+.leader-profile-stat small{display:block;color:#8ba994;font-size:10px}.leader-profile-stat strong{display:block;color:#8cf0a8;font-size:19px;margin-top:4px}
+.leader-profile-outfit{padding:12px;border:1px solid #3a6747;border-radius:12px;background:#0b1a10;color:#c9e8d0;text-align:center;font-size:11px}
+.leader-profile-badges{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin-top:12px}
+.leader-profile-badges span{padding:7px 10px;border:1px solid #705b31;border-radius:9px;background:#211b0d;color:#f3d78c;font-size:10px}
+.leader-profile-note{margin:12px 0 0;color:#82998a;font-size:9px;line-height:1.7;text-align:center}
+.leader-player-cell{cursor:pointer}.leader-player-cell:hover .leader-player-name{color:#82f5a2;text-decoration:underline}
 </style></head>
 <body>
 <div class="piratage-cinematic" aria-hidden="true">
@@ -525,6 +544,18 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
   </div>
   <div class="cinema-subtitle">ENTER THE CHALLENGE</div>
 </div>
+
+<div class="leader-profile-overlay" id="leader-profile-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="leader-profile-name">
+ <section class="leader-profile-card">
+  <button class="leader-profile-close" id="leader-profile-close" type="button" aria-label="إغلاق">✕</button>
+  <div class="leader-profile-hero"><div class="leader-profile-avatar" id="leader-profile-avatar"></div><div class="leader-profile-name" id="leader-profile-name">ملف اللاعب</div><div class="leader-profile-sub">MEHDI BRAIN CHALLENGE · PLAYER CARD</div><div class="leader-profile-rank" id="leader-profile-rank"></div></div>
+  <div class="leader-profile-stats"><div class="leader-profile-stat"><small>نقاطه في هذه اللوحة</small><strong id="leader-profile-score">0</strong></div><div class="leader-profile-stat"><small>المستوى التقديري</small><strong id="leader-profile-level">1</strong></div></div>
+  <div class="leader-profile-outfit" id="leader-profile-outfit">الزي: الأسود الكلاسيكي</div>
+  <div class="leader-profile-badges" id="leader-profile-badges"></div>
+  <p class="leader-profile-note">تعرض هذه البطاقة بيانات اللاعب الظاهرة في لوحة الصدارة الحالية. تفاصيل الشخصية والملابس الخاصة بلاعب آخر لا تتوفر إلا إذا كانت محفوظة ومشاركة من جهازه.</p>
+ </section>
+</div>
+
 <div class="container">
 <header class="minimal-header"><a class="logo" href="#home">MEHDI<b>✦</b></a><nav id="site-nav" aria-label="القائمة الرئيسية"><a href="#home">الرئيسية</a><a href="#leaderboard">لوحة الصدارة</a><a href="#brain-game">اللعب</a></nav><div class="header-actions"><button id="open-player-profile" class="header-profile-btn" type="button" hidden><span class="header-profile-icon">♙</span><span>ملفي الشخصي</span></button><button id="header-play" class="header-play" type="button">ابدأ اللعب</button><button id="header-home" class="header-home" type="button">الرئيسية</button></div><button class="menu" id="menu-toggle" type="button" aria-controls="site-nav" aria-expanded="false">☰ <span>القائمة</span></button></header>
 <main class="hero hero-minimal" id="home">
@@ -1176,6 +1207,32 @@ window.addEventListener('resize', () => {
  const categoryForTab={challenge:"challenge",riddle:"riddles",knowledge:"knowledge",politics:"politics",history:"history",computer:"technology",math:"mathematics",friends:"friends"};
  const categoryNames={challenge:"تحدي العقل",riddles:"الألغاز الذكية",knowledge:"المعرفة العامة",politics:"الأسئلة السياسية",history:"الأسئلة التاريخية",technology:"الإعلام الآلي",mathematics:"الرياضيات",friends:"الأصدقاء"};
  let selected="challenge",busy=false;
+
+ function openLeaderboardProfile(item,medal,avatarRenderer){
+  const nickname=String(item.nickname||"لاعب");
+  let avatarState=null;try{avatarState=JSON.parse(localStorage.getItem("mehdiAvatar:"+nickname.trim().toLocaleLowerCase("ar"))||"null")}catch(e){}
+  const outfitNames={starter:"الأسود الكلاسيكي",forest:"ظل الغابة",street:"نيون ستريت",violet:"الشبح البنفسجي",chrome:"كروم فضي",inferno:"لهيب الزمرد",royal:"الملكي الأسود والذهبي",phantom:"فانتوم النخبة"};
+  const score=Math.max(0,Number(item.score)||0),level=Math.max(1,Math.floor(score/100)+1);
+  document.getElementById("leader-profile-name").textContent=nickname;
+  document.getElementById("leader-profile-avatar").innerHTML=avatarRenderer(nickname).replace('viewBox="0 0 70 90"','viewBox="0 0 70 90"');
+  if(!avatarState||!avatarState.gender)document.getElementById("leader-profile-avatar").innerHTML='<div style="font-size:100px;color:#85d99b">♙</div>';
+  document.getElementById("leader-profile-rank").textContent=medal+" · ترتيب اللاعب في هذه اللوحة";
+  document.getElementById("leader-profile-score").textContent=score.toLocaleString("ar");
+  document.getElementById("leader-profile-level").textContent=level.toLocaleString("ar");
+  document.getElementById("leader-profile-outfit").textContent="👕 الزي: "+(avatarState&&avatarState.gender?(outfitNames[avatarState.equipped]||outfitNames.starter):"لم يختر شخصية بعد");
+  const badges=document.getElementById("leader-profile-badges");badges.replaceChildren();
+  const earned=[];if(score>=100)earned.push("💚 جامع النقاط");if(score>=500)earned.push("💎 محترف النقاط");if(score>=1000)earned.push("🌟 نجم التحدي");
+  if(medal==="🥇")earned.push("👑 متصدر اللوحة");else if(medal==="🥈")earned.push("🥈 الوصيف");else if(medal==="🥉")earned.push("🥉 المركز الثالث");
+  if(!earned.length)earned.push("🚀 بداية الرحلة");
+  earned.forEach(label=>{const badge=document.createElement("span");badge.textContent=label;badges.append(badge);});
+  const overlay=document.getElementById("leader-profile-overlay");overlay.hidden=false;document.body.style.overflow="hidden";
+  document.getElementById("leader-profile-close").focus();
+ }
+ function closeLeaderboardProfile(){document.getElementById("leader-profile-overlay").hidden=true;document.body.style.overflow="";}
+ document.getElementById("leader-profile-close").addEventListener("click",closeLeaderboardProfile);
+ document.getElementById("leader-profile-overlay").addEventListener("click",event=>{if(event.target.id==="leader-profile-overlay")closeLeaderboardProfile();});
+ document.addEventListener("keydown",event=>{if(event.key==="Escape"&&!document.getElementById("leader-profile-overlay").hidden)closeLeaderboardProfile();});
+
  async function loadBoard() {
   if(busy)return;busy=true;
   status.textContent="جارٍ تحميل النتائج اليومية المعتمدة…";
@@ -1224,7 +1281,11 @@ window.addEventListener('resize', () => {
     const avatarTag=document.createElement("small");avatarTag.className="leader-avatar-tag";avatarTag.textContent="PLAYER AVATAR";
     identity.append(playerName,avatarTag);playerCell.append(avatar,identity);tr.appendChild(playerCell);
     [categoryNames[item.category]||item.category,String(item.score)].forEach(value=>{const td=document.createElement("td");td.textContent=value;tr.appendChild(td);});
-    rows.appendChild(tr);
+
+   rows.appendChild(tr);
+    playerCell.setAttribute("role","button");playerCell.setAttribute("tabindex","0");playerCell.setAttribute("aria-label","عرض ملف "+(item.nickname||"اللاعب"));
+    playerCell.addEventListener("click",()=>openLeaderboardProfile(item,medal,leaderboardAvatar));
+    playerCell.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();openLeaderboardProfile(item,medal,leaderboardAvatar);}});
    });
    status.textContent="تم تحميل "+list.length+" نتيجة موثقة من قاعدة البيانات.";
   } catch(err) {
