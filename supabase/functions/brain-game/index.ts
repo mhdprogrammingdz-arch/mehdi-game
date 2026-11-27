@@ -91,6 +91,39 @@ Deno.serve(async (req) => {
       return json({ player });
     }
 
+    if (body.action === 'player_stats') {
+      const rows: any[] = [];
+      const pageSize = 1000;
+      for (let from = 0; ; from += pageSize) {
+        const { data, error } = await db.from('brain_scores')
+          .select('score,category,played_on,created_at')
+          .eq('player_id', player.id)
+          .order('created_at', { ascending: true })
+          .range(from, from + pageSize - 1);
+        if (error) throw error;
+        const page = data ?? [];
+        rows.push(...page);
+        if (page.length < pageSize) break;
+      }
+      const totalScore = rows.reduce((sum: number, row: any) => sum + (Number(row.score) || 0), 0);
+      const bestScore = rows.reduce((best: number, row: any) => Math.max(best, Number(row.score) || 0), 0);
+      const byCategory = new Map<string, number>();
+      for (const row of rows) {
+        const category = String(row.category ?? 'unknown');
+        byCategory.set(category, (byCategory.get(category) ?? 0) + (Number(row.score) || 0));
+      }
+      const categoryStats = [...byCategory.entries()]
+        .map(([category, score]) => ({ category, score }))
+        .sort((a, b) => b.score - a.score);
+      return json({
+        totalScore,
+        rounds: rows.length,
+        bestScore,
+        averageScore: rows.length ? Math.round((totalScore / rows.length) * 10) / 10 : 0,
+        categoryStats,
+      });
+    }
+
     if (body.action === 'leaderboard') {
       // Global permanent leaderboard: combine verified scores from every game
       // category and every date, keeping exactly one row per player account.
