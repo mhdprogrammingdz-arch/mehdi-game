@@ -409,8 +409,8 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
 @media(prefers-reduced-motion:no-preference){.hero-portrait{animation:portraitBreath 5s ease-in-out infinite}@keyframes portraitBreath{0%,100%{box-shadow:0 0 0 1px #0d2917,0 0 0 7px #07110a,0 0 0 8px #1d6638aa,0 18px 55px #000c,0 0 30px #16b84c1c}50%{box-shadow:0 0 0 1px #174b29,0 0 0 7px #07110a,0 0 0 8px #39d86a,0 18px 58px #000c,0 0 44px #16b84c35}}}
 
 /* PIRATAGE one-time fast cinematic intro */
-.piratage-cinematic{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;overflow:hidden;pointer-events:none;background:transparent;isolation:isolate;animation:cinemaExit 5.2s ease-in-out 1 forwards}
-.cinema-backdrop{display:none!important}
+.piratage-cinematic{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;overflow:hidden;pointer-events:none;background:#020503;isolation:isolate;animation:cinemaExit 5.2s ease-in-out 1 forwards}
+.cinema-backdrop{position:absolute;inset:-20%;z-index:-2;background:radial-gradient(ellipse at 50% 48%,#0c2c16 0%,#061109 32%,#020503 72%);animation:backdropFlash 5.2s ease-out 1 both}
 .cinema-photo-spin{position:absolute;width:min(43vw,340px);height:min(65vh,440px);padding:5px;border:1px solid #35ff79;border-radius:18px;background:linear-gradient(135deg,#b9ffce,#168b45 48%,#d8b86c);box-shadow:0 0 22px #24f56b,0 0 75px #16b84b88;overflow:hidden;transform-origin:center;animation:fastSpinStop 5.2s ease-in-out 1 both}
 .cinema-photo-spin img{width:100%;height:100%;display:block;object-fit:contain;background:#050906;border-radius:13px}
 .cinema-title{position:absolute;top:10%;left:0;width:100%;text-align:center;font:900 clamp(36px,8vw,86px)/1 'Space Grotesk',sans-serif;letter-spacing:clamp(5px,1.4vw,13px);color:#eaffef;text-shadow:0 0 8px #39ff79,0 0 24px #1ee65d,0 0 58px #18a94a;opacity:0;transform:translateY(14px) scale(.8);animation:titleOneShot 5.2s ease-out 1 both}
@@ -433,7 +433,7 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
 .shard-one{animation:panelOne 5.2s ease-out 1 both}.shard-two{animation:panelTwo 5.2s ease-out 1 both}.shard-three{animation:panelThree 5.2s ease-out 1 both}.shard-four{animation:panelFour 5.2s ease-out 1 both}
 .cinema-subtitle{position:absolute;bottom:8%;color:#a8c9af;font:600 10px 'Space Grotesk',sans-serif;letter-spacing:5px;opacity:0;animation:subtitleOneShot 5.2s ease-out 1 both}
 @keyframes cinemaExit{0%,99.5%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden}}
-@keyframes fastSpinStop{0%{opacity:0;transform:rotate(0) scale(.55)}3%{opacity:1}18%{transform:rotate(1800deg) scale(1.06)}19%,57%{opacity:1;transform:rotate(1800deg) scale(1)}58%,100%{opacity:0;transform:rotate(1800deg) scale(.96)}}
+@keyframes fastSpinStop{0%{opacity:1;transform:rotate(0) scale(.55)}18%{opacity:1;transform:rotate(1800deg) scale(1.06)}19%,57%{opacity:1;transform:rotate(1800deg) scale(1)}58%,100%{opacity:0;transform:rotate(1800deg) scale(.96)}}
 @keyframes titleOneShot{0%,14%{opacity:0;transform:translateY(14px) scale(.8)}19%,70%{opacity:1;transform:translateY(0) scale(1)}80%,100%{opacity:0;transform:translateY(-10px) scale(1.04)}}
 @keyframes fireworkOneShot{0%,15%{opacity:0}20%,65%{opacity:1}78%,100%{opacity:0}}
 @keyframes fourPhotos{0%,57%{opacity:0;transform:scale(.25)}59%{opacity:1;transform:scale(.94)}61%,99.5%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.98)}}
