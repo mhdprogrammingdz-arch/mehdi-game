@@ -528,6 +528,7 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
 .leader-profile-avatar{height:225px;display:grid;place-items:center;margin:auto;filter:drop-shadow(0 15px 20px #0009)}
 .leader-profile-avatar svg{height:100%;max-width:170px}
 .leader-profile-avatar img{width:96px!important;height:96px!important;border:3px solid #20f45f;box-shadow:0 0 0 5px #20f45f22,0 8px 24px #0009;object-fit:cover;border-radius:50%}
+.profile-identity-visual{display:flex;align-items:center;gap:10px;flex-shrink:0}.profile-photo-ring{width:82px;height:82px;display:grid;place-items:center;border-radius:50%;background:conic-gradient(#20f45f,#a7ffbf,#168b45,#20f45f);box-shadow:0 0 18px #20f45f30}.profile-photo-ring img{width:76px;height:76px;border:3px solid #07130d!important}.profile-character-mini{width:76px;height:92px;display:grid;place-items:center;overflow:hidden;border:1px solid #64d88b88;border-radius:18px;background:radial-gradient(ellipse at 50% 25%,#245d3a,#07130d 72%);box-shadow:inset 0 0 18px #20f45f18,0 0 16px #20f45f18}.profile-character-mini svg{width:68px;height:88px;filter:drop-shadow(0 5px 7px #0009)}.profile-character-mini span{font-size:30px;color:#75d69a}.profile-character-mini.empty{opacity:.65}
 .leader-profile-name{font-size:22px;font-weight:900;margin:8px 0 3px}
 .leader-profile-sub{color:#91b49b;font-size:10px;letter-spacing:1px}
 .leader-profile-rank{display:inline-block;margin-top:9px;padding:6px 13px;border:1px solid #b28a42;border-radius:20px;background:#30230d;color:#ffe2a0;font-size:11px;font-weight:900}
@@ -598,7 +599,7 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
      <div class="player-profile-head"><span class="player-profile-icon">◈</span><div><small>PLAYER PROFILE</small><h4 id="profile-player-name">ملف اللاعب</h4></div><span class="player-profile-live">نشط</span></div>
      
       <div class="profile-photo-editor" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:16px 0;padding:14px;border:1px solid #20f45f44;border-radius:14px;background:#07130d">
-       <img id="profile-photo-preview" alt="صورة الملف الشخصي" style="width:76px;height:76px;border-radius:50%;object-fit:cover;border:2px solid #20f45f;display:none">
+       <div class="profile-identity-visual"><div class="profile-photo-ring"><img id="profile-photo-preview" alt="صورة الملف الشخصي" style="width:76px;height:76px;border-radius:50%;object-fit:cover;border:2px solid #20f45f;display:none"></div><div class="profile-character-mini empty" id="profile-character-mini" aria-label="الشخصية المختارة"><span>♙</span></div></div>
        <div style="display:grid;gap:8px"><strong>صورة ملفك الشخصي</strong><small style="color:#9aacc1">ستظهر صورتك لجميع اللاعبين في لوحة الصدارة · PNG أو JPG أو WEBP · حتى 5MB</small>
         <input id="profile-photo-input" type="file" accept="image/png,image/jpeg,image/webp" hidden>
         <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="choose-profile-photo" type="button">اختيار صورة</button><button class="btn" id="save-profile-photo" type="button" disabled>حفظ الصورة</button></div>
@@ -879,6 +880,14 @@ window.mehdiBrainCall=callBrain;
    const safe=typeof url==="string"&&url.startsWith(PLAYER_URL+"/storage/v1/object/public/player-avatars/");
    photoPreview.src=safe?url:"";photoPreview.style.display=safe?"block":"none";
   }
+  function updateProfileCharacterMini(){
+   const host=document.getElementById("profile-character-mini");if(!host)return;
+   const state=activePlayer?readAvatarState(activePlayer):{gender:null,equipped:"starter"};
+   const outfit=avatarOutfits.find(x=>x.id===state.equipped)||avatarOutfits[0];
+   host.classList.toggle("empty",!state.gender);
+   host.innerHTML=state.gender?avatarSvg(state.gender,outfit):"<span>♙</span>";
+   host.title=state.gender?"شخصيتك المختارة":"لم تختر شخصية بعد";
+  }
   document.getElementById("choose-profile-photo").addEventListener("click",()=>photoInput.click());
   photoInput.addEventListener("change",()=>{
    const file=photoInput.files&&photoInput.files[0];pendingProfilePhoto=null;savePhotoButton.disabled=true;
@@ -962,6 +971,7 @@ window.mehdiBrainCall=callBrain;
   const render=document.getElementById("avatar-render"),items=document.getElementById("avatar-items"),genderPick=document.getElementById("avatar-gender-pick"),feedback=document.getElementById("avatar-feedback");
   if(!render||!items)return;
   render.innerHTML=state.gender?avatarSvg(state.gender,outfit):'<div style="text-align:center;color:#b7d8c1;font-size:12px;line-height:2">اختر شخصيتك<br><b style="font-size:38px">♙</b></div>';
+  updateProfileCharacterMini();
    const viewer=document.getElementById("avatar-3d-viewer");
    if(viewer){viewer.classList.toggle("active",!!state.gender);render.style.display=state.gender?"none":"block";window.dispatchEvent(new CustomEvent("mehdi-avatar-gender",{detail:{gender:state.gender}}));}
   genderPick.hidden=false;
