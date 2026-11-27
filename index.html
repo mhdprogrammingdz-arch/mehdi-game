@@ -502,6 +502,14 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
 .avatar-shop-note{margin:10px 0 0;color:#819a89;font-size:9px;line-height:1.8}
 .avatar-feedback{min-height:20px;margin:9px 0 0;color:#9decb2;font-size:10px;text-align:center}
 @media(max-width:650px){.avatar-layout{grid-template-columns:1fr}.avatar-preview{min-height:300px}.avatar-render{height:265px}.avatar-items{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.leader-player-cell{display:flex!important;align-items:center;gap:10px;min-width:150px}
+.leader-avatar-mini{width:43px;height:48px;flex:0 0 43px;display:grid;place-items:center;border-radius:12px;border:1px solid #34764a;background:radial-gradient(circle at 50% 25%,#205b35,#08150d 72%);overflow:hidden;box-shadow:0 0 13px #2ddc6920}
+.leader-avatar-mini svg{width:39px;height:46px;display:block}
+.leader-avatar-default{font-size:22px;color:#8de6a5}
+.leader-player-name{font-weight:800;color:#eaffef}
+.leader-avatar-tag{display:block;color:#8ca997;font-size:9px;margin-top:2px}
+@media(max-width:560px){.leader-player-cell{gap:6px;min-width:120px}.leader-avatar-mini{width:34px;height:40px;flex-basis:34px}.leader-avatar-mini svg{width:31px;height:37px}.leader-player-name{font-size:11px}}
 </style></head>
 <body>
 <div class="piratage-cinematic" aria-hidden="true">
@@ -1194,13 +1202,28 @@ window.addEventListener('resize', () => {
     return;
    }
    rows.innerHTML="";
+   function leaderboardAvatar(nickname){
+    const key="mehdiAvatar:"+String(nickname||"guest").trim().toLocaleLowerCase("ar");
+    let state=null;try{state=JSON.parse(localStorage.getItem(key)||"null")}catch(e){}
+    if(!state||!state.gender)return '<span class="leader-avatar-default">♙</span>';
+    const outfits={starter:["#101820","#4b6657","#090d12"],forest:["#174b32","#55d98a","#101b17"],street:["#122a46","#26c6da","#091321"],violet:["#39235d","#b68cff","#151021"],chrome:["#697b8a","#e4f4ff","#202a34"],inferno:["#174b37","#b2ff63","#091a14"],royal:["#171719","#ffd36b","#08090b"],phantom:["#111b26","#ff4f85","#05080d"]};
+    const c=outfits[state.equipped]||outfits.starter;
+    const hair=state.gender==="female"?"#24172b":"#171b20";
+    const headHair=state.gender==="female"?'<path d="M22 25 Q18 2 36 5 Q54 5 49 28 L48 55 L43 35 Q34 43 25 34 L23 55Z" fill="'+hair+'"/>':'<path d="M22 22 Q21 5 36 5 Q51 6 49 24 L43 17 Q34 13 25 20Z" fill="'+hair+'"/>';
+    return '<svg viewBox="0 0 70 90" aria-hidden="true"><path d="M23 53 L20 81 L31 83 L35 59 L40 83 L51 81 L47 53Z" fill="'+c[2]+'"/><path d="M20 39 Q11 40 10 56 L5 69 L13 73 L24 55 L47 55 L57 73 L65 69 L59 53 Q56 40 47 39Z" fill="'+c[0]+'" stroke="'+c[1]+'" stroke-width="1.5"/><path d="M28 31 L28 42 Q35 49 42 42 L42 31Z" fill="#d69a76"/><ellipse cx="35" cy="23" rx="13" ry="16" fill="#d69a76"/>'+headHair+'<circle cx="30" cy="24" r="1.5" fill="#17191d"/><circle cx="40" cy="24" r="1.5" fill="#17191d"/><path d="M31 32 Q35 35 39 32" fill="none" stroke="#8e5147" stroke-width="1.3"/></svg>';
+   }
    list.forEach((item,i)=>{
     const tr=document.createElement("tr");
     if(i===0)tr.classList.add("podium-first");else if(i===1)tr.classList.add("podium-second");else if(i===2)tr.classList.add("podium-third");
     const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":String(i+1);
-    [medal,item.nickname||"لاعب",categoryNames[item.category]||item.category,String(item.score)].forEach(value=>{
-     const td=document.createElement("td");td.textContent=value;tr.appendChild(td);
-    });
+    const rankCell=document.createElement("td");rankCell.textContent=medal;tr.appendChild(rankCell);
+    const playerCell=document.createElement("td");playerCell.className="leader-player-cell";
+    const avatar=document.createElement("span");avatar.className="leader-avatar-mini";avatar.innerHTML=leaderboardAvatar(item.nickname||"لاعب");
+    const identity=document.createElement("span");identity.className="leader-player-identity";
+    const playerName=document.createElement("strong");playerName.className="leader-player-name";playerName.textContent=item.nickname||"لاعب";
+    const avatarTag=document.createElement("small");avatarTag.className="leader-avatar-tag";avatarTag.textContent="PLAYER AVATAR";
+    identity.append(playerName,avatarTag);playerCell.append(avatar,identity);tr.appendChild(playerCell);
+    [categoryNames[item.category]||item.category,String(item.score)].forEach(value=>{const td=document.createElement("td");td.textContent=value;tr.appendChild(td);});
     rows.appendChild(tr);
    });
    status.textContent="تم تحميل "+list.length+" نتيجة موثقة من قاعدة البيانات.";
