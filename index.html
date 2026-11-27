@@ -538,6 +538,13 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
 .leader-profile-badges span{padding:7px 10px;border:1px solid #705b31;border-radius:9px;background:#211b0d;color:#f3d78c;font-size:10px}
 .leader-profile-note{margin:12px 0 0;color:#82998a;font-size:9px;line-height:1.7;text-align:center}
 .leader-player-cell{cursor:pointer}.leader-player-cell:hover .leader-player-name{color:#82f5a2;text-decoration:underline}
+
+/* Keep the signed-in player's own profile button reachable on phones */
+@media(max-width:700px){
+ .minimal-header .header-actions{display:flex!important;visibility:visible!important;opacity:1!important;}
+ .minimal-header .header-profile-btn:not([hidden]){position:fixed!important;right:14px!important;left:auto!important;bottom:calc(88px + env(safe-area-inset-bottom))!important;top:auto!important;z-index:120!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;min-height:46px!important;padding:10px 15px!important;border:1px solid #39cf6b!important;border-radius:13px!important;background:linear-gradient(135deg,#10291a,#061109)!important;color:#dfffea!important;box-shadow:0 8px 28px #000b,0 0 20px #20f45f30!important;font:800 12px Cairo!important;}
+ .minimal-header .header-profile-btn[hidden]{display:none!important;}
+}
 </style></head>
 <body>
 <div class="piratage-cinematic" aria-hidden="true">
