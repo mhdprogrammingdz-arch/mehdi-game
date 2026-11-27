@@ -450,6 +450,8 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
 .shard:before{content:"";position:absolute;inset:-18%;z-index:0;border-radius:50%;background:radial-gradient(ellipse at center,#28ff72a8 0%,#16b94c55 34%,#0a5d2922 58%,transparent 72%);filter:blur(18px);opacity:0;transform:scale(.55);animation:shardHalo 5.2s ease-out 1 both}
 .shard img,.shard span{z-index:1}
 @keyframes shardHalo{0%,58%{opacity:0;transform:scale(.55)}64%{opacity:1;transform:scale(1.18)}68%,99.5%{opacity:.82;transform:scale(1)}100%{opacity:0;transform:scale(1.3)}}
+
+.profile-level{margin-top:17px;padding:14px;border:1px solid #20f45f55;border-radius:13px;background:linear-gradient(110deg,#0a2115,#07140e)}.profile-level-top{display:flex;align-items:center;justify-content:space-between;gap:12px}.profile-level-top small{display:block;color:#72c991;font:700 9px "Space Grotesk";letter-spacing:2px}.profile-level-top strong{display:block;color:#e5ffec;font-size:17px;margin-top:3px}.profile-level-number{padding:6px 10px;border:1px solid #20f45f66;border-radius:20px;color:#75f39b;font-size:11px;font-weight:800;white-space:nowrap}.profile-level-track{height:9px;margin-top:13px;border-radius:20px;background:#1a3325;overflow:hidden}.profile-level-track span{display:block;width:0;height:100%;border-radius:20px;background:linear-gradient(90deg,#128a40,#55ff87);box-shadow:0 0 13px #20f45f66;transition:width .6s ease}.profile-level-foot{display:flex;justify-content:space-between;gap:10px;margin-top:7px;color:#91b99d;font-size:10px}.profile-level-foot span:last-child{text-align:left}@media(max-width:420px){.profile-level-foot{font-size:9px}}
 </style></head>
 <body>
 <div class="piratage-cinematic" aria-hidden="true">
@@ -519,6 +521,11 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
      </div>
      <div class="profile-category-wrap"><div class="profile-category-title">أداؤك حسب الأقسام</div><div id="profile-categories" class="profile-categories"><span>جارٍ تحميل الإحصائيات…</span></div></div>
      <div class="profile-achievements-wrap"><div class="profile-achievements-title">إنجازاتك وشاراتك 🏆</div><div class="profile-achievements" id="profile-achievements" aria-live="polite"><span>جارٍ تحميل الإنجازات…</span></div></div>
+  <div class="profile-level" id="profile-level" aria-live="polite">
+   <div class="profile-level-top"><div><small>PLAYER LEVEL</small><strong id="profile-level-name">مبتدئ</strong></div><span class="profile-level-number" id="profile-level-number">المستوى 1</span></div>
+   <div class="profile-level-track"><span id="profile-level-fill"></span></div>
+   <div class="profile-level-foot"><span id="profile-level-current">0 نقطة</span><span id="profile-level-next">50 نقطة للمستوى التالي</span></div>
+  </div>
      <p class="profile-status" id="profile-status">جارٍ تحميل إحصائيات اللاعب…</p>
     </section>
     <div class="friend-person-picker" id="friend-person-picker" hidden>
@@ -741,6 +748,22 @@ window.addEventListener('resize', () => {
    ];
    const achievementList=document.getElementById("profile-achievements");achievementList.replaceChildren();
    achievements.forEach(item=>{const badge=document.createElement("div");badge.className="profile-achievement"+(item.unlocked?" unlocked":"");const icon=document.createElement("span");icon.className="achievement-icon";icon.textContent=item.unlocked?item.icon:"🔒";const title=document.createElement("strong");title.textContent=item.title;const detail=document.createElement("small");detail.textContent=item.unlocked?"تم فتح الشارة ✓":item.detail;badge.append(icon,title,detail);achievementList.append(badge);});
+   const levelTiers=[
+    {min:0,name:"مبتدئ"},
+    {min:50,name:"متدرّب"},
+    {min:150,name:"محترف"},
+    {min:300,name:"خبير"},
+    {min:500,name:"أسطورة"}
+   ];
+   const levelIndex=levelTiers.reduce((found,tier,i)=>total>=tier.min?i:found,0);
+   const currentTier=levelTiers[levelIndex], nextTier=levelTiers[levelIndex+1];
+   const levelStart=currentTier.min, levelEnd=nextTier?nextTier.min:currentTier.min+200;
+   const levelProgress=nextTier?Math.max(0,Math.min(100,((total-levelStart)/(levelEnd-levelStart))*100)):100;
+   document.getElementById("profile-level-name").textContent=currentTier.name;
+   document.getElementById("profile-level-number").textContent="المستوى "+(levelIndex+1);
+   document.getElementById("profile-level-current").textContent=total.toLocaleString("ar")+" نقطة";
+   document.getElementById("profile-level-next").textContent=nextTier?(nextTier.min-total).toLocaleString("ar")+" نقطة للمستوى التالي":"وصلت إلى أعلى رتبة!";
+   document.getElementById("profile-level-fill").style.width=levelProgress+"%";
    status.textContent=Number(data.rounds||0)?"إحصائياتك مبنية على الجولات التي تم التحقق من نتائجها.":"ابدأ اللعب لتجميع النقاط وبناء ملفك الشخصي.";
   } catch(err) {status.textContent="تعذر تحميل الإحصائيات: "+(err.message||"خطأ اتصال.");}
  }
