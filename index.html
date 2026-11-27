@@ -460,6 +460,18 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
 .leader-table tbody tr.podium-first td:first-child{color:#ffd76b;font-weight:900;text-shadow:0 0 12px #ffc84a66}.leader-table tbody tr.podium-second td:first-child{color:#dce6ee;font-weight:900}.leader-table tbody tr.podium-third td:first-child{color:#e5a477;font-weight:900}
 .leader-table tbody tr.podium-first td:nth-child(2){color:#ffe39a;font-weight:900}.leader-table tbody tr.podium-second td:nth-child(2){color:#e4edf5;font-weight:900}.leader-table tbody tr.podium-third td:nth-child(2){color:#f0b58e;font-weight:900}
 @media(max-width:560px){.daily-missions{padding:12px}.daily-missions-head strong{font-size:12px}}
+/* Dedicated player profile page */
+.player-profile-page[hidden]{display:none!important}
+.player-profile-page{position:fixed;inset:0;z-index:30;overflow-y:auto;padding:clamp(16px,4vw,42px);background:radial-gradient(ellipse at 50% 0%,#12351f 0,transparent 48%),linear-gradient(145deg,#030a06,#07130d 55%,#030811)}
+.player-profile-page-inner{width:min(900px,100%);margin:0 auto;min-height:100%;display:flex;flex-direction:column;justify-content:center}
+.player-profile-page-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.player-profile-page-nav>span{font:700 10px "Space Grotesk";letter-spacing:2px;color:#70d990}
+.player-profile-page .player-profile{display:block!important;width:100%;max-width:none;margin:0;padding:clamp(18px,4vw,34px);border-radius:22px;background:linear-gradient(145deg,#0b2416,#07111d 75%);box-shadow:0 25px 80px #0008,0 0 45px #20f45f12}
+.player-profile-page .player-profile-head{padding-bottom:17px;border-bottom:1px solid #20f45f2b}.player-profile-page .player-profile-icon{width:58px;height:58px;font-size:32px}.player-profile-page .player-profile-head h4{font-size:25px}
+.player-profile-page .player-profile-stats{gap:13px}.player-profile-page .profile-stat{padding:18px 12px}.player-profile-page .profile-stat strong{font-size:29px}
+.player-profile-page .profile-achievements{gap:12px}.player-profile-page .profile-achievement{padding:17px 12px}.player-profile-page .profile-achievement .achievement-icon{font-size:30px}.player-profile-page .profile-achievement strong{font-size:13px}.player-profile-page .profile-achievement small{font-size:10px}
+.player-profile-page .profile-level,.player-profile-page .daily-missions{padding:20px;border-radius:16px}
+.profile-open-btn{display:block;margin:14px auto 0;cursor:pointer}.profile-open-btn[hidden]{display:none!important}.profile-back-btn{cursor:pointer}
+@media(max-width:560px){.player-profile-page{padding:13px}.player-profile-page-inner{justify-content:flex-start;padding:12px 0}.player-profile-page-nav{align-items:flex-start;flex-direction:column}.player-profile-page .player-profile-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.player-profile-page .profile-achievements{grid-template-columns:repeat(2,minmax(0,1fr))}.player-profile-page .profile-stat strong{font-size:23px}}
 </style></head>
 <body>
 <div class="piratage-cinematic" aria-hidden="true">
@@ -485,6 +497,34 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
 </main>
 <section class="section" id="leaderboard"><div class="reveal"><div class="kicker">05 — DAILY LEADERBOARD</div><h2>لوحة صدارة أفضل 100 لاعب 🏆</h2><p class="intro">تُعرض النتائج اليومية المشتركة المسجلة في قاعدة بيانات Supabase.</p></div><div class="leader-panel reveal"><div class="leader-tabs"><button class="leader-tab active" data-board="challenge">تحدي العقل</button><button class="leader-tab" data-board="riddle">الألغاز الذكية</button><button class="leader-tab" data-board="knowledge">المعرفة العامة</button><button class="leader-tab" data-board="politics">السياسة</button><button class="leader-tab" data-board="history">التاريخ</button><button class="leader-tab" data-board="computer">الإعلام الآلي</button><button class="leader-tab" data-board="math">الرياضيات</button><button class="leader-tab" data-board="friends">الأصدقاء</button></div><div class="leader-status" id="leader-status">جارٍ الاتصال بلوحة الصدارة…</div><div class="leader-table-wrap"><table class="leader-table"><thead><tr><th>الترتيب</th><th>اللاعب</th><th>اللعبة</th><th>النقاط</th></tr></thead><tbody id="leader-rows"><tr><td colspan="4">جارٍ تحميل النتائج…</td></tr></tbody></table></div></div></section>
 
+
+<section class="player-profile-page" id="player-profile-page" hidden>
+ <div class="player-profile-page-inner">
+  <div class="player-profile-page-nav"><button class="btn profile-back-btn" id="close-player-profile" type="button">← العودة إلى اللعبة</button><span>MEHDI PLAYER SPACE</span></div>
+      <section class="player-profile" id="player-profile" hidden aria-live="polite">
+     <div class="player-profile-head"><span class="player-profile-icon">◈</span><div><small>PLAYER PROFILE</small><h4 id="profile-player-name">ملف اللاعب</h4></div><span class="player-profile-live">نشط</span></div>
+     <div class="player-profile-stats">
+      <div class="profile-stat"><small>إجمالي النقاط</small><strong id="profile-total-score">0</strong></div>
+      <div class="profile-stat"><small>عدد الجولات</small><strong id="profile-rounds">0</strong></div>
+      <div class="profile-stat"><small>أفضل نتيجة</small><strong id="profile-best-score">0/10</strong></div>
+      <div class="profile-stat"><small>متوسط النقاط</small><strong id="profile-average-score">0</strong></div>
+     </div>
+     <div class="profile-category-wrap"><div class="profile-category-title">أداؤك حسب الأقسام</div><div id="profile-categories" class="profile-categories"><span>جارٍ تحميل الإحصائيات…</span></div></div>
+     <div class="profile-achievements-wrap"><div class="profile-achievements-title">إنجازاتك وشاراتك 🏆</div><div class="profile-achievements" id="profile-achievements" aria-live="polite"><span>جارٍ تحميل الإنجازات…</span></div></div>
+  <div class="profile-level" id="profile-level" aria-live="polite">
+   <div class="profile-level-top"><div><small>PLAYER LEVEL</small><strong id="profile-level-name">مبتدئ</strong></div><span class="profile-level-number" id="profile-level-number">المستوى 1</span></div>
+   <div class="profile-level-track"><span id="profile-level-fill"></span></div>
+   <div class="profile-level-foot"><span id="profile-level-current">0 نقطة</span><span id="profile-level-next">50 نقطة للمستوى التالي</span></div>
+  </div>
+  <div class="daily-missions" id="daily-missions">
+   <div class="daily-missions-head"><strong>⚡ مهامك اليومية</strong><span>تتجدد كل يوم</span></div>
+   <div class="daily-mission" data-mission="rounds"><div class="daily-mission-info"><span>🎮 أكمل 3 جولات</span><b id="daily-rounds-text">0/3</b></div><div class="daily-mission-track"><i id="daily-rounds-fill"></i></div><small id="daily-rounds-status">أكمل جولاتك لفتح الميدالية</small></div>
+   <div class="daily-mission" data-mission="points"><div class="daily-mission-info"><span>💎 اجمع 20 نقطة</span><b id="daily-points-text">0/20</b></div><div class="daily-mission-track"><i id="daily-points-fill"></i></div><small id="daily-points-status">اجمع النقاط من نتائجك المعتمدة</small></div>
+  </div>
+     <p class="profile-status" id="profile-status">جارٍ تحميل إحصائيات اللاعب…</p>
+    </section>
+ </div>
+</section>
 
 <section class="section" id="brain-game">
  <div class="reveal">
@@ -519,28 +559,7 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
      <p class="player-register-status" id="player-register-status" aria-live="polite">يُحفظ الاسم في قاعدة بيانات الموقع بعد الاتصال بالإنترنت.</p>
      <p class="player-current" id="player-current" hidden></p>
     </form>
-    <section class="player-profile" id="player-profile" hidden aria-live="polite">
-     <div class="player-profile-head"><span class="player-profile-icon">◈</span><div><small>PLAYER PROFILE</small><h4 id="profile-player-name">ملف اللاعب</h4></div><span class="player-profile-live">نشط</span></div>
-     <div class="player-profile-stats">
-      <div class="profile-stat"><small>إجمالي النقاط</small><strong id="profile-total-score">0</strong></div>
-      <div class="profile-stat"><small>عدد الجولات</small><strong id="profile-rounds">0</strong></div>
-      <div class="profile-stat"><small>أفضل نتيجة</small><strong id="profile-best-score">0/10</strong></div>
-      <div class="profile-stat"><small>متوسط النقاط</small><strong id="profile-average-score">0</strong></div>
-     </div>
-     <div class="profile-category-wrap"><div class="profile-category-title">أداؤك حسب الأقسام</div><div id="profile-categories" class="profile-categories"><span>جارٍ تحميل الإحصائيات…</span></div></div>
-     <div class="profile-achievements-wrap"><div class="profile-achievements-title">إنجازاتك وشاراتك 🏆</div><div class="profile-achievements" id="profile-achievements" aria-live="polite"><span>جارٍ تحميل الإنجازات…</span></div></div>
-  <div class="profile-level" id="profile-level" aria-live="polite">
-   <div class="profile-level-top"><div><small>PLAYER LEVEL</small><strong id="profile-level-name">مبتدئ</strong></div><span class="profile-level-number" id="profile-level-number">المستوى 1</span></div>
-   <div class="profile-level-track"><span id="profile-level-fill"></span></div>
-   <div class="profile-level-foot"><span id="profile-level-current">0 نقطة</span><span id="profile-level-next">50 نقطة للمستوى التالي</span></div>
-  </div>
-  <div class="daily-missions" id="daily-missions">
-   <div class="daily-missions-head"><strong>⚡ مهامك اليومية</strong><span>تتجدد كل يوم</span></div>
-   <div class="daily-mission" data-mission="rounds"><div class="daily-mission-info"><span>🎮 أكمل 3 جولات</span><b id="daily-rounds-text">0/3</b></div><div class="daily-mission-track"><i id="daily-rounds-fill"></i></div><small id="daily-rounds-status">أكمل جولاتك لفتح الميدالية</small></div>
-   <div class="daily-mission" data-mission="points"><div class="daily-mission-info"><span>💎 اجمع 20 نقطة</span><b id="daily-points-text">0/20</b></div><div class="daily-mission-track"><i id="daily-points-fill"></i></div><small id="daily-points-status">اجمع النقاط من نتائجك المعتمدة</small></div>
-  </div>
-     <p class="profile-status" id="profile-status">جارٍ تحميل إحصائيات اللاعب…</p>
-    </section>
+    <button class="btn profile-open-btn" id="open-player-profile" type="button" hidden>👤 افتح صفحتي الشخصية</button>
     <div class="friend-person-picker" id="friend-person-picker" hidden>
      <h3>اختر الصديق الذي تريد الإجابة عن أسئلته</h3>
      <p>ستظهر لك أسئلة تخص الشخص الذي تختاره فقط.</p>
@@ -719,6 +738,11 @@ window.addEventListener('resize', () => {
   }
  }
  window.mehdiBrainCall=callBrain;
+ const profilePage=document.getElementById("player-profile-page");
+ document.getElementById("open-player-profile").addEventListener("click",()=>{if(activePlayer){profilePage.hidden=false;document.body.style.overflow="hidden";}});
+ document.getElementById("close-player-profile").addEventListener("click",()=>{profilePage.hidden=true;document.body.style.overflow="";});
+ document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!profilePage.hidden){profilePage.hidden=true;document.body.style.overflow="";}});
+
 
  function localDayKey(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
  function dailyMissionKey(){return "mehdiDailyMissions:"+String(activePlayer?.nickname||"guest").trim().toLocaleLowerCase("ar")+":"+localDayKey();}
@@ -743,6 +767,7 @@ window.addEventListener('resize', () => {
  }
  function showPlayer(player) {
   activePlayer=player;
+  document.getElementById("open-player-profile").hidden=false;
   playerInput.value=player.nickname;
   playerCurrent.textContent="اللاعب الحالي: "+player.nickname;
   playerCurrent.hidden=false;
