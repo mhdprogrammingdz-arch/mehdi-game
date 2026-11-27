@@ -460,6 +460,11 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
 .leader-table tbody tr.podium-first td:first-child{color:#ffd76b;font-weight:900;text-shadow:0 0 12px #ffc84a66}.leader-table tbody tr.podium-second td:first-child{color:#dce6ee;font-weight:900}.leader-table tbody tr.podium-third td:first-child{color:#e5a477;font-weight:900}
 .leader-table tbody tr.podium-first td:nth-child(2){color:#ffe39a;font-weight:900}.leader-table tbody tr.podium-second td:nth-child(2){color:#e4edf5;font-weight:900}.leader-table tbody tr.podium-third td:nth-child(2){color:#f0b58e;font-weight:900}
 @media(max-width:560px){.daily-missions{padding:12px}.daily-missions-head strong{font-size:12px}}
+/* Header profile shortcut */
+.header-profile-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:8px 15px;border:1px solid #20f45f66;border-radius:11px;background:linear-gradient(135deg,#10291a,#09150e);color:#baf6c9;font:800 12px Cairo;cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s}
+.header-profile-btn:hover{transform:translateY(-2px);border-color:#65ed91;box-shadow:0 0 20px #20f45f24;color:#fff}
+.header-profile-btn[hidden]{display:none!important}.header-profile-icon{width:23px;height:23px;display:grid;place-items:center;border-radius:8px;background:#20f45f1b;color:#65ed91;font-size:17px}
+@media(max-width:560px){.header-profile-btn{min-height:39px;padding:7px 10px;font-size:10px;gap:5px}.header-profile-icon{width:20px;height:20px}}
 /* Dedicated player profile page */
 .player-profile-page[hidden]{display:none!important}
 .player-profile-page{position:fixed;inset:0;z-index:30;overflow-y:auto;padding:clamp(16px,4vw,42px);background:radial-gradient(ellipse at 50% 0%,#12351f 0,transparent 48%),linear-gradient(145deg,#030a06,#07130d 55%,#030811)}
@@ -488,7 +493,7 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
   <div class="cinema-subtitle">ENTER THE CHALLENGE</div>
 </div>
 <div class="container">
-<header class="minimal-header"><a class="logo" href="#home">MEHDI<b>✦</b></a><nav id="site-nav" aria-label="القائمة الرئيسية"><a href="#home">الرئيسية</a><a href="#leaderboard">لوحة الصدارة</a><a href="#brain-game">اللعب</a></nav><div class="header-actions"><button id="header-play" class="header-play" type="button">ابدأ اللعب</button><button id="header-home" class="header-home" type="button">الرئيسية</button></div><button class="menu" id="menu-toggle" type="button" aria-controls="site-nav" aria-expanded="false">☰ <span>القائمة</span></button></header>
+<header class="minimal-header"><a class="logo" href="#home">MEHDI<b>✦</b></a><nav id="site-nav" aria-label="القائمة الرئيسية"><a href="#home">الرئيسية</a><a href="#leaderboard">لوحة الصدارة</a><a href="#brain-game">اللعب</a></nav><div class="header-actions"><button id="open-player-profile" class="header-profile-btn" type="button" hidden><span class="header-profile-icon">♙</span><span>ملفي الشخصي</span></button><button id="header-play" class="header-play" type="button">ابدأ اللعب</button><button id="header-home" class="header-home" type="button">الرئيسية</button></div><button class="menu" id="menu-toggle" type="button" aria-controls="site-nav" aria-expanded="false">☰ <span>القائمة</span></button></header>
 <main class="hero hero-minimal" id="home">
  <div class="hero-portrait"><div class="portrait-glow"></div><img src="assets/mehdi.jpg" alt="MEHDI PIRATAGE"></div>
  <div class="hero-brand"><div class="brand-kicker"><span></span> MEHDI PRESENTS</div><h1 class="piratage-title">PIRATAGE</h1><div class="brand-rule"><i></i><b>✦</b><i></i></div>
@@ -559,7 +564,7 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
      <p class="player-register-status" id="player-register-status" aria-live="polite">يُحفظ الاسم في قاعدة بيانات الموقع بعد الاتصال بالإنترنت.</p>
      <p class="player-current" id="player-current" hidden></p>
     </form>
-    <button class="btn profile-open-btn" id="open-player-profile" type="button" hidden>👤 افتح صفحتي الشخصية</button>
+    
     <div class="friend-person-picker" id="friend-person-picker" hidden>
      <h3>اختر الصديق الذي تريد الإجابة عن أسئلته</h3>
      <p>ستظهر لك أسئلة تخص الشخص الذي تختاره فقط.</p>
