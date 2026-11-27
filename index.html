@@ -915,8 +915,11 @@ window.addEventListener('resize', () => {
   const render=document.getElementById("avatar-render"),items=document.getElementById("avatar-items"),genderPick=document.getElementById("avatar-gender-pick"),feedback=document.getElementById("avatar-feedback");
   if(!render||!items)return;
   render.innerHTML=state.gender?avatarSvg(state.gender,outfit):'<div style="text-align:center;color:#b7d8c1;font-size:12px;line-height:2">اختر شخصيتك<br><b style="font-size:38px">♙</b></div>';
-  genderPick.hidden=!!state.gender;
-  genderPick.querySelectorAll("button").forEach(b=>b.classList.toggle("active",b.dataset.avatarGender===state.gender));
+  genderPick.hidden=false;
+  genderPick.querySelectorAll("button").forEach(b=>{
+   b.classList.toggle("active",b.dataset.avatarGender===state.gender);
+   b.setAttribute("aria-pressed",b.dataset.avatarGender===state.gender?"true":"false");
+  });
   let wallet={gems:0};try{wallet=JSON.parse(localStorage.getItem(avatarRewardKey(player))||"{}")||wallet}catch(e){}
   const gems=Math.max(0,Number(wallet.gems)||0);
   document.getElementById("avatar-gem-balance").textContent=gems.toLocaleString("ar");
@@ -939,7 +942,19 @@ window.addEventListener('resize', () => {
   const gender=e.target.closest("[data-avatar-gender]"),outfitButton=e.target.closest("[data-outfit-id]");
   if(!activePlayer)return;
   const state=readAvatarState(activePlayer);
-  if(gender){if(state.gender)return;state.gender=gender.dataset.avatarGender;writeAvatarState(activePlayer,state);renderAvatarShop(activePlayer);document.getElementById("avatar-feedback").textContent="تم اختيار شخصيتك! يمكنك الآن التسوق وشراء الأزياء.";return;}
+  if(gender){
+   const nextGender=gender.dataset.avatarGender;
+   if(!["male","female"].includes(nextGender))return;
+   if(state.gender===nextGender){
+    document.getElementById("avatar-feedback").textContent="هذه هي الشخصية الحالية بالفعل.";
+    return;
+   }
+   state.gender=nextGender;
+   writeAvatarState(activePlayer,state);
+   renderAvatarShop(activePlayer);
+   document.getElementById("avatar-feedback").textContent="تم تغيير جنس الشخصية بنجاح! بقيت أزياؤك وجواهرك وإنجازاتك كما هي.";
+   return;
+  }
   if(outfitButton){
    const item=avatarOutfits.find(x=>x.id===outfitButton.dataset.outfitId);if(!item)return;
    if(state.owned.includes(item.id)){state.equipped=item.id;writeAvatarState(activePlayer,state);renderAvatarShop(activePlayer);document.getElementById("avatar-feedback").textContent="تم ارتداء "+item.name+" بنجاح.";return;}
