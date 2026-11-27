@@ -477,6 +477,31 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
 .player-profile-page .profile-level,.player-profile-page .daily-missions{padding:20px;border-radius:16px}
 .profile-open-btn{display:block;margin:14px auto 0;cursor:pointer}.profile-open-btn[hidden]{display:none!important}.profile-back-btn{cursor:pointer}
 @media(max-width:560px){.player-profile-page{padding:13px}.player-profile-page-inner{justify-content:flex-start;padding:12px 0}.player-profile-page-nav{align-items:flex-start;flex-direction:column}.player-profile-page .player-profile-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.player-profile-page .profile-achievements{grid-template-columns:repeat(2,minmax(0,1fr))}.player-profile-page .profile-stat strong{font-size:23px}}
+
+/* 3D-style player avatar and gem boutique */
+.avatar-studio{margin:18px 0 22px;padding:clamp(16px,3vw,25px);border:1px solid #2d7048;border-radius:20px;background:radial-gradient(ellipse at 50% 0%,#17472b66,transparent 58%),linear-gradient(145deg,#0a1d13,#07111b 78%);box-shadow:0 18px 50px #0005}
+.avatar-studio-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.avatar-studio-head h3{margin:0;font-size:19px;color:#e9fff0}.avatar-studio-head p{margin:4px 0 0;color:#8eae99;font-size:11px}
+.avatar-wallet{border:1px solid #b68d3d77;border-radius:30px;padding:8px 13px;background:#241b0c;color:#ffe09a;font-size:12px;font-weight:900;white-space:nowrap}
+.avatar-layout{display:grid;grid-template-columns:minmax(210px,.8fr) minmax(0,1.2fr);gap:18px;margin-top:17px}
+.avatar-preview{position:relative;min-height:320px;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid #27573a;border-radius:17px;background:radial-gradient(ellipse at 50% 30%,#1c5836,#0a1c13 65%,#071018);isolation:isolate}
+.avatar-preview:before{content:"";position:absolute;width:210px;height:210px;border:1px solid #8ae5a344;border-radius:50%;box-shadow:0 0 40px #4ee88722,inset 0 0 35px #4ee88718}
+.avatar-preview:after{content:"";position:absolute;bottom:24px;width:150px;height:18px;border-radius:50%;background:#0008;filter:blur(9px)}
+.avatar-render{position:relative;z-index:1;width:min(220px,85%);height:285px;filter:drop-shadow(0 18px 15px #0008);animation:avatarFloat 4s ease-in-out infinite}
+.avatar-render svg{width:100%;height:100%;overflow:visible}
+@keyframes avatarFloat{50%{transform:translateY(-7px)}}
+.avatar-gender-pick{position:absolute;z-index:2;inset:auto 10px 10px;display:flex;gap:7px;justify-content:center}
+.avatar-gender-pick button,.avatar-action{border:1px solid #4b8b61;border-radius:9px;background:#07170f;color:#dfffea;padding:8px 12px;font:800 11px Cairo;cursor:pointer}
+.avatar-gender-pick button.active,.avatar-action.primary{background:linear-gradient(120deg,#20f45f,#138b43);color:#03150a;border-color:#5eff91}
+.avatar-shop{min-width:0}.avatar-shop-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;color:#dfffea;font-size:13px;font-weight:900}
+.avatar-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.avatar-item{min-width:0;text-align:center;padding:12px 8px;border:1px solid #284735;border-radius:13px;background:linear-gradient(145deg,#0d2116,#09131a);position:relative}
+.avatar-item[data-rarity="مميز"]{border-color:#4388ad}.avatar-item[data-rarity="ملحمي"]{border-color:#8c62c2;background:linear-gradient(145deg,#211632,#0b1420)}.avatar-item[data-rarity="أسطوري"]{border-color:#d1a447;background:linear-gradient(145deg,#30220d,#10170f);box-shadow:inset 0 0 20px #e8bc4b12}
+.avatar-item strong{display:block;color:#eaffef;font-size:11px}.avatar-item small{display:block;color:#a5baa9;font-size:9px;margin:4px 0 8px}.avatar-item .avatar-price{color:#ffdc86;font-size:10px;font-weight:900}
+.avatar-item button{width:100%;margin-top:8px;border:1px solid #3d7650;border-radius:8px;background:#10281a;color:#caffd6;padding:7px 5px;font:800 10px Cairo;cursor:pointer}
+.avatar-item button:disabled{opacity:.42;cursor:not-allowed}.avatar-item[data-rarity="أسطوري"] button{border-color:#c99d43;background:linear-gradient(120deg,#e9c66c,#93651b);color:#201606}
+.avatar-shop-note{margin:10px 0 0;color:#819a89;font-size:9px;line-height:1.8}
+.avatar-feedback{min-height:20px;margin:9px 0 0;color:#9decb2;font-size:10px;text-align:center}
+@media(max-width:650px){.avatar-layout{grid-template-columns:1fr}.avatar-preview{min-height:300px}.avatar-render{height:265px}.avatar-items{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style></head>
 <body>
 <div class="piratage-cinematic" aria-hidden="true">
@@ -506,7 +531,14 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
 <section class="player-profile-page" id="player-profile-page" hidden>
  <div class="player-profile-page-inner">
   <div class="player-profile-page-nav"><button class="btn profile-back-btn" id="close-player-profile" type="button">← العودة إلى اللعبة</button><span>MEHDI PLAYER SPACE</span></div>
-      <section class="player-profile" id="player-profile" hidden aria-live="polite">
+      <section class="avatar-studio" id="avatar-studio" aria-label="شخصيتك ومتجر الملابس">
+   <div class="avatar-studio-head"><div><h3>شخصيتك الخاصة ✨</h3><p>اختر مظهرك واجمع الأزياء بالجواهر التي تربحها</p></div><div class="avatar-wallet">💎 <span id="avatar-gem-balance">0</span> جوهرة</div></div>
+   <div class="avatar-layout">
+    <div class="avatar-preview"><div class="avatar-render" id="avatar-render" aria-live="polite"></div><div class="avatar-gender-pick" id="avatar-gender-pick"><button type="button" data-avatar-gender="male">♂ ذكر</button><button type="button" data-avatar-gender="female">♀ أنثى</button></div></div>
+    <div class="avatar-shop"><div class="avatar-shop-title"><span>🛍️ متجر الأزياء</span><span>اختر وارتدِ</span></div><div class="avatar-items" id="avatar-items"></div><p class="avatar-shop-note">الأسعار بالجواهر. القطع التي تشتريها تبقى في خزانة اللاعب على هذا الجهاز. الزي الأسطوري محدود الظهور بسعر مرتفع.</p></div>
+   </div><p class="avatar-feedback" id="avatar-feedback" role="status">اختر شخصية ذكر أو أنثى للبدء.</p>
+  </section>
+  <section class="player-profile" id="player-profile" hidden aria-live="polite">
      <div class="player-profile-head"><span class="player-profile-icon">◈</span><div><small>PLAYER PROFILE</small><h4 id="profile-player-name">ملف اللاعب</h4></div><span class="player-profile-live">نشط</span></div>
      <div class="player-profile-stats">
       <div class="profile-stat"><small>إجمالي النقاط</small><strong id="profile-total-score">0</strong></div>
@@ -776,6 +808,69 @@ window.addEventListener('resize', () => {
   try{localStorage.setItem(dailyMissionKey(),JSON.stringify(progress));}catch(e){}
   updateDailyMissions();
  }
+
+ const avatarOutfits=[
+  {id:"starter",name:"الأسود الكلاسيكي",rarity:"أساسي",price:0,coat:"#101820",accent:"#4b6657",pants:"#090d12",glow:"#75d69a"},
+  {id:"forest",name:"ظل الغابة",rarity:"عادي",price:50,coat:"#174b32",accent:"#55d98a",pants:"#101b17",glow:"#55d98a"},
+  {id:"street",name:"نيون ستريت",rarity:"مميز",price:180,coat:"#122a46",accent:"#26c6da",pants:"#091321",glow:"#26c6da"},
+  {id:"violet",name:"الشبح البنفسجي",rarity:"مميز",price:300,coat:"#39235d",accent:"#b68cff",pants:"#151021",glow:"#b68cff"},
+  {id:"chrome",name:"كروم فضي",rarity:"ملحمي",price:750,coat:"#697b8a",accent:"#e4f4ff",pants:"#202a34",glow:"#d7f0ff"},
+  {id:"inferno",name:"لهيب الزمرد",rarity:"ملحمي",price:1100,coat:"#174b37",accent:"#b2ff63",pants:"#091a14",glow:"#b2ff63"},
+  {id:"royal",name:"الملكي الأسود والذهبي",rarity:"أسطوري",price:2500,coat:"#171719",accent:"#ffd36b",pants:"#08090b",glow:"#ffd36b"},
+  {id:"phantom",name:"فانتوم النخبة",rarity:"أسطوري",price:4000,coat:"#111b26",accent:"#ff4f85",pants:"#05080d",glow:"#ff4f85"}
+ ];
+ function avatarKey(player){return "mehdiAvatar:"+String(player?.nickname||"guest").trim().toLocaleLowerCase("ar");}
+ function avatarRewardKey(player){return "mehdiRareRewards:"+String(player?.nickname||"guest").trim().toLocaleLowerCase("ar");}
+ function readAvatarState(player){let state={gender:null,owned:["starter"],equipped:"starter"};try{state={...state,...(JSON.parse(localStorage.getItem(avatarKey(player))||"{}")||{})}}catch(e){}if(!Array.isArray(state.owned))state.owned=["starter"];if(!state.owned.includes("starter"))state.owned.unshift("starter");if(!avatarOutfits.some(x=>x.id===state.equipped)||!state.owned.includes(state.equipped))state.equipped="starter";return state;}
+ function writeAvatarState(player,state){try{localStorage.setItem(avatarKey(player),JSON.stringify(state));return true}catch(e){return false}}
+ function avatarSvg(gender,outfit){
+  const female=gender==="female",hair=female?"#24172b":"#171b20",skin="#d69a76",shirt=outfit.coat,accent=outfit.accent,pants=outfit.pants;
+  const hairShape=female?'<path d="M52 76 Q42 24 83 19 Q127 17 127 70 L133 150 Q121 164 112 128 L108 77 Q88 98 65 79 L61 143 Q45 157 39 132Z" fill="'+hair+'"/>':'<path d="M48 76 Q44 24 88 19 Q127 20 128 72 L112 58 Q88 46 63 62Z" fill="'+hair+'"/>';
+  return '<svg viewBox="0 0 180 270" role="img" aria-label="شخصية '+(female?"أنثى":"ذكر")+' ثلاثية الأبعاد"><defs><linearGradient id="skinGrad" x2="1" y2="1"><stop stop-color="#f4c4a1"/><stop offset="1" stop-color="'+skin+'"/></linearGradient><linearGradient id="clothGrad" x2="1" y2="1"><stop stop-color="'+accent+'"/><stop offset=".45" stop-color="'+shirt+'"/><stop offset="1" stop-color="#080d12"/></linearGradient><linearGradient id="legGrad" x2="1" y2="0"><stop stop-color="'+pants+'"/><stop offset="1" stop-color="#303b42"/></linearGradient><filter id="avatarShadow"><feGaussianBlur stdDeviation="3"/></filter></defs><ellipse cx="90" cy="258" rx="47" ry="7" fill="#000" opacity=".5" filter="url(#avatarShadow)"/><path d="M63 176 L57 239 Q70 249 83 241 L90 190 L98 241 Q113 249 125 239 L116 176Z" fill="url(#legGrad)" stroke="#53606a" stroke-width="1.5"/><path d="M57 235 Q49 246 50 253 Q67 260 85 253 L84 243Z M99 243 L98 253 Q116 260 133 253 Q132 245 125 235Z" fill="#080b10" stroke="'+accent+'" stroke-width="1.5"/><path d="M53 113 Q39 116 34 147 L25 190 Q31 199 41 195 L63 154 L66 190 L115 190 L119 154 L140 195 Q151 198 156 189 L145 145 Q139 116 119 113Z" fill="url(#clothGrad)" stroke="'+accent+'" stroke-width="1.5"/><path d="M76 109 L75 128 Q90 140 105 128 L103 109Z" fill="url(#skinGrad)"/><path d="M66 69 Q66 35 90 35 Q116 35 116 69 L113 102 Q108 119 90 121 Q71 118 66 101Z" fill="url(#skinGrad)" stroke="#9b644e" stroke-width="1"/>'+hairShape+'<path d="M69 83 Q77 77 84 83 M97 83 Q105 77 112 83" fill="none" stroke="#38251f" stroke-width="2.5" stroke-linecap="round"/><ellipse cx="78" cy="91" rx="3.2" ry="4" fill="#17191d"/><ellipse cx="103" cy="91" rx="3.2" ry="4" fill="#17191d"/><path d="M86 105 Q91 109 97 104" fill="none" stroke="#8e5147" stroke-width="2" stroke-linecap="round"/><path d="M74 139 L90 151 L106 139 L113 185 L67 185Z" fill="'+shirt+'" opacity=".85"/><path d="M90 151 L90 187" stroke="'+accent+'" stroke-width="2"/><path d="M79 154 L90 163 L101 154" fill="none" stroke="'+accent+'" stroke-width="2"/><circle cx="90" cy="174" r="3" fill="'+accent+'"/><path d="M52 119 Q42 139 35 181 M128 119 Q138 139 145 181" fill="none" stroke="#ffffff" stroke-opacity=".13" stroke-width="5" stroke-linecap="round"/><path d="M68 40 Q89 18 113 43" fill="none" stroke="'+accent+'" stroke-opacity=".45" stroke-width="2"/></svg>';
+ }
+ function renderAvatarShop(player){
+  if(!player)return;
+  const state=readAvatarState(player),outfit=avatarOutfits.find(x=>x.id===state.equipped)||avatarOutfits[0];
+  const render=document.getElementById("avatar-render"),items=document.getElementById("avatar-items"),genderPick=document.getElementById("avatar-gender-pick"),feedback=document.getElementById("avatar-feedback");
+  if(!render||!items)return;
+  render.innerHTML=state.gender?avatarSvg(state.gender,outfit):'<div style="text-align:center;color:#b7d8c1;font-size:12px;line-height:2">اختر شخصيتك<br><b style="font-size:38px">♙</b></div>';
+  genderPick.hidden=!!state.gender;
+  genderPick.querySelectorAll("button").forEach(b=>b.classList.toggle("active",b.dataset.avatarGender===state.gender));
+  let wallet={gems:0};try{wallet=JSON.parse(localStorage.getItem(avatarRewardKey(player))||"{}")||wallet}catch(e){}
+  const gems=Math.max(0,Number(wallet.gems)||0);
+  document.getElementById("avatar-gem-balance").textContent=gems.toLocaleString("ar");
+  items.replaceChildren();
+  avatarOutfits.forEach(item=>{
+   const owned=state.owned.includes(item.id),equipped=state.equipped===item.id;
+   const card=document.createElement("div");card.className="avatar-item";card.dataset.rarity=item.rarity;
+   const name=document.createElement("strong");name.textContent=item.name;
+   const rarity=document.createElement("small");rarity.textContent=item.rarity+" · "+(item.price?item.price.toLocaleString("ar")+" 💎":"مجاني");
+   const price=document.createElement("div");price.className="avatar-price";price.textContent=item.price?item.price.toLocaleString("ar")+" جوهرة":"هدية البداية";
+   const button=document.createElement("button");button.type="button";button.dataset.outfitId=item.id;
+   button.textContent=equipped?"✓ ترتديه الآن":owned?"ارتدِ الزي":item.price>gems?"تحتاج "+item.price.toLocaleString("ar")+" 💎":"شراء الزي";
+   button.disabled=equipped||(!owned&&item.price>gems)||!state.gender;
+   card.append(name,rarity,price,button);items.append(card);
+  });
+  if(!state.gender)feedback.textContent="اختر شخصية ذكر أو أنثى للبدء.";
+ }
+ const avatarStudio=document.getElementById("avatar-studio");
+ avatarStudio.addEventListener("click",e=>{
+  const gender=e.target.closest("[data-avatar-gender]"),outfitButton=e.target.closest("[data-outfit-id]");
+  if(!activePlayer)return;
+  const state=readAvatarState(activePlayer);
+  if(gender){if(state.gender)return;state.gender=gender.dataset.avatarGender;writeAvatarState(activePlayer,state);renderAvatarShop(activePlayer);document.getElementById("avatar-feedback").textContent="تم اختيار شخصيتك! يمكنك الآن التسوق وشراء الأزياء.";return;}
+  if(outfitButton){
+   const item=avatarOutfits.find(x=>x.id===outfitButton.dataset.outfitId);if(!item)return;
+   if(state.owned.includes(item.id)){state.equipped=item.id;writeAvatarState(activePlayer,state);renderAvatarShop(activePlayer);document.getElementById("avatar-feedback").textContent="تم ارتداء "+item.name+" بنجاح.";return;}
+   let wallet={gems:0,pending:[],claimed:[]};try{wallet=JSON.parse(localStorage.getItem(avatarRewardKey(activePlayer))||"{}")||wallet}catch(e){}
+   const gems=Math.max(0,Number(wallet.gems)||0);if(gems<item.price){document.getElementById("avatar-feedback").textContent="جواهر غير كافية لشراء هذا الزي.";return;}
+   wallet.gems=gems-item.price;state.owned.push(item.id);state.equipped=item.id;
+   if(!writeAvatarState(activePlayer,state)){document.getElementById("avatar-feedback").textContent="تعذر حفظ خزانة الملابس على هذا الجهاز.";return;}
+   try{localStorage.setItem(avatarRewardKey(activePlayer),JSON.stringify(wallet));}catch(err){}
+   renderAvatarShop(activePlayer);document.getElementById("avatar-feedback").textContent="🎉 مبروك! اشتريت "+item.name+" وأصبح ضمن خزانة ملابسك.";
+  }
+ });
+
  function showPlayer(player) {
   activePlayer=player;
   document.getElementById("open-player-profile").hidden=false;
@@ -786,6 +881,7 @@ window.addEventListener('resize', () => {
   beginBtn.textContent="ابدأ اللعب الآن ←";
   setPlayerMessage("تم حفظ اسم اللاعب بنجاح. يمكنك بدء اللعب.","ok");
   updateDailyMissions();
+  renderAvatarShop(player);
   try{localStorage.setItem("mehdiBrainPlayer",JSON.stringify({nickname:player.nickname}))}catch(e){}
   window.dispatchEvent(new Event("mehdi-player-ready"));
   loadPlayerStats(player);
@@ -855,6 +951,7 @@ window.addEventListener('resize', () => {
     rewardButton.disabled=current.pending.length===0;
     rewardButton.classList.remove("reward-opened");void rewardButton.offsetWidth;rewardButton.classList.add("reward-opened");
     rewardStatus.textContent="🎉 مبروك! ربحت 25 جوهرة. "+(current.pending.length?"ما زال لديك صندوق آخر.":"");
+    if(activePlayer)renderAvatarShop(activePlayer);
    });}
    const levelTiers=[
     {min:0,name:"مبتدئ"},
