@@ -797,6 +797,29 @@ window.addEventListener('resize', () => {
   if(!response.ok) throw new Error((body.error||("HTTP "+response.status))+(body.diagnostic?" [تشخيص: "+JSON.stringify(body.diagnostic)+"]":""));
   return body;
  }
+
+ function collectCloudProfile(player){
+  const avatar=readAvatarState(player);
+  let rewards={gems:0,pending:[],claimed:[]};
+  try{rewards=JSON.parse(localStorage.getItem(avatarRewardKey(player))||"null")||rewards}catch(e){}
+  let unlocked=[],missions={};const key=String(player?.nickname||"guest").trim().toLocaleLowerCase("ar");
+  try{unlocked=JSON.parse(localStorage.getItem("mehdiUnlockedRare:"+key)||"[]")}catch(e){}
+  try{missions=JSON.parse(localStorage.getItem(dailyMissionKey())||"{}")||{}}catch(e){}
+  return {avatar_gender:avatar.gender,equipped_outfit:avatar.equipped,owned_outfits:avatar.owned,gems:Math.max(0,Number(rewards.gems)||0),unlocked_badges:Array.isArray(unlocked)?unlocked:[],pending_rewards:Array.isArray(rewards.pending)?rewards.pending:[],claimed_rewards:Array.isArray(rewards.claimed)?rewards.claimed:[],daily_missions:missions};
+ }
+ async function saveCloudProfile(player=activePlayer){if(!player)return;try{await callBrain("profile_save",{profile:collectCloudProfile(player)});return true}catch(error){console.warn("Profile cloud save:",error);return false}}
+ async function loadCloudProfile(player){
+  try{
+   const result=await callBrain("profile_get");
+   if(!result.profile){await saveCloudProfile(player);return}
+   const p=result.profile;
+   writeAvatarState(player,{gender:p.avatar_gender||null,owned:Array.isArray(p.owned_outfits)?p.owned_outfits:["starter"],equipped:p.equipped_outfit||"starter"});
+   localStorage.setItem(avatarRewardKey(player),JSON.stringify({gems:Number(p.gems)||0,pending:Array.isArray(p.pending_rewards)?p.pending_rewards:[],claimed:Array.isArray(p.claimed_rewards)?p.claimed_rewards:[]}));
+   localStorage.setItem("mehdiUnlockedRare:"+String(player?.nickname||"guest").trim().toLocaleLowerCase("ar"),JSON.stringify(Array.isArray(p.unlocked_badges)?p.unlocked_badges:[]));
+   if(p.daily_missions&&typeof p.daily_missions==="object")localStorage.setItem(dailyMissionKey(),JSON.stringify(p.daily_missions));
+   renderAvatarShop(player);updateDailyMissions();
+  }catch(error){console.warn("Profile cloud load:",error);const status=document.getElementById("avatar-feedback");if(status)status.textContent="تعذر الاتصال بالسحابة حالياً؛ بيانات هذا الجهاز ما زالت متاحة."}
+ }
  async function loadFriendPeople() {
   friendPeopleStatus.textContent="جارٍ تحميل الأشخاص الذين لديهم أسئلة…";
   friendPeopleStatus.className="player-register-status";
@@ -880,7 +903,7 @@ window.addEventListener('resize', () => {
  function avatarKey(player){return "mehdiAvatar:"+String(player?.nickname||"guest").trim().toLocaleLowerCase("ar");}
  function avatarRewardKey(player){return "mehdiRareRewards:"+String(player?.nickname||"guest").trim().toLocaleLowerCase("ar");}
  function readAvatarState(player){let state={gender:null,owned:["starter"],equipped:"starter"};try{state={...state,...(JSON.parse(localStorage.getItem(avatarKey(player))||"{}")||{})}}catch(e){}if(!Array.isArray(state.owned))state.owned=["starter"];if(!state.owned.includes("starter"))state.owned.unshift("starter");if(!avatarOutfits.some(x=>x.id===state.equipped)||!state.owned.includes(state.equipped))state.equipped="starter";return state;}
- function writeAvatarState(player,state){try{localStorage.setItem(avatarKey(player),JSON.stringify(state));return true}catch(e){return false}}
+ function writeAvatarState(player,state){try{localStorage.setItem(avatarKey(player),JSON.stringify(state));if(player===activePlayer)saveCloudProfile(player);return true}catch(e){return false}}
  function avatarSvg(gender,outfit){
   const female=gender==="female",hair=female?"#24172b":"#171b20",skin="#d69a76",shirt=outfit.coat,accent=outfit.accent,pants=outfit.pants;
   const hairShape=female?'<path d="M52 76 Q42 24 83 19 Q127 17 127 70 L133 150 Q121 164 112 128 L108 77 Q88 98 65 79 L61 143 Q45 157 39 132Z" fill="'+hair+'"/>':'<path d="M48 76 Q44 24 88 19 Q127 20 128 72 L112 58 Q88 46 63 62Z" fill="'+hair+'"/>';
@@ -925,6 +948,7 @@ window.addEventListener('resize', () => {
    wallet.gems=gems-item.price;state.owned.push(item.id);state.equipped=item.id;
    if(!writeAvatarState(activePlayer,state)){document.getElementById("avatar-feedback").textContent="تعذر حفظ خزانة الملابس على هذا الجهاز.";return;}
    try{localStorage.setItem(avatarRewardKey(activePlayer),JSON.stringify(wallet));}catch(err){}
+   saveCloudProfile(activePlayer);
    renderAvatarShop(activePlayer);document.getElementById("avatar-feedback").textContent="🎉 مبروك! اشتريت "+item.name+" وأصبح ضمن خزانة ملابسك.";
   }
  });
@@ -941,6 +965,7 @@ window.addEventListener('resize', () => {
   setPlayerMessage("تم حفظ اسم اللاعب بنجاح. يمكنك بدء اللعب.","ok");
   updateDailyMissions();
   renderAvatarShop(player);
+  loadCloudProfile(player);
   try{localStorage.setItem("mehdiBrainPlayer",JSON.stringify({nickname:player.nickname}))}catch(e){}
   window.dispatchEvent(new Event("mehdi-player-ready"));
   loadPlayerStats(player);
@@ -993,6 +1018,7 @@ window.addEventListener('resize', () => {
    rewardState.gems=Math.max(0,Number(rewardState.gems)||0);
    newlyUnlocked.forEach(id=>{if(!rewardState.claimed.includes(id)&&!rewardState.pending.includes(id))rewardState.pending.push(id);});
    try{localStorage.setItem(rewardStorageKey,JSON.stringify(rewardState));}catch(e){}
+   saveCloudProfile(player);
    achievements.forEach((item,index)=>{const badge=document.createElement("div");badge.className="profile-achievement"+(item.unlocked?" unlocked":"")+(item.rare?" rare":"")+(newlyUnlocked.has(item.id)?" unlock-celebration":"");badge.style.setProperty("--badge-delay",(index*90)+"ms");const icon=document.createElement("span");icon.className="achievement-icon";icon.textContent=item.unlocked?item.icon:"🔒";const title=document.createElement("strong");title.textContent=item.title;const detail=document.createElement("small");detail.textContent=item.unlocked?(item.rare?"✨ شارة نادرة مفتوحة":"تم فتح الشارة ✓"):item.detail;badge.append(icon,title,detail);achievementList.append(badge);});
    if(unlockedRare.length){try{localStorage.setItem(achievementStorageKey,JSON.stringify([...new Set([...previouslyUnlocked,...unlockedRare])]))}catch(e){}}
    const rewardCount=document.getElementById("rare-reward-count"),rewardGems=document.getElementById("rare-reward-gems"),rewardButton=document.getElementById("open-rare-reward"),rewardStatus=document.getElementById("rare-reward-status");
@@ -1006,6 +1032,7 @@ window.addEventListener('resize', () => {
     const earned=current.pending.shift();if(earned&&!current.claimed.includes(earned))current.claimed.push(earned);
     current.gems=(Math.max(0,Number(current.gems)||0)+25);
     try{localStorage.setItem(rewardStorageKey,JSON.stringify(current));}catch(e){}
+    if(activePlayer)saveCloudProfile(activePlayer);
     rewardCount.textContent=String(current.pending.length);rewardGems.textContent=current.gems.toLocaleString("ar");
     rewardButton.disabled=current.pending.length===0;
     rewardButton.classList.remove("reward-opened");void rewardButton.offsetWidth;rewardButton.classList.add("reward-opened");
