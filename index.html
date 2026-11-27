@@ -1328,7 +1328,10 @@ window.mehdiBrainCall=callBrain;
   const outfitNames={starter:"الأسود الكلاسيكي",forest:"ظل الغابة",street:"نيون ستريت",violet:"الشبح البنفسجي",chrome:"كروم فضي",inferno:"لهيب الزمرد",royal:"الملكي الأسود والذهبي",phantom:"فانتوم النخبة"};
   const score=Math.max(0,Number(item.score)||0),level=Math.max(1,Math.floor(score/100)+1);
   document.getElementById("leader-profile-name").textContent=nickname;
-  document.getElementById("leader-profile-avatar").innerHTML=avatarRenderer(nickname).replace('viewBox="0 0 70 90"','viewBox="0 0 70 90"');
+   const leaderAvatar=document.getElementById("leader-profile-avatar");
+   if(item.avatar_url&&String(item.avatar_url).startsWith("https://mqibocnozcfagrvxkxbr.supabase.co/storage/v1/object/public/player-avatars/")){
+    leaderAvatar.innerHTML="";const photo=document.createElement("img");photo.src=item.avatar_url;photo.alt="صورة "+nickname;photo.style.cssText="width:100%;height:100%;object-fit:cover;border-radius:50%";leaderAvatar.append(photo);
+   }else leaderAvatar.innerHTML=avatarRenderer(nickname).replace('viewBox="0 0 70 90"','viewBox="0 0 70 90"');
   if(!avatarState||!avatarState.gender)document.getElementById("leader-profile-avatar").innerHTML='<div style="font-size:100px;color:#85d99b">♙</div>';
   document.getElementById("leader-profile-rank").textContent=medal+" · ترتيب اللاعب في هذه اللوحة";
   document.getElementById("leader-profile-score").textContent=score.toLocaleString("ar");
