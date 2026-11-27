@@ -38,16 +38,31 @@ Deno.serve(async (req) => {
       if (nameError) throw nameError;
       if (nameOwner) return json({ error: 'هذا الاسم مستخدم بالفعل. اختر اسماً آخر لاستخدامه.' }, 409);
 
-      const { data, error } = await db.from('brain_players').upsert({ user_id: userId, nickname }, { onConflict: 'user_id' }).select('id,nickname').single();
+      const { data, error } = await db.from('brain_players').upsert({ user_id: userId, nickname }, { onConflict: 'user_id' }).select('id,nickname,avatar_url').single();
       if (error) {
         if (error.code === '23505') return json({ error: 'هذا الاسم مستخدم بالفعل. اختر اسماً آخر لاستخدامه.' }, 409);
         throw error;
       }
       return json({ player: data });
     }
-    const { data: player, error: playerError } = await db.from('brain_players').select('id,nickname').eq('user_id', userId).maybeSingle();
+    const { data: player, error: playerError } = await db.from('brain_players').select('id,nickname,avatar_url').eq('user_id', userId).maybeSingle();
     if (playerError) throw playerError;
     if (!player) return json({ error: 'لم يتم العثور على لاعب مرتبط بهذه الجلسة. سجّل اسمك مرة واحدة للمتابعة.' }, 403);
+
+    if (body.action === 'avatar_save') {
+      const avatarUrl = String(body.avatar_url ?? '');
+      const expectedPrefix = url + '/storage/v1/object/public/player-avatars/' + userId + '/';
+      if (avatarUrl.length > 2048 || !avatarUrl.startsWith(expectedPrefix)) {
+        return json({ error: 'رابط الصورة غير صالح أو لا يخص حسابك.' }, 400);
+      }
+      const { data, error } = await db.from('brain_players')
+        .update({ avatar_url: avatarUrl })
+        .eq('id', player.id)
+        .select('id,nickname,avatar_url')
+        .single();
+      if (error) throw error;
+      return json({ player: data, saved: true });
+    }
 
     if (body.action === 'profile_get') {
       const { data, error } = await db.from('brain_player_profiles')
@@ -173,7 +188,7 @@ Deno.serve(async (req) => {
       const pageSize = 1000;
       for (let from = 0; ; from += pageSize) {
         const { data, error } = await db.from('brain_scores')
-          .select('player_id,score,category,played_on,created_at,brain_players!inner(id,nickname)')
+          .select('player_id,score,category,played_on,created_at,brain_players!inner(id,nickname,avatar_url)')
           .order('created_at', { ascending: true })
           .range(from, from + pageSize - 1);
         if (error) throw error;
@@ -182,16 +197,17 @@ Deno.serve(async (req) => {
         if (page.length < pageSize) break;
       }
 
-      const grouped = new Map<string, { nickname: string; category: string; score: number; rounds: number; played_on: string }>();
+      const grouped = new Map<string, { nickname: string; avatar_url: string | null; category: string; score: number; rounds: number; played_on: string }>();
       for (const row of allScores) {
         const nickname = String(row.brain_players?.nickname ?? 'لاعب').trim().replace(/\s+/g, ' ');
+        const avatarUrl = row.brain_players?.avatar_url ? String(row.brain_players.avatar_url) : null;
         const key = String(row.player_id);
         const existing = grouped.get(key);
         if (existing) {
           existing.score += Number(row.score) || 0;
           existing.rounds += 1;
         } else {
-          grouped.set(key, { nickname, category: 'all', score: Number(row.score) || 0, rounds: 1, played_on: row.played_on });
+          grouped.set(key, { nickname, avatar_url: avatarUrl, category: 'all', score: Number(row.score) || 0, rounds: 1, played_on: row.played_on });
         }
       }
       const results = [...grouped.values()]
