@@ -511,6 +511,15 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
 .leader-avatar-tag{display:block;color:#8ca997;font-size:9px;margin-top:2px}
 @media(max-width:560px){.leader-player-cell{gap:6px;min-width:120px}.leader-avatar-mini{width:34px;height:40px;flex-basis:34px}.leader-avatar-mini svg{width:31px;height:37px}.leader-player-name{font-size:11px}}
 
+
+/* Mobile-safe leaderboard profile modal */
+.leader-profile-overlay{position:fixed!important;inset:0!important;width:100vw;height:100vh;height:100dvh;z-index:2147483000!important;padding:env(safe-area-inset-top,12px) 12px env(safe-area-inset-bottom,12px)!important;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;place-items:center}
+.leader-profile-overlay[hidden]{display:none!important}
+.leader-profile-card{width:min(440px,100%)!important;max-width:100%!important;max-height:calc(100dvh - 24px)!important;max-height:calc(100dvh - env(safe-area-inset-top,12px) - env(safe-area-inset-bottom,12px) - 24px)!important;overflow-y:auto!important;overscroll-behavior:contain;padding:clamp(14px,4vw,20px)!important;box-sizing:border-box;-webkit-overflow-scrolling:touch}
+.leader-player-cell{cursor:pointer!important;touch-action:manipulation;position:relative}
+.leader-player-cell:active{background:#173923!important}
+@media(max-width:600px){.leader-profile-overlay{align-items:center;justify-items:center}.leader-profile-card{border-radius:18px}.leader-profile-avatar{height:190px}.leader-profile-name{font-size:20px}.leader-profile-close{position:sticky;float:left;top:0;z-index:2}}
+
 .leader-profile-overlay{position:fixed;inset:0;z-index:10050;display:grid;place-items:center;padding:18px;background:#000c;backdrop-filter:blur(9px)}
 .leader-profile-overlay[hidden]{display:none}
 .leader-profile-card{position:relative;width:min(440px,100%);max-height:90vh;overflow:auto;border:1px solid #39794c;border-radius:22px;background:radial-gradient(ellipse at 50% 0%,#17472c88,transparent 48%),linear-gradient(145deg,#0b1710,#070b09);box-shadow:0 25px 90px #000c;padding:20px;color:#eaffef}
@@ -1209,6 +1218,7 @@ window.addEventListener('resize', () => {
  let selected="challenge",busy=false;
 
  function openLeaderboardProfile(item,medal,avatarRenderer){
+  const modal=document.getElementById("leader-profile-overlay");if(modal&&modal.parentElement!==document.body)document.body.appendChild(modal);
   const nickname=String(item.nickname||"لاعب");
   let avatarState=null;try{avatarState=JSON.parse(localStorage.getItem("mehdiAvatar:"+nickname.trim().toLocaleLowerCase("ar"))||"null")}catch(e){}
   const outfitNames={starter:"الأسود الكلاسيكي",forest:"ظل الغابة",street:"نيون ستريت",violet:"الشبح البنفسجي",chrome:"كروم فضي",inferno:"لهيب الزمرد",royal:"الملكي الأسود والذهبي",phantom:"فانتوم النخبة"};
