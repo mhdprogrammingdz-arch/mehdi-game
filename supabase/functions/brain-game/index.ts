@@ -49,6 +49,47 @@ Deno.serve(async (req) => {
     if (playerError) throw playerError;
     if (!player) return json({ error: 'لم يتم العثور على لاعب مرتبط بهذه الجلسة. سجّل اسمك مرة واحدة للمتابعة.' }, 403);
 
+    if (body.action === 'profile_get') {
+      const { data, error } = await db.from('brain_player_profiles')
+        .select('avatar_gender,equipped_outfit,owned_outfits,gems,unlocked_badges,pending_rewards,claimed_rewards,daily_missions')
+        .eq('player_id', player.id).maybeSingle();
+      if (error) throw error;
+      return json({ profile: data });
+    }
+
+    if (body.action === 'profile_save') {
+      const profile = body.profile ?? {};
+      const validOutfits = new Set(['starter','forest','street','violet','chrome','inferno','royal','phantom']);
+      const gender = profile.avatar_gender === 'male' || profile.avatar_gender === 'female' ? profile.avatar_gender : null;
+      const owned = Array.isArray(profile.owned_outfits)
+        ? [...new Set(profile.owned_outfits.map((x: unknown) => String(x)).filter((x: string) => validOutfits.has(x)))].slice(0, 8)
+        : ['starter'];
+      if (!owned.includes('starter')) owned.unshift('starter');
+      const equipped = validOutfits.has(String(profile.equipped_outfit)) && owned.includes(String(profile.equipped_outfit))
+        ? String(profile.equipped_outfit) : 'starter';
+      const safeArray = (value: unknown) => Array.isArray(value) ? [...new Set(value.map((x: unknown) => String(x).slice(0, 80)))].slice(0, 200) : [];
+      const safeObject = (value: unknown) => value && typeof value === 'object' && !Array.isArray(value) ? value : {};
+      const gems = Math.max(0, Math.min(100000000, Math.floor(Number(profile.gems) || 0)));
+      const row = {
+        player_id: player.id,
+        avatar_gender: gender,
+        equipped_outfit: equipped,
+        owned_outfits: owned,
+        gems,
+        unlocked_badges: safeArray(profile.unlocked_badges),
+        pending_rewards: safeArray(profile.pending_rewards),
+        claimed_rewards: safeArray(profile.claimed_rewards),
+        daily_missions: safeObject(profile.daily_missions),
+        updated_at: new Date().toISOString(),
+      };
+      const { data, error } = await db.from('brain_player_profiles')
+        .upsert(row, { onConflict: 'player_id' })
+        .select('avatar_gender,equipped_outfit,owned_outfits,gems,unlocked_badges,pending_rewards,claimed_rewards,daily_missions')
+        .single();
+      if (error) throw error;
+      return json({ profile: data, saved: true });
+    }
+
     if (body.action === 'friend_people') {
       const friendRows: any[] = [];
       const pageSize = 1000;
