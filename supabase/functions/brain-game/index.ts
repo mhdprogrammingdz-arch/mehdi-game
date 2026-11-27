@@ -210,10 +210,30 @@ Deno.serve(async (req) => {
           grouped.set(key, { nickname, avatar_url: avatarUrl, category: 'all', score: Number(row.score) || 0, rounds: 1, played_on: row.played_on });
         }
       }
-      const results = [...grouped.values()]
-        .sort((a, b) => b.score - a.score || b.rounds - a.rounds || a.nickname.localeCompare(b.nickname, 'ar'))
+      const results = [...grouped.entries()]
+        .sort((a, b) => b[1].score - a[1].score || b[1].rounds - a[1].rounds || a[1].nickname.localeCompare(b[1].nickname, 'ar'))
         .slice(0, 100);
-      return json({ results });
+      // Character choice is account data: load it from the cloud so every visitor
+      // sees the same selected model, regardless of their own browser storage.
+      const topPlayerIds = results.map(([playerId]) => playerId);
+      const profilesByPlayer = new Map<string, any>();
+      for (let i = 0; i < topPlayerIds.length; i += 500) {
+        const batch = topPlayerIds.slice(i, i + 500);
+        if (!batch.length) continue;
+        const { data: profiles, error: profileError } = await db.from('brain_player_profiles')
+          .select('player_id,avatar_gender,equipped_outfit')
+          .in('player_id', batch);
+        if (profileError) throw profileError;
+        for (const profile of profiles ?? []) profilesByPlayer.set(String(profile.player_id), profile);
+      }
+      return json({ results: results.map(([playerId, row]) => {
+        const profile = profilesByPlayer.get(playerId);
+        return {
+          ...row,
+          avatar_gender: profile?.avatar_gender === 'male' || profile?.avatar_gender === 'female' ? profile.avatar_gender : null,
+          equipped_outfit: profile?.equipped_outfit ?? 'starter',
+        };
+      }) });
     }
     if (body.action === 'start') {
       // The selected friend is authoritative: never let a stale/mismatched
