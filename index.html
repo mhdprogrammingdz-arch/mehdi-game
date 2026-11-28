@@ -1491,7 +1491,7 @@ import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/exampl
    if(animations.length){mixer=new THREE.AnimationMixer(obj);animations.forEach(clip=>mixer.clipAction(clip).play());}
    const handFire=gender==='male'&&!animations.length?addFire(obj,obj.scale.x):false;
    status.textContent=animations.length?'تم تحميل الشخصية الراقصة · حركة تلقائية · 170 سم':(gender==='female'?'تم تحميل الشخصية الأنثوية · 170 سم':(handFire?'تم تحميل الشخصية الذكورية · النار مرتبطة باليد · 170 سم':'تم تحميل الشخصية الذكورية · 170 سم'));
-   controls.target.set(0,.85,0);camera.position.set(0,1.05,3.8);
+   frameModel(size);
   };
   if(gender==='male'){
    new GLTFLoader().load('assets/characters/vidssave_com_bilalfadili_f.glb',gltf=>fitModel(gltf.scene,gltf.animations||[]),undefined,err=>{if(token!==loadToken)return;loadedGender=null;console.error(err);status.textContent='تعذر تحميل نموذج الرقصة.';});
@@ -1499,8 +1499,18 @@ import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/exampl
    new FBXLoader().load('assets/characters/Athletic_man_3.fbx',obj=>fitModel(obj,obj.animations||[]),undefined,err=>{if(token!==loadToken)return;loadedGender=null;console.error(err);status.textContent='تعذر تحميل نموذج الشخصية الأنثوية.';});
   }
  }
- function resize(){const w=Math.max(1,host.clientWidth),h=Math.max(1,host.clientHeight);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}const ro=new ResizeObserver(resize);ro.observe(host);resize();
- document.getElementById('avatar-3d-reset')?.addEventListener('click',()=>{controls.reset();camera.position.set(0,1.05,3.8);controls.target.set(0,.85,0);});document.getElementById('avatar-3d-spin')?.addEventListener('click',e=>{autoSpin=!autoSpin;e.currentTarget.textContent='تدوير تلقائي: '+(autoSpin?'تشغيل':'إيقاف');});
+ function frameModel(size){
+  const height=size?.y||1.7,width=Math.max(size?.x||.6,size?.z||.35);
+  const vfov=THREE.MathUtils.degToRad(camera.fov),hfov=2*Math.atan(Math.tan(vfov/2)*Math.max(.1,camera.aspect));
+  const distance=Math.max(height/(2*Math.tan(vfov/2)),width/(2*Math.tan(hfov/2)))*1.22;
+  controls.target.set(0,height*.5,0);
+  camera.position.set(0,height*.5+height*.035,distance);
+  camera.near=.01;camera.far=100;camera.updateProjectionMatrix();
+  controls.minDistance=Math.max(.8,distance*.55);controls.maxDistance=Math.max(8,distance*2.5);
+  controls.update();
+ }
+ function resize(){const w=Math.max(1,host.clientWidth),h=Math.max(1,host.clientHeight);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();if(model){const b=new THREE.Box3().setFromObject(model),s=b.getSize(new THREE.Vector3());frameModel(s);}}const ro=new ResizeObserver(resize);ro.observe(host);resize();
+ document.getElementById('avatar-3d-reset')?.addEventListener('click',()=>{if(model){const b=new THREE.Box3().setFromObject(model);frameModel(b.getSize(new THREE.Vector3()));}else{camera.position.set(0,1.05,3.8);controls.target.set(0,.85,0);} });document.getElementById('avatar-3d-spin')?.addEventListener('click',e=>{autoSpin=!autoSpin;e.currentTarget.textContent='تدوير تلقائي: '+(autoSpin?'تشغيل':'إيقاف');});
  window.addEventListener('mehdi-avatar-gender',e=>{if(['male','female'].includes(e.detail?.gender)){loadModel(e.detail.gender);resize();}});
  const clock=new THREE.Clock();function animate(){requestAnimationFrame(animate);const delta=clock.getDelta(),t=clock.elapsedTime;if(mixer)mixer.update(delta);if(autoSpin&&model)model.rotation.y+=.006;if(fire){const f=fire.group;f.rotation.y=Math.sin(t*2.2)*.16;f.rotation.z=Math.sin(t*3.7)*.09;f.scale.setScalar(fire.attached?1/Math.max(.0001,model.scale.x):1);fire.inner.scale.set(1+.12*Math.sin(t*17),1+.18*Math.sin(t*13),1+.12*Math.sin(t*17));fire.outer.scale.set(1+.16*Math.sin(t*11+1),1+.12*Math.sin(t*15),1+.16*Math.sin(t*11+1));fire.core.scale.setScalar(1+.1*Math.sin(t*19));fire.glow.intensity=3+1.1*Math.sin(t*14);fire.sparks.forEach(p=>{const q=p.userData,v=t*q.speed+q.phase;p.position.set(Math.sin(v)*q.spread,.08+(v%(Math.PI*2))/(Math.PI*2)*.23,Math.cos(v)*q.spread);p.material.opacity=.35+.65*Math.abs(Math.sin(v*1.7));});}controls.update();renderer.render(scene,camera);}animate();
 })();
