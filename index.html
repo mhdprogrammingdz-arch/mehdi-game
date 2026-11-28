@@ -1488,7 +1488,7 @@ import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/exampl
    obj.position.set(-center.x*obj.scale.x,-box.min.y*obj.scale.y,-center.z*obj.scale.z);
    obj.traverse(n=>{if(n.isMesh){n.castShadow=true;n.receiveShadow=true;if(n.material){n.material.side=THREE.DoubleSide;if('roughness' in n.material)n.material.roughness=Math.max(.42,n.material.roughness||.7);}}});
    scene.add(obj);
-   if(animations.length){mixer=new THREE.AnimationMixer(obj);animations.forEach(clip=>mixer.clipAction(clip).play());}
+   if(animations.length){mixer=new THREE.AnimationMixer(obj);animations.forEach(clip=>{clip.tracks.forEach(track=>track.trim(0,Math.min(5,clip.duration)));clip.resetDuration();const action=mixer.clipAction(clip);action.setLoop(THREE.LoopRepeat,Infinity);action.play();});}
    const handFire=gender==='male'&&!animations.length?addFire(obj,obj.scale.x):false;
    status.textContent=animations.length?'تم تحميل الشخصية الراقصة · حركة تلقائية · 170 سم':(gender==='female'?'تم تحميل الشخصية الأنثوية · 170 سم':(handFire?'تم تحميل الشخصية الذكورية · النار مرتبطة باليد · 170 سم':'تم تحميل الشخصية الذكورية · 170 سم'));
    frameModel(size);
