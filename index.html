@@ -590,7 +590,7 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
  <button class="btn hero-start" id="open-game-chooser" type="button"><span>ابدأ اللعب الآن</span><b>←</b></button>
  </div>
 </main>
-<section class="section" id="leaderboard"><div class="reveal"><div class="kicker">05 — DAILY LEADERBOARD</div><h2>لوحة صدارة أفضل 100 لاعب 🏆</h2><p class="intro">تُعرض النتائج اليومية المشتركة المسجلة في قاعدة بيانات Supabase.</p></div><div class="leader-panel reveal"><div class="leader-tabs"><button class="leader-tab active" data-board="challenge">تحدي العقل</button><button class="leader-tab" data-board="riddle">الألغاز الذكية</button><button class="leader-tab" data-board="knowledge">المعرفة العامة</button><button class="leader-tab" data-board="politics">السياسة</button><button class="leader-tab" data-board="history">التاريخ</button><button class="leader-tab" data-board="computer">الإعلام الآلي</button><button class="leader-tab" data-board="math">الرياضيات</button><button class="leader-tab" data-board="friends">الأصدقاء</button></div><div class="leader-status" id="leader-status">جارٍ الاتصال بلوحة الصدارة…</div><div class="leader-table-wrap"><table class="leader-table"><thead><tr><th>الترتيب</th><th>اللاعب</th><th>اللعبة</th><th>النقاط</th></tr></thead><tbody id="leader-rows"><tr><td colspan="4">جارٍ تحميل النتائج…</td></tr></tbody></table></div></div></section>
+<section class="section" id="leaderboard"><div class="reveal"><div class="kicker">05 — DAILY LEADERBOARD</div><h2>لوحة صدارة أفضل 100 لاعب 🏆</h2><p class="intro">تُعرض النتائج اليومية المشتركة المسجلة في قاعدة البيانات.</p></div><div class="leader-panel reveal"><div class="leader-tabs"><button class="leader-tab active" data-board="challenge">تحدي العقل</button><button class="leader-tab" data-board="riddle">الألغاز الذكية</button><button class="leader-tab" data-board="knowledge">المعرفة العامة</button><button class="leader-tab" data-board="politics">السياسة</button><button class="leader-tab" data-board="history">التاريخ</button><button class="leader-tab" data-board="computer">الإعلام الآلي</button><button class="leader-tab" data-board="math">الرياضيات</button><button class="leader-tab" data-board="friends">الأصدقاء</button></div><div class="leader-status" id="leader-status">جارٍ الاتصال بلوحة الصدارة…</div><div class="leader-table-wrap"><table class="leader-table"><thead><tr><th>الترتيب</th><th>اللاعب</th><th>اللعبة</th><th>النقاط</th></tr></thead><tbody id="leader-rows"><tr><td colspan="4">جارٍ تحميل النتائج…</td></tr></tbody></table></div></div></section>
 
 
 <section class="player-profile-page" id="player-profile-page" hidden>
@@ -1121,7 +1121,7 @@ window.mehdiBrainCall=callBrain;
    if(!data.player?.id) throw new Error("لم يتم استلام بيانات اللاعب.");
    showPlayer(data.player);
   } catch(err) {
-   setPlayerMessage("تعذر حفظ الاسم: "+(err.message||"تحقق من نشر brain-game وإعدادات Supabase."),"err");
+   setPlayerMessage("تعذر حفظ الاسم: "+(err.message||"تحقق من إعدادات الاتصال."),"err");
   } finally {
    savePlayerBtn.disabled=false;savePlayerBtn.textContent="حفظ الاسم";
   }
@@ -1388,7 +1388,7 @@ window.mehdiBrainCall=callBrain;
    });
    status.textContent="تم تحميل "+list.length+" نتيجة موثقة من قاعدة البيانات.";
   } catch(err) {
-   rows.innerHTML='<tr><td colspan="4">سجّل اسم اللاعب أولاً، أو تحقق من اتصال الموقع بخدمة Supabase.</td></tr>';
+   rows.innerHTML='<tr><td colspan="4">سجّل اسم اللاعب أولاً، أو تحقق من اتصال الموقع.</td></tr>';
    status.textContent="تعذر تحميل لوحة الصدارة: "+(err.message||"خطأ اتصال.");
   } finally {busy=false;}
  }
