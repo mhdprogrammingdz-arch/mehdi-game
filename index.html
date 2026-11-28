@@ -1496,28 +1496,24 @@ import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/exampl
    frameModel(size);
   };
   if(gender==='male'){
-   new FBXLoader().load('assets/characters/Athletic_man.fbx',obj=>{
+   new GLTFLoader().load('assets/characters/vidssave_com_bilalfadili_f.glb',gltf=>{
     if(token!==loadToken)return;
-    fitModel(obj,[]);
-    const sourceToTarget={root:'Armature',pelvis:'Hips',spine_01:'Spine',spine_02:'Spine1',spine_03:'Spine2',neck_01:'Neck',Head:'Head',clavicle_l:'LeftShoulder',upperarm_l:'LeftArm',lowerarm_l:'LeftForeArm',hand_l:'LeftHand',clavicle_r:'RightShoulder',upperarm_r:'RightArm',lowerarm_r:'RightForeArm',hand_r:'RightHand',thigh_l:'LeftUpLeg',calf_l:'LeftLeg',foot_l:'LeftFoot',ball_l:'LeftToeBase',thigh_r:'RightUpLeg',calf_r:'RightLeg',foot_r:'RightFoot',ball_r:'RightToeBase',thumb_01_l:'LeftHandThumb1',thumb_02_l:'LeftHandThumb2',thumb_03_l:'LeftHandThumb3',index_01_l:'LeftHandIndex1',index_02_l:'LeftHandIndex2',index_03_l:'LeftHandIndex3',middle_01_l:'LeftHandMiddle1',middle_02_l:'LeftHandMiddle2',middle_03_l:'LeftHandMiddle3',ring_01_l:'LeftHandRing1',ring_02_l:'LeftHandRing2',ring_03_l:'LeftHandRing3',pinky_01_l:'LeftHandPinky1',pinky_02_l:'LeftHandPinky2',pinky_03_l:'LeftHandPinky3',thumb_01_r:'RightHandThumb1',thumb_02_r:'RightHandThumb2',thumb_03_r:'RightHandThumb3',index_01_r:'RightHandIndex1',index_02_r:'RightHandIndex2',index_03_r:'RightHandIndex3',middle_01_r:'RightHandMiddle1',middle_02_r:'RightHandMiddle2',middle_03_r:'RightHandMiddle3',ring_01_r:'RightHandRing1',ring_02_r:'RightHandRing2',ring_03_r:'RightHandRing3',pinky_01_r:'RightHandPinky1',pinky_02_r:'RightHandPinky2',pinky_03_r:'RightHandPinky3'};
-    new GLTFLoader().load('assets/characters/vidssave_com_bilalfadili_f.glb',gltf=>{
-     if(token!==loadToken)return;
-     const source=gltf.scene;source.visible=false;scene.add(source);
-     const clip=gltf.animations?.[0]?.clone();
-     if(!clip){status.textContent='تم تحميل مجسم الرجل، لكن ملف الرقصة لا يحتوي حركة.';retargetExpected=false;return;}
-     clip.tracks.forEach(track=>track.trim(0,Math.min(5,clip.duration)));clip.resetDuration();
-     const sourceBones=new Map(),targetBones=new Map();
-     source.traverse(n=>{if(n.isBone)sourceBones.set(n.name,n);});
-     model.updateMatrixWorld(true);source.updateMatrixWorld(true);
-     model.traverse(n=>{if(n.isBone)targetBones.set(n.name,n);});
-     const pairs=[];
-     Object.entries(sourceToTarget).forEach(([srcName,dstName])=>{const a=sourceBones.get(srcName),b=targetBones.get(dstName);if(a&&b){const sourceRestWorld=a.getWorldQuaternion(new THREE.Quaternion()),targetRestWorld=b.getWorldQuaternion(new THREE.Quaternion());pairs.push({source:a,target:b,inverseSourceRestWorld:sourceRestWorld.clone().invert(),targetRestWorld,targetRestPosition:b.position.clone(),sourceRestPosition:a.position.clone()});}});
-     const sourceMixer=new THREE.AnimationMixer(source),action=sourceMixer.clipAction(clip);action.setLoop(THREE.LoopRepeat,Infinity);action.play();
-     const sourceHeight=Math.max(.001,new THREE.Box3().setFromObject(source).getSize(new THREE.Vector3()).y);
-     retarget={source,mixer:sourceMixer,pairs,translationScale:1.7/sourceHeight,tempSourceWorld:new THREE.Quaternion(),tempDelta:new THREE.Quaternion(),tempDesiredWorld:new THREE.Quaternion(),tempParentInverse:new THREE.Quaternion(),tempVector:new THREE.Vector3()};
-     retargetExpected=false;status.textContent='تم تحميل مظهر الرجل وربط '+pairs.length+' عظمة برقصة المجسم الأصلي.';
-    },undefined,err=>{if(token!==loadToken)return;console.error(err);retargetExpected=false;status.textContent='تم تحميل الرجل، لكن تعذر تحميل الرقصة.';});
-   },undefined,err=>{if(token!==loadToken)return;loadedGender=null;retargetExpected=false;console.error(err);status.textContent='تعذر تحميل مجسم الرجل.';});
+    const dancer=gltf.scene;
+    dancer.traverse(n=>{
+     if(n.isMesh){
+      n.castShadow=true;n.receiveShadow=true;
+      if(n.material){
+       n.material.side=THREE.DoubleSide;
+       if('roughness' in n.material)n.material.roughness=Math.max(.48,n.material.roughness||.7);
+      }
+     }
+    });
+    fitModel(dancer,gltf.animations||[]);
+    status.textContent=(gltf.animations?.length?'تم تحميل مجسم الراقص الأصلي مع رقصته في خانة الذكر.':'تم تحميل مجسم الراقص في خانة الذكر، لكن لم تُعثر على حركة.');
+   },undefined,err=>{
+    if(token!==loadToken)return;loadedGender=null;console.error(err);
+    status.textContent='تعذر تحميل مجسم الراقص الأصلي.';
+   });
   }else{
    new FBXLoader().load('assets/characters/Athletic_man_3.fbx',obj=>fitModel(obj,obj.animations||[]),undefined,err=>{if(token!==loadToken)return;loadedGender=null;console.error(err);status.textContent='تعذر تحميل نموذج الشخصية الأنثوية.';});
   }
