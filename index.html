@@ -1502,7 +1502,7 @@ import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/exampl
  function frameModel(size){
   const height=size?.y||1.7,width=Math.max(size?.x||.6,size?.z||.35);
   const vfov=THREE.MathUtils.degToRad(camera.fov),hfov=2*Math.atan(Math.tan(vfov/2)*Math.max(.1,camera.aspect));
-  const distance=Math.max(height/(2*Math.tan(vfov/2)),width/(2*Math.tan(hfov/2)))*1.22;
+  const distance=Math.max(height/(2*Math.tan(vfov/2)),width/(2*Math.tan(hfov/2)))*1.45;
   controls.target.set(0,height*.5,0);
   camera.position.set(0,height*.5+height*.035,distance);
   camera.near=.01;camera.far=100;camera.updateProjectionMatrix();
