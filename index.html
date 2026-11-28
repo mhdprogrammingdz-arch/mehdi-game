@@ -548,6 +548,8 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
  #site-nav .nav-profile-btn[hidden]{display:none!important;}
 }
 
+/* Score celebration dance for verified results from 5/10 to 10/10 */
+.score-dance-celebration{width:min(560px,100%);margin:18px auto;padding:13px;border:1px solid #38df78;border-radius:17px;background:radial-gradient(ellipse at 50% 0%,#1d743b66,transparent 65%),#07170f;box-shadow:0 0 32px #20f45f30;animation:rewardPop .6s ease both}.score-dance-title{text-align:center;color:#a9ffc0;font-weight:900;font-size:14px;margin:3px 0 10px}.score-dance-mount{position:relative;height:330px;overflow:hidden;border-radius:12px;background:radial-gradient(ellipse at 50% 35%,#254b32,#050b07 75%)}.score-dance-mount .avatar-3d-viewer{display:block!important;position:absolute!important;inset:0!important}.score-dance-mount .avatar-3d-viewer canvas{width:100%!important;height:100%!important}
 /* Player dance stage and profile panel */
 .player-showcase{margin:18px 0 22px;padding:clamp(15px,3vw,24px);border:1px solid #2d7048;border-radius:20px;background:radial-gradient(ellipse at 50% 0%,#17472b66,transparent 58%),linear-gradient(145deg,#0a1d13,#07111b 78%);box-shadow:0 18px 50px #0005}
 .player-showcase-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}.player-showcase-head small,.showcase-player-heading small{color:#70e99b;font:700 10px 'Space Grotesk';letter-spacing:1.5px}.player-showcase-head h3{margin:3px 0;color:#e9fff0;font-size:20px}.player-showcase-head p{margin:0;color:#9bb6a4;font-size:11px}.player-showcase-live{color:#80f0a2;font-size:11px;border:1px solid #20f45f55;border-radius:20px;padding:6px 10px;white-space:nowrap}
@@ -696,7 +698,8 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
    <div class="brain-result" id="brain-result" hidden>
     <div class="brain-orb">🏆</div><h3 id="brain-result-title">أحسنت!</h3>
     <p id="brain-result-text"></p>
-    <div class="brain-final-score" id="brain-final-score">0 / 10</div><img class="brain-reward-image" id="brain-reward-image" src="assets/score-high.jpg" alt="نتيجة من 6 إلى 10 من 10" hidden>
+    <div class="brain-final-score" id="brain-final-score">0 / 10</div>
+    <div class="score-dance-celebration" id="score-dance-celebration" hidden><div class="score-dance-title">🎉 تستحق الاحتفال! شاهد رقصة شخصيتك</div><div class="score-dance-mount" id="score-dance-mount"></div></div><img class="brain-reward-image" id="brain-reward-image" src="assets/score-high.jpg" alt="نتيجة من 6 إلى 10 من 10" hidden>
     <img class="brain-reward-image" id="brain-low-score-image" src="assets/score-low.jpg" alt="نتيجة من 0 إلى 4 من 10" hidden>
     <img class="brain-reward-image" id="brain-medium-score-image" src="assets/score-medium.jpg" alt="نتيجة 5 من 10" hidden>
     <button class="btn brain-start-btn" id="brain-restart" type="button">العب مرة أخرى ↻</button>
@@ -1205,6 +1208,14 @@ window.mehdiBrainCall=callBrain;
    document.getElementById("brain-track-fill").style.width="100%";
    const total=Number(verified.total)||questions.length;
    document.getElementById("brain-final-score").textContent=score+" / "+total;
+   const danceCelebration=document.getElementById("score-dance-celebration");
+   const danceViewer=document.getElementById("avatar-3d-viewer");
+   const danceMount=document.getElementById("score-dance-mount");
+   const danceStage=document.querySelector(".dance-stage");
+   const qualifies=total>0&&score>=Math.ceil(total*0.5)&&score<=total;
+   danceCelebration.hidden=!qualifies;
+   if(qualifies&&danceViewer&&danceMount){danceMount.append(danceViewer);danceViewer.classList.add("active");window.dispatchEvent(new Event("resize"));}
+
    const rewardImage=document.getElementById("brain-reward-image");
    // Show exactly one original result image for each score range: 0–4, exactly 5, or 6–10.
    const ratio=total?score/total:0;
@@ -1237,6 +1248,9 @@ window.mehdiBrainCall=callBrain;
   await loadFriendPeople();
  });
  document.getElementById("brain-restart").addEventListener("click",()=>{
+  const danceViewer=document.getElementById("avatar-3d-viewer"),danceStage=document.querySelector(".dance-stage"),danceCelebration=document.getElementById("score-dance-celebration");
+  if(danceViewer&&danceStage){danceStage.append(danceViewer);danceViewer.classList.add("active");window.dispatchEvent(new Event("resize"));}
+  if(danceCelebration)danceCelebration.hidden=true;
   stopRoundView();sessionId=null;questions=[];answers=[];index=0;submitting=false;
   friendPicker.hidden=true;
   beginBtn.hidden=false;
