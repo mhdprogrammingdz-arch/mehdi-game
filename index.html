@@ -599,7 +599,7 @@ input:focus,textarea:focus,select:focus{border-color:#39cf6b!important;box-shado
       <section class="player-showcase" id="avatar-studio" aria-label="عرض رقصة اللاعب وملفه الشخصي">
        <div class="player-showcase-head"><div><small>MEHDI PLAYER SPACE</small><h3>مساحة اللاعب</h3><p>شخصيتك تعرض الرقصة هنا، وصورتك الشخصية تظهر في لوحة الصدارة.</p></div><span class="player-showcase-live">● مباشر</span></div>
        <div class="player-showcase-grid">
-        <div class="dance-stage"><div class="dance-stage-label">🎵 عرض الرقصة</div><div class="avatar-3d-viewer active" id="avatar-3d-viewer"><div class="avatar-3d-status" id="avatar-3d-status">جارٍ تجهيز عرض الرقصة…</div></div><div class="dance-stage-foot">شاهد الشخصية وهي تؤدي الرقصة</div></div>
+        <div class="dance-stage"><div class="avatar-3d-viewer active" id="avatar-3d-viewer"><div class="avatar-3d-status" id="avatar-3d-status" hidden></div></div></div>
         <div class="player-showcase-profile"><div class="showcase-player-heading"><div class="showcase-player-avatar"><img id="profile-photo-preview" alt="صورة الملف الشخصي" style="width:78px;height:78px;border-radius:50%;object-fit:cover;border:2px solid #20f45f;display:none"><div class="profile-character-mini empty" id="profile-character-mini" aria-label="الشخصية"><span>♙</span></div></div><div><small>PLAYER PROFILE</small><h4 id="showcase-player-name">ملف اللاعب</h4><span class="showcase-player-state">لاعب نشط</span></div></div>
          <div class="profile-photo-editor" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:16px 0;padding:14px;border:1px solid #20f45f44;border-radius:14px;background:#07130d">
        <div class="profile-identity-visual"><div class="profile-photo-ring"><img id="profile-photo-preview" alt="صورة الملف الشخصي" style="width:76px;height:76px;border-radius:50%;object-fit:cover;border:2px solid #20f45f;display:none"></div><div class="profile-character-mini empty" id="profile-character-mini" aria-label="الشخصية المختارة"><span>♙</span></div></div>
@@ -1423,7 +1423,7 @@ import { FBXLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/j
 import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
 (()=>{
- const host=document.getElementById('avatar-3d-viewer');if(!host)return;const status=document.getElementById('avatar-3d-status');
+ const host=document.getElementById('avatar-3d-viewer');if(!host)return;const status=document.getElementById('avatar-3d-status');if(status)status.hidden=true;
  const scene=new THREE.Scene();scene.background=new THREE.Color(0x050806);const camera=new THREE.PerspectiveCamera(34,1,.01,100);camera.position.set(0,1.05,3.8);
  const renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;host.appendChild(renderer.domElement);
  const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.06;controls.target.set(0,.85,0);controls.minDistance=1.5;controls.maxDistance=7;controls.maxPolarAngle=Math.PI*.92;
